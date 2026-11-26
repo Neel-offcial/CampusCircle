@@ -1,0 +1,939 @@
+{
+  "users": [
+    {
+      "_id": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "createdAt": "2026-11-26T12:00:11.180Z",
+      "updatedAt": "2026-11-26T12:00:11.180Z",
+      "username": "neel_dev",
+      "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
+      "fullName": "Neel Kumar Gupta",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "emailHash": "519a9f3703e1d13daeaeea84bc7649bc02b52dd5d6cf54eabb83dd96d4860437",
+      "bio": "5th Sem CSE student @ Atria. Building React & Node apps."
+    },
+    {
+      "_id": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "createdAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "username": "sarah_admin",
+      "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
+      "fullName": "Sarah Jenkins",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "emailHash": "49362a5d0d0a23481f90fee7524e0eebbbb639ca5e2587bef81f46913ba83b43",
+      "bio": "Class Representative & Study Group Coordinator"
+    },
+    {
+      "_id": "fc261ff1-dc8e-488d-a2ed-3e1ad01358c4",
+      "createdAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "username": "alex_student",
+      "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
+      "fullName": "Alex Rivera",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "emailHash": "1aa38ff0298e1de73310b6068deecb86af7f129998dfce6444c688b48e32cf99",
+      "bio": "Passionate about Computer Networks & Cybersecurity"
+    },
+    {
+      "_id": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "createdAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "username": "prof_prathyusha",
+      "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
+      "fullName": "Prof. Prathyusha R",
+      "department": "Computer Science and Engineering",
+      "semester": "Faculty",
+      "section": "CSE",
+      "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+      "isVerified": true,
+      "emailHash": "1cc77d8b02d1c5edc35307e4e61e3bb4b5577fa15b81b36f58dfe8da2c44d265",
+      "bio": "Assistant Professor, Department of CSE. Handling React and Node JS Lab (BRALB507)."
+    },
+    {
+      "_id": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "createdAt": "2026-11-26T18:01:21.643Z",
+      "updatedAt": "2026-11-26T18:01:21.643Z",
+      "username": "neel",
+      "passwordHash": "$2a$10$Jl8cUU12Pshej8E2N42yIOHx81aPz1WdoFkNi.DFBB1U9cXhBzMbS",
+      "fullName": "Neel kumar Gupta",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Neel%20kumar%20Gupta&backgroundColor=4f46e5",
+      "isVerified": false,
+      "emailHash": null,
+      "bio": "Student at CampusCircle"
+    },
+    {
+      "_id": "603cfb81-9311-4931-9fe0-da6e194875d9",
+      "createdAt": "2026-11-26T19:00:59.163Z",
+      "updatedAt": "2026-11-26T19:00:59.163Z",
+      "username": "student_8959",
+      "passwordHash": "$2a$10$T7hLn09gCeMb7Q2jfrhsh.Lcdw/nYa0N0jC3ZlFFA623oJc6yv7N2",
+      "fullName": "Test Atria Student",
+      "email": "teststudent.8959@atria.edu",
+      "emailHash": "a5d074a1b7e3e9aae7938e0e7e1d0c266b5a950344de18f7da3ffdf4fa7568ea",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "batch": "B1",
+      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Atria%20Student&backgroundColor=4f46e5",
+      "isVerified": true,
+      "emailAlerts": true,
+      "bio": "5th Sem Computer Student @ Atria"
+    }
+  ],
+  "groups": [
+    {
+      "_id": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "createdAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "name": "CSE 5th Sem - Section C (Official)",
+      "description": "Official academic collaboration hub for 5th Semester Computer Science students, Section C. Share lecture slides, timetable alerts, and CIE schedules.",
+      "category": "Academic",
+      "isPrivate": false,
+      "accessCode": null,
+      "creatorId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "iconBg": "from-indigo-500 to-purple-600"
+    },
+    {
+      "_id": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "createdAt": "2026-11-26T12:00:11.182Z",
+      "updatedAt": "2026-11-26T12:00:11.182Z",
+      "name": "React and Node JS Lab (BRALB507)",
+      "description": "Official group for React and Node.js laboratory exercises, weekly experiment manuals, and project discussions.",
+      "category": "Laboratory",
+      "isPrivate": false,
+      "accessCode": null,
+      "creatorId": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "iconBg": "from-cyan-500 to-blue-600"
+    },
+    {
+      "_id": "ec63482d-61a5-4451-b4c9-a99716c01ecb",
+      "createdAt": "2026-11-26T12:00:11.182Z",
+      "updatedAt": "2026-11-26T12:00:11.182Z",
+      "name": "Intelligent Data Analytics (BIDAB503)",
+      "description": "Study circle for Machine Learning, data mining models, pandas & numpy implementations with Dr. Devi Kannan.",
+      "category": "Study Group",
+      "isPrivate": false,
+      "accessCode": null,
+      "creatorId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "iconBg": "from-amber-500 to-orange-600"
+    },
+    {
+      "_id": "b0cd4bcd-0483-487c-b516-6b867062e088",
+      "createdAt": "2026-11-26T12:00:11.182Z",
+      "updatedAt": "2026-11-26T12:00:11.182Z",
+      "name": "Atria Hackathon & Web Builders",
+      "description": "Private project team preparing for upcoming inter-college hackathons and building campus utilities.",
+      "category": "Club",
+      "isPrivate": true,
+      "accessCode": "HACK26",
+      "creatorId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "iconBg": "from-emerald-500 to-teal-600"
+    }
+  ],
+  "memberships": [
+    {
+      "_id": "07b48fb6-aeea-4a01-b12b-b2b6ef860ed1",
+      "createdAt": "2026-11-26T12:00:11.182Z",
+      "updatedAt": "2026-11-26T12:00:11.182Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "role": "member",
+      "joinedAt": "2026-11-26T12:00:11.182Z"
+    },
+    {
+      "_id": "ec350e91-258e-4789-b9f9-224939ccd181",
+      "createdAt": "2026-11-26T12:00:11.183Z",
+      "updatedAt": "2026-11-26T12:00:11.183Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "role": "member",
+      "joinedAt": "2026-11-26T12:00:11.183Z"
+    },
+    {
+      "_id": "b4422094-a3d2-4edc-ade9-425cf6cbe0ea",
+      "createdAt": "2026-11-26T12:00:11.183Z",
+      "updatedAt": "2026-11-26T12:00:11.183Z",
+      "groupId": "ec63482d-61a5-4451-b4c9-a99716c01ecb",
+      "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "role": "admin",
+      "joinedAt": "2026-11-26T12:00:11.183Z"
+    },
+    {
+      "_id": "01bc2c94-ae28-4b90-974d-949265356e95",
+      "createdAt": "2026-11-26T12:00:11.183Z",
+      "updatedAt": "2026-11-26T12:00:11.183Z",
+      "groupId": "b0cd4bcd-0483-487c-b516-6b867062e088",
+      "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "role": "admin",
+      "joinedAt": "2026-11-26T12:00:11.183Z"
+    },
+    {
+      "_id": "36f2085c-4ebd-4bd4-9c94-9682c901398a",
+      "createdAt": "2026-11-26T12:00:11.183Z",
+      "updatedAt": "2026-11-26T12:00:11.183Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "userId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "role": "admin",
+      "joinedAt": "2026-11-26T12:00:11.183Z"
+    },
+    {
+      "_id": "5e8c5810-8e4a-4fcc-a4b5-db4377faee71",
+      "createdAt": "2026-11-26T12:00:11.184Z",
+      "updatedAt": "2026-11-26T12:00:11.184Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "userId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "role": "member",
+      "joinedAt": "2026-11-26T12:00:11.184Z"
+    },
+    {
+      "_id": "a0403ceb-7f97-457b-9b43-548e8cc5257e",
+      "createdAt": "2026-11-26T12:00:11.184Z",
+      "updatedAt": "2026-11-26T12:00:11.184Z",
+      "groupId": "ec63482d-61a5-4451-b4c9-a99716c01ecb",
+      "userId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "role": "member",
+      "joinedAt": "2026-11-26T12:00:11.184Z"
+    },
+    {
+      "_id": "ae6141f8-108e-4baa-bd3d-206ba9578b83",
+      "createdAt": "2026-11-26T12:00:11.184Z",
+      "updatedAt": "2026-11-26T12:00:11.184Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "userId": "fc261ff1-dc8e-488d-a2ed-3e1ad01358c4",
+      "role": "member",
+      "joinedAt": "2026-11-26T12:00:11.184Z"
+    },
+    {
+      "_id": "be681380-f672-44cb-8567-4f0445166919",
+      "createdAt": "2026-11-26T12:00:11.184Z",
+      "updatedAt": "2026-11-26T12:00:11.184Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "userId": "fc261ff1-dc8e-488d-a2ed-3e1ad01358c4",
+      "role": "member",
+      "joinedAt": "2026-11-26T12:00:11.184Z"
+    },
+    {
+      "_id": "e39b88dd-fefd-4876-b1a3-9e817a7d262b",
+      "createdAt": "2026-11-26T12:00:11.185Z",
+      "updatedAt": "2026-11-26T12:00:11.185Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "userId": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "role": "admin",
+      "joinedAt": "2026-11-26T12:00:11.185Z"
+    },
+    {
+      "_id": "d21089d8-705b-4d85-ab64-075edd8b877a",
+      "createdAt": "2026-11-26T18:19:45.315Z",
+      "updatedAt": "2026-11-26T18:19:45.315Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "role": "member",
+      "joinedAt": "2026-11-26T18:19:45.315Z"
+    },
+    {
+      "_id": "e6a96bbd-00b6-4db9-8c22-35e1ada9b879",
+      "createdAt": "2026-11-26T19:01:32.020Z",
+      "updatedAt": "2026-11-26T19:01:32.020Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "userId": "603cfb81-9311-4931-9fe0-da6e194875d9",
+      "role": "member",
+      "joinedAt": "2026-11-26T19:01:32.020Z"
+    },
+    {
+      "_id": "2da92576-6cf6-4972-85f3-b73559648eb1",
+      "createdAt": "2026-11-26T19:01:40.011Z",
+      "updatedAt": "2026-11-26T19:01:40.011Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "userId": "603cfb81-9311-4931-9fe0-da6e194875d9",
+      "role": "member",
+      "joinedAt": "2026-11-26T19:01:40.011Z"
+    }
+  ],
+  "messages": [
+    {
+      "_id": "a52b7b63-4745-42c6-aa9f-be9baeae1d33",
+      "createdAt": "2026-11-26T12:00:11.187Z",
+      "updatedAt": "2026-11-26T12:00:11.187Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "senderId": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "content": "Welcome everyone! In this group we will coordinate React experiments and clarify code issues.",
+      "timestamp": "2026-11-25T12:00:11.187Z"
+    },
+    {
+      "_id": "a9811f9d-2b93-48e9-ad98-8086052cdc5e",
+      "createdAt": "2026-11-26T12:00:11.187Z",
+      "updatedAt": "2026-11-26T12:00:11.187Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "senderId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "content": "Thank you Ma'am! The lab manual download is working great. Excited to build the semester project.",
+      "timestamp": "2026-11-26T00:00:11.187Z"
+    },
+    {
+      "_id": "a1292680-d788-4d97-bd9f-91e69e5ab607",
+      "createdAt": "2026-11-26T12:00:11.188Z",
+      "updatedAt": "2026-11-26T12:00:11.188Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "senderId": "fc261ff1-dc8e-488d-a2ed-3e1ad01358c4",
+      "content": "Are we allowed to use Tailwind CSS for the frontend UI styling?",
+      "timestamp": "2026-11-26T10:00:11.188Z"
+    },
+    {
+      "_id": "cf009d75-71d0-4d8e-8dd0-ec33ea2109ad",
+      "createdAt": "2026-11-26T12:00:11.188Z",
+      "updatedAt": "2026-11-26T12:00:11.188Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "senderId": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "content": "Yes! Modern styling libraries like Tailwind CSS or component libraries are highly encouraged.",
+      "timestamp": "2026-11-26T11:00:11.188Z"
+    },
+    {
+      "_id": "8df2e950-7bc1-43f5-a740-9608ca539b25",
+      "createdAt": "2026-11-26T15:06:04.653Z",
+      "updatedAt": "2026-11-26T19:16:12.473Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "senderId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "content": "hi",
+      "timestamp": "2026-11-26T15:06:04.650Z",
+      "reactions": {
+        "✅": [
+          "4f6b1d4d-a595-4889-af57-992214368d53"
+        ]
+      }
+    },
+    {
+      "_id": "e0fd4b2d-3467-4b29-af82-1d8cd8b991f9",
+      "createdAt": "2026-11-26T19:01:32.038Z",
+      "updatedAt": "2026-11-26T19:01:32.049Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "senderId": "603cfb81-9311-4931-9fe0-da6e194875d9",
+      "content": "Testing group chat file & anti-clutter reaction support!",
+      "fileUrl": null,
+      "fileName": null,
+      "fileType": null,
+      "fileSize": null,
+      "reactions": {
+        "👍": [
+          "603cfb81-9311-4931-9fe0-da6e194875d9"
+        ]
+      },
+      "timestamp": "2026-11-26T19:01:32.038Z"
+    },
+    {
+      "_id": "13d49d06-0535-4999-938f-44eedfaddbd0",
+      "createdAt": "2026-11-26T19:16:24.711Z",
+      "updatedAt": "2026-11-26T19:16:24.711Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "senderId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "content": "",
+      "fileUrl": "/uploads/1795720584687-f773baf1-pca.py",
+      "fileName": "pca.py",
+      "fileType": "document",
+      "fileSize": 2951,
+      "reactions": {},
+      "timestamp": "2026-11-26T19:16:24.710Z"
+    }
+  ],
+  "assignments": [
+    {
+      "_id": "5c964dc8-7c7b-4dcb-a747-e27d173ef1ad",
+      "createdAt": "2026-11-26T12:00:11.186Z",
+      "updatedAt": "2026-11-26T12:00:11.186Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "uploadedBy": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "title": "React & Node.js Complete Lab Manual (Ex 1 to 10)",
+      "subject": "React and Node JS Lab",
+      "description": "Comprehensive lab manual covering components, props, state, hooks, Express API routes, JWT authentication, and Socket.IO integration.",
+      "facultyName": "Prof. Prathyusha R",
+      "deadline": "2026-12-01T12:00:11.186Z",
+      "fileName": "BRALB507_React_Node_Lab_Manual.pdf",
+      "storedFileName": "sample-react-lab-manual.pdf",
+      "fileSize": 45020,
+      "fileType": "application/pdf",
+      "downloadCount": 38
+    },
+    {
+      "_id": "3d30f465-1c16-43b6-9592-3091050cf325",
+      "createdAt": "2026-11-26T12:00:11.186Z",
+      "updatedAt": "2026-11-26T12:00:11.186Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "uploadedBy": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "title": "Minimax & Alpha-Beta Pruning Implementation Problem Set",
+      "subject": "Artificial Intelligence Concepts (BAINB501)",
+      "description": "Solve the game tree search questions and implement the heuristic evaluation function for Tic-Tac-Toe in Python.",
+      "facultyName": "Prof. Preetha M",
+      "deadline": "2026-11-29T12:00:11.186Z",
+      "fileName": "BAINB501_Minimax_Pruning_Assignment.pdf",
+      "storedFileName": "sample-ai-minimax-assignment.pdf",
+      "fileSize": 32400,
+      "fileType": "application/pdf",
+      "downloadCount": 24
+    },
+    {
+      "_id": "6fd4ebdd-b962-4375-b44c-8eea01e4a0e2",
+      "createdAt": "2026-11-26T12:00:11.186Z",
+      "updatedAt": "2026-11-26T12:00:11.186Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "uploadedBy": "fc261ff1-dc8e-488d-a2ed-3e1ad01358c4",
+      "title": "Packet Tracer VLAN & OSPF Routing Topology File",
+      "subject": "Computer Networks & Security (BCNSB502)",
+      "description": "Pre-configured Packet Tracer file with router configs and access control lists for Lab 4 practice.",
+      "facultyName": "Ms. Shammi L",
+      "deadline": "2026-12-03T12:00:11.186Z",
+      "fileName": "BCNSB502_Lab4_Topology.pkt",
+      "storedFileName": "sample-cns-packet-tracer.pkt",
+      "fileSize": 18200,
+      "fileType": "application/octet-stream",
+      "downloadCount": 19
+    }
+  ],
+  "announcements": [
+    {
+      "_id": "57be0cb2-b725-49b2-a6cd-9acf013c4cdc",
+      "createdAt": "2026-11-26T12:00:11.185Z",
+      "updatedAt": "2026-11-26T12:00:11.185Z",
+      "groupId": "2874942e-ee70-4df4-b0e6-f36599ef1819",
+      "createdBy": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "title": "📢 CIE-2 Schedule Announced by Examination Cell",
+      "content": "CIE-2 will commence from next Monday (Dec 1). Theory papers will be 50 marks each. Be sure to check the timetable and clear any attendance shortages with respective faculty.",
+      "priority": "Urgent",
+      "isPinned": true
+    },
+    {
+      "_id": "5404cee9-da5c-4ce6-88cc-f787f2eac5d7",
+      "createdAt": "2026-11-26T12:00:11.185Z",
+      "updatedAt": "2026-11-26T12:00:11.185Z",
+      "groupId": "80ddf438-a106-43f9-8349-2fbbc94941ce",
+      "createdBy": "c019a3f7-158f-4e62-a6aa-98675344307c",
+      "title": "🧪 React Lab Project & Viva Guidelines",
+      "content": "All batches (B1, B2, B3) must have their full-stack React project working with API endpoints and responsive UI ready for review by next lab session. Review rubric has been uploaded.",
+      "priority": "Important",
+      "isPinned": true
+    }
+  ],
+  "confessions": [
+    {
+      "_id": "7721af8e-470f-4977-ac19-fbaec8f9a776",
+      "createdAt": "2026-11-26T07:00:11.188Z",
+      "updatedAt": "2026-11-26T12:00:11.188Z",
+      "tag": "Anon #7482",
+      "content": "Still haven't started preparing for the IDA CIE-2 and the exam is in 4 days... Send help 💀",
+      "reactions": {
+        "❤️": 4,
+        "😂": 29,
+        "💀": 42,
+        "🫂": 11,
+        "🎯": 2
+      }
+    },
+    {
+      "_id": "a16248fd-c054-471c-9c57-bdd2b03468b6",
+      "createdAt": "2026-11-25T22:00:11.189Z",
+      "updatedAt": "2026-11-26T12:00:11.189Z",
+      "tag": "Anon #3195",
+      "content": "Shoutout to the library 3rd floor AC and quiet corner, it's the only thing keeping my sanity intact this semester ❤️",
+      "reactions": {
+        "❤️": 38,
+        "😂": 3,
+        "💀": 1,
+        "🫂": 14,
+        "🎯": 7
+      }
+    },
+    {
+      "_id": "d25d03e1-a080-4c33-a02c-ca059ec53acb",
+      "createdAt": "2026-11-25T14:00:11.189Z",
+      "updatedAt": "2026-11-26T12:00:11.189Z",
+      "tag": "Anon #9042",
+      "content": "Whoever keeps booking Lab Room 326 right when our batch has React Lab scheduled, please stop 😭",
+      "reactions": {
+        "❤️": 6,
+        "😂": 44,
+        "💀": 12,
+        "🫂": 8,
+        "🎯": 3
+      }
+    },
+    {
+      "_id": "8b839acb-02de-4d3f-9a9c-98b9e7c510f7",
+      "createdAt": "2026-11-26T17:57:39.080Z",
+      "updatedAt": "2026-11-26T18:05:34.488Z",
+      "tag": "Anon #2004",
+      "content": "@sdsf",
+      "reactions": {
+        "❤️": 1,
+        "😂": 1,
+        "💀": 0,
+        "🫂": 0,
+        "🎯": 0
+      }
+    },
+    {
+      "_id": "0a128150-bd2f-41cb-848c-8753a4d06640",
+      "createdAt": "2026-11-26T19:00:59.199Z",
+      "updatedAt": "2026-11-26T19:13:17.717Z",
+      "tag": "Anon #1916",
+      "content": "Which 5th semester lab needs the most preparation?",
+      "imageUrl": null,
+      "poll": {
+        "question": "Toughest lab in Sem 5?",
+        "totalVotes": 2,
+        "options": [
+          {
+            "id": 1,
+            "text": "React & Node JS Lab",
+            "votes": 2
+          },
+          {
+            "id": 2,
+            "text": "CNS Lab",
+            "votes": 0
+          },
+          {
+            "id": 3,
+            "text": "Intelligent Data Analytics Lab",
+            "votes": 0
+          }
+        ]
+      },
+      "upvotes": 1,
+      "downvotes": 0,
+      "score": 1,
+      "reactions": {
+        "❤️": 0,
+        "😂": 0,
+        "💀": 0,
+        "🫂": 0,
+        "🎯": 0
+      }
+    }
+  ],
+  "personalCompletions": [],
+  "attendanceRecords": [
+    {
+      "_id": "cb5594c4-2603-4092-8585-393c89aef1ea",
+      "createdAt": "2026-11-26T15:06:31.254Z",
+      "updatedAt": "2026-11-26T15:06:31.254Z",
+      "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "data": {
+        "theory": [
+          {
+            "name": "Artificial Intelligence Concepts and Practice",
+            "code": "BAINB501",
+            "conducted": 14,
+            "present": 10,
+            "absent": 4,
+            "percentage": 71.4,
+            "section": "theory"
+          },
+          {
+            "name": "Computer Networks and Security",
+            "code": "BCNSB502",
+            "conducted": 16,
+            "present": 12,
+            "absent": 4,
+            "percentage": 75,
+            "section": "theory"
+          },
+          {
+            "name": "Intelligent Data Analytics",
+            "code": "BIDAB503",
+            "conducted": 10,
+            "present": 9,
+            "absent": 1,
+            "percentage": 90,
+            "section": "theory"
+          },
+          {
+            "name": "Software Testing and Quality Assurance",
+            "code": "BSTQAB515",
+            "conducted": 8,
+            "present": 7,
+            "absent": 1,
+            "percentage": 87.5,
+            "section": "theory"
+          },
+          {
+            "name": "Research Methodology and IPR",
+            "code": "BRMIK504",
+            "conducted": 6,
+            "present": 5,
+            "absent": 1,
+            "percentage": 83.3,
+            "section": "theory"
+          }
+        ],
+        "laboratory": [
+          {
+            "name": "Intelligent Data Analytics Lab",
+            "code": "BIDAB503L",
+            "conducted": 4,
+            "present": 3,
+            "absent": 1,
+            "percentage": 75,
+            "section": "laboratory"
+          },
+          {
+            "name": "Artificial Intelligence Concepts Lab",
+            "code": "BAICB501L",
+            "conducted": 4,
+            "present": 2,
+            "absent": 2,
+            "percentage": 50,
+            "section": "laboratory"
+          },
+          {
+            "name": "Computer Networks and Security Lab",
+            "code": "BCNSB502L",
+            "conducted": 2,
+            "present": 2,
+            "absent": 0,
+            "percentage": 100,
+            "section": "laboratory"
+          },
+          {
+            "name": "React and Node JS Lab",
+            "code": "BRALB507",
+            "conducted": 4,
+            "present": 4,
+            "absent": 0,
+            "percentage": 100,
+            "section": "laboratory"
+          }
+        ],
+        "electives": [
+          {
+            "name": "Economics and Financial Management",
+            "code": "BEFMK506",
+            "conducted": 8,
+            "present": 6,
+            "absent": 2,
+            "percentage": 75,
+            "section": "electives"
+          }
+        ],
+        "extractedAt": "2026-11-26T15:06:31.254Z"
+      }
+    },
+    {
+      "_id": "38ccb3b9-2512-464e-9611-5e78cb6657d1",
+      "createdAt": "2026-11-26T17:56:06.436Z",
+      "updatedAt": "2026-11-26T17:56:43.352Z",
+      "userId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "data": {
+        "theory": [
+          {
+            "name": "Artificial Intelligence Concepts and Practice",
+            "code": "BAINB501",
+            "conducted": 14,
+            "present": 10,
+            "absent": 4,
+            "percentage": 71.4,
+            "section": "theory"
+          },
+          {
+            "name": "Computer Networks and Security",
+            "code": "BCNSB502",
+            "conducted": 16,
+            "present": 12,
+            "absent": 4,
+            "percentage": 75,
+            "section": "theory"
+          },
+          {
+            "name": "Intelligent Data Analytics",
+            "code": "BIDAB503",
+            "conducted": 10,
+            "present": 9,
+            "absent": 1,
+            "percentage": 90,
+            "section": "theory"
+          },
+          {
+            "name": "Software Testing and Quality Assurance",
+            "code": "BSTQAB515",
+            "conducted": 8,
+            "present": 7,
+            "absent": 1,
+            "percentage": 87.5,
+            "section": "theory"
+          },
+          {
+            "name": "Research Methodology and IPR",
+            "code": "BRMIK504",
+            "conducted": 6,
+            "present": 5,
+            "absent": 1,
+            "percentage": 83.3,
+            "section": "theory"
+          }
+        ],
+        "laboratory": [
+          {
+            "name": "Intelligent Data Analytics Lab",
+            "code": "BIDAB503L",
+            "conducted": 4,
+            "present": 3,
+            "absent": 1,
+            "percentage": 75,
+            "section": "laboratory"
+          },
+          {
+            "name": "Artificial Intelligence Concepts Lab",
+            "code": "BAICB501L",
+            "conducted": 4,
+            "present": 2,
+            "absent": 2,
+            "percentage": 50,
+            "section": "laboratory"
+          },
+          {
+            "name": "Computer Networks and Security Lab",
+            "code": "BCNSB502L",
+            "conducted": 2,
+            "present": 2,
+            "absent": 0,
+            "percentage": 100,
+            "section": "laboratory"
+          },
+          {
+            "name": "React and Node JS Lab",
+            "code": "BRALB507",
+            "conducted": 4,
+            "present": 4,
+            "absent": 0,
+            "percentage": 100,
+            "section": "laboratory"
+          }
+        ],
+        "electives": [
+          {
+            "name": "Economics and Financial Management",
+            "code": "BEFMK506",
+            "conducted": 8,
+            "present": 6,
+            "absent": 2,
+            "percentage": 75,
+            "section": "electives"
+          }
+        ],
+        "extractedAt": "2026-11-26T17:56:43.352Z"
+      }
+    },
+    {
+      "_id": "e6e1deac-203b-4506-ba23-734b68e7b3b0",
+      "createdAt": "2026-11-26T18:04:37.066Z",
+      "updatedAt": "2026-11-26T18:04:41.011Z",
+      "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "data": {
+        "theory": [
+          {
+            "name": "Artificial Intelligence Concepts and Practice",
+            "code": "BAINB501",
+            "conducted": 14,
+            "present": 10,
+            "absent": 4,
+            "percentage": 71.4,
+            "section": "theory"
+          },
+          {
+            "name": "Computer Networks and Security",
+            "code": "BCNSB502",
+            "conducted": 16,
+            "present": 12,
+            "absent": 4,
+            "percentage": 75,
+            "section": "theory"
+          },
+          {
+            "name": "Intelligent Data Analytics",
+            "code": "BIDAB503",
+            "conducted": 10,
+            "present": 9,
+            "absent": 1,
+            "percentage": 90,
+            "section": "theory"
+          },
+          {
+            "name": "Software Testing and Quality Assurance",
+            "code": "BSTQAB515",
+            "conducted": 8,
+            "present": 7,
+            "absent": 1,
+            "percentage": 87.5,
+            "section": "theory"
+          },
+          {
+            "name": "Research Methodology and IPR",
+            "code": "BRMIK504",
+            "conducted": 6,
+            "present": 5,
+            "absent": 1,
+            "percentage": 83.3,
+            "section": "theory"
+          }
+        ],
+        "laboratory": [
+          {
+            "name": "Intelligent Data Analytics Lab",
+            "code": "BIDAB503L",
+            "conducted": 4,
+            "present": 3,
+            "absent": 1,
+            "percentage": 75,
+            "section": "laboratory"
+          },
+          {
+            "name": "Artificial Intelligence Concepts Lab",
+            "code": "BAICB501L",
+            "conducted": 4,
+            "present": 2,
+            "absent": 2,
+            "percentage": 50,
+            "section": "laboratory"
+          },
+          {
+            "name": "Computer Networks and Security Lab",
+            "code": "BCNSB502L",
+            "conducted": 2,
+            "present": 2,
+            "absent": 0,
+            "percentage": 100,
+            "section": "laboratory"
+          },
+          {
+            "name": "React and Node JS Lab",
+            "code": "BRALB507",
+            "conducted": 4,
+            "present": 4,
+            "absent": 0,
+            "percentage": 100,
+            "section": "laboratory"
+          }
+        ],
+        "electives": [
+          {
+            "name": "Economics and Financial Management",
+            "code": "BEFMK506",
+            "conducted": 8,
+            "present": 6,
+            "absent": 2,
+            "percentage": 75,
+            "section": "electives"
+          }
+        ],
+        "extractedAt": "2026-11-26T18:04:41.011Z"
+      }
+    }
+  ],
+  "gpaProfiles": [
+    {
+      "_id": "68f32d42-c677-4694-b6de-02267b0dc11a",
+      "createdAt": "2026-11-26T17:58:34.187Z",
+      "updatedAt": "2026-11-26T17:58:34.187Z",
+      "userId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "courses": [
+        {
+          "code": "BAINB501",
+          "name": "Artificial Intelligence Concepts & Practice",
+          "credits": 4,
+          "cie1": 38,
+          "cie2": 42,
+          "cie3": 40,
+          "assignment": 18
+        },
+        {
+          "code": "BCNSB502",
+          "name": "Computer Networks & Security",
+          "credits": 4,
+          "cie1": 34,
+          "cie2": 39,
+          "cie3": 50,
+          "assignment": 17
+        },
+        {
+          "code": "BIDAB503",
+          "name": "Intelligent Data Analytics",
+          "credits": 4,
+          "cie1": 44,
+          "cie2": 46,
+          "cie3": 42,
+          "assignment": 19
+        },
+        {
+          "code": "BSTQAB515",
+          "name": "Software Testing & Quality Assurance",
+          "credits": 3,
+          "cie1": 41,
+          "cie2": 43,
+          "cie3": 45,
+          "assignment": 19
+        },
+        {
+          "code": "BRMIK504",
+          "name": "Research Methodology and IPR",
+          "credits": 2,
+          "cie1": 42,
+          "cie2": 40,
+          "cie3": 44,
+          "assignment": 18
+        },
+        {
+          "code": "BEFMK506",
+          "name": "Economics & Financial Management",
+          "credits": 3,
+          "cie1": 36,
+          "cie2": 38,
+          "cie3": 40,
+          "assignment": 16
+        },
+        {
+          "code": "BRALB507",
+          "name": "React and Node JS Lab",
+          "credits": 2,
+          "cie1": 48,
+          "cie2": 50,
+          "cie3": 49,
+          "assignment": 20
+        }
+      ],
+      "pastSemesters": [
+        {
+          "semester": "Sem 1",
+          "sgpa": 8.2,
+          "credits": 20
+        },
+        {
+          "semester": "Sem 2",
+          "sgpa": 8.45,
+          "credits": 20
+        },
+        {
+          "semester": "Sem 3",
+          "sgpa": 8.6,
+          "credits": 22
+        },
+        {
+          "semester": "Sem 4",
+          "sgpa": 8.52,
+          "credits": 22
+        }
+      ],
+      "targetGpa": 8.75
+    }
+  ],
+  "group_files": []
+}
