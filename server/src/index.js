@@ -19,6 +19,8 @@ import announcementRoutes from './routes/announcementRoutes.js';
 import confessionRoutes from './routes/confessionRoutes.js';
 import attendanceRoutes from './routes/attendanceRoutes.js';
 import gpaRoutes from './routes/gpaRoutes.js';
+import feedRoutes from './routes/feedRoutes.js';
+import marketplaceRoutes from './routes/marketplaceRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -68,6 +70,8 @@ app.use('/api/announcements', announcementRoutes);
 app.use('/api/confessions', confessionRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/gpa', gpaRoutes);
+app.use('/api/feed', feedRoutes);
+app.use('/api/marketplace', marketplaceRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

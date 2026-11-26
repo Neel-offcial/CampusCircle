@@ -13,6 +13,8 @@ import AssignmentsPage from './pages/AssignmentsPage';
 import GpaPredictorPage from './pages/GpaPredictorPage';
 import AttendancePage from './pages/AttendancePage';
 import ConfessionsPage from './pages/ConfessionsPage';
+import CampusPulsePage from './pages/CampusPulsePage';
+import MarketplacePage from './pages/MarketplacePage';
 import SettingsPage from './pages/SettingsPage';
 
 function ProtectedRoute({ children }) {
@@ -57,6 +59,8 @@ export default function App() {
         <Route path="gpa-predictor" element={<GpaPredictorPage />} />
         <Route path="attendance" element={<AttendancePage />} />
         <Route path="confessions" element={<ConfessionsPage />} />
+        <Route path="feed" element={<CampusPulsePage />} />
+        <Route path="marketplace" element={<MarketplacePage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
 

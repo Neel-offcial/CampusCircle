@@ -13,7 +13,9 @@ import {
   Moon,
   Sun,
   ShieldCheck,
-  Compass
+  Compass,
+  Flame,
+  ShoppingBag
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -25,6 +27,8 @@ export default function Sidebar({ onOpenCreateGroup }) {
 
   const navLinks = [
     { to: '/', label: 'Dashboard', icon: LayoutGrid, exact: true },
+    { to: '/feed', label: 'Campus Pulse', icon: Flame, badge: 'HOT' },
+    { to: '/marketplace', label: 'Marketplace & Gigs', icon: ShoppingBag, badge: 'NEW' },
     { to: '/groups', label: 'My Groups', icon: Users },
     { to: '/explore', label: 'Explore Groups', icon: Compass },
     { to: '/assignments', label: 'Assignments', icon: FileCheck },
@@ -70,8 +74,21 @@ export default function Sidebar({ onOpenCreateGroup }) {
                   }`
                 }
               >
-                <Icon size={18} />
-                <span>{item.label}</span>
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-3">
+                    <Icon size={18} />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span className={`text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full ${
+                      item.badge === 'HOT'
+                        ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/20'
+                        : 'bg-blue-600 text-white shadow-sm shadow-blue-500/20'
+                    }`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
               </NavLink>
             );
           })}

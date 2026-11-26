@@ -935,5 +935,650 @@
       "targetGpa": 8.75
     }
   ],
-  "group_files": []
+  "group_files": [],
+  "events": [
+    {
+      "_id": "3ffcc099-65ea-4fa7-8b79-bc91031a074a",
+      "createdAt": "2026-11-26T19:38:14.009Z",
+      "updatedAt": "2026-11-26T19:46:04.347Z",
+      "title": "Rangmanch 2026: Annual Inter-College Cultural & Tech Fest",
+      "category": "FEST",
+      "organizer": "Atria Student Council & Cultural Club",
+      "date": "Saturday, Dec 6 · 6:00 PM",
+      "venue": "Main Amphitheatre & Quadrangle",
+      "description": "Battle of the Bands, Pro-Show DJ Night, Street Play, and 48-Hour Game Jam. Food stalls & merchandise available.",
+      "imageUrl": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&auto=format&fit=crop&q=80",
+      "urgency": "• MAIN EVENT",
+      "goingCount": 413,
+      "interestedCount": 890
+    },
+    {
+      "_id": "ccb7626d-6510-4472-816b-59e7e383b613",
+      "createdAt": "2026-11-26T19:38:14.011Z",
+      "updatedAt": "2026-11-26T19:38:14.011Z",
+      "title": "HackAtria 2026: 24-Hour AI & Web3 Sprint",
+      "category": "HACKATHON",
+      "organizer": "Department of CSE & Atria IEDC",
+      "date": "Thursday, Dec 11 · 9:00 AM",
+      "venue": "Lab 326 & Innovation Center",
+      "description": "Team up and build production prototypes across Web, AI, and Sustainability tracks. Cash prizes of ₹50,000 + sponsor API credits.",
+      "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&auto=format&fit=crop&q=80",
+      "urgency": "• 14 places left",
+      "goingCount": 128,
+      "interestedCount": 340
+    },
+    {
+      "_id": "e9a5c0cd-8264-4f61-ba00-2783f5083780",
+      "createdAt": "2026-11-26T19:38:14.012Z",
+      "updatedAt": "2026-11-26T19:38:14.012Z",
+      "title": "Full-Stack Deployment & Docker Workshop",
+      "category": "WORKSHOP",
+      "organizer": "GDSC Atria Chapter",
+      "date": "Wednesday, Dec 3 · 2:00 PM",
+      "venue": "Seminar Hall 2",
+      "description": "Hands-on containerization, CI/CD pipelines, and cloud hosting for final year and pre-final year engineering projects.",
+      "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80",
+      "urgency": "• FREE PIZZA",
+      "goingCount": 94,
+      "interestedCount": 180
+    },
+    {
+      "_id": "d14d967e-861a-4339-935c-7051c8f0455f",
+      "createdAt": "2026-11-26T19:38:14.012Z",
+      "updatedAt": "2026-11-26T19:38:14.012Z",
+      "title": "Inter-Branch Box Cricket Championship",
+      "category": "SPORTS",
+      "organizer": "Sports Committee",
+      "date": "Friday, Dec 5 · 3:30 PM",
+      "venue": "Atria Sports Ground",
+      "description": "CSE vs ECE vs ISE high-voltage knockout tournament. Trophies and medal distribution on final day.",
+      "imageUrl": "https://images.unsplash.com/photo-1531415074868-036b1c57e329?w=600&auto=format&fit=crop&q=80",
+      "urgency": "• TONIGHT",
+      "goingCount": 186,
+      "interestedCount": 210
+    }
+  ],
+  "pulses": [
+    {
+      "_id": "0b515acc-2163-44bc-b287-d8d1bc17d2c7",
+      "createdAt": "2026-11-26T19:38:14.014Z",
+      "updatedAt": "2026-11-26T19:38:14.014Z",
+      "creatorAlias": "Anon Canteen Scout",
+      "sticker": "📍 Maggi Point",
+      "tag": "Food Alert",
+      "title": "Canteen Restocked!",
+      "content": "Fresh hot samosas, veg puffs, and cold coffee just restocked at the basement canteen. No queue right now!",
+      "reactions": {
+        "🔥": 28,
+        "⚡": 12,
+        "😂": 2,
+        "👀": 19
+      },
+      "expiresIn": "24 hours"
+    },
+    {
+      "_id": "b3ad49fd-f384-4589-85be-36af0ba7b7e7",
+      "createdAt": "2026-11-26T17:38:14.016Z",
+      "updatedAt": "2026-11-26T19:38:14.016Z",
+      "creatorAlias": "CR Secret Agent",
+      "sticker": "📍 LH-501",
+      "tag": "Attendance Alert",
+      "title": "Surprise Attendance",
+      "content": "Heads up: Mass bunk discussion failed, Prof. Pallavi is taking surprise attendance in 3rd hour 🚨",
+      "reactions": {
+        "🔥": 4,
+        "⚡": 42,
+        "😂": 38,
+        "👀": 15
+      },
+      "expiresIn": "24 hours"
+    },
+    {
+      "_id": "fdcf3e0e-655e-4ee8-a823-2d51428afe60",
+      "createdAt": "2026-11-26T15:38:14.016Z",
+      "updatedAt": "2026-11-26T19:38:14.016Z",
+      "creatorAlias": "Dev Ninja #42",
+      "sticker": "📍 Lab 326",
+      "tag": "Hackathon",
+      "title": "Teammate Wanted",
+      "content": "Need 1 Frontend designer who knows Tailwind & Figma for HackAtria. We already built the backend Express API!",
+      "reactions": {
+        "🔥": 14,
+        "⚡": 9,
+        "😂": 0,
+        "👀": 31
+      },
+      "expiresIn": "24 hours"
+    },
+    {
+      "_id": "8fec6233-8960-4fd2-b4f2-5e1fd2c0a522",
+      "createdAt": "2026-11-26T13:38:14.017Z",
+      "updatedAt": "2026-11-26T19:38:14.017Z",
+      "creatorAlias": "Ghost Topper",
+      "sticker": "📍 Central Library",
+      "tag": "Study SOS",
+      "title": "Solved Numericals",
+      "content": "Left a photocopy of solved CNS Module 3 subnetting numericals on Table 4, 2nd floor library. Grab it!",
+      "reactions": {
+        "🔥": 49,
+        "⚡": 15,
+        "😂": 1,
+        "👀": 8
+      },
+      "expiresIn": "24 hours"
+    },
+    {
+      "_id": "4bef9cbf-100b-4cfc-a292-27be513c7d5f",
+      "createdAt": "2026-11-26T19:44:30.043Z",
+      "updatedAt": "2026-11-26T19:44:30.055Z",
+      "creatorId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "creatorAlias": "Chilled Scholar #99",
+      "title": "Library AC working",
+      "content": "3rd floor AC is on and it is super chill right now for study sessions!",
+      "tag": "Study SOS",
+      "sticker": "📍 Central Library",
+      "reactions": {
+        "🔥": 1,
+        "⚡": 0,
+        "😂": 0,
+        "👀": 0
+      },
+      "expiresIn": "24 hours"
+    },
+    {
+      "_id": "679fd2a6-a92a-4d48-90bc-9a2ccf7a426c",
+      "createdAt": "2026-11-26T19:45:05.233Z",
+      "updatedAt": "2026-11-26T19:45:05.242Z",
+      "creatorId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "creatorAlias": "Chilled Scholar #99",
+      "title": "Library AC working",
+      "content": "3rd floor AC is on and it is super chill right now for study sessions!",
+      "tag": "Study SOS",
+      "sticker": "📍 Central Library",
+      "reactions": {
+        "🔥": 1,
+        "⚡": 0,
+        "😂": 0,
+        "👀": 0
+      },
+      "expiresIn": "24 hours"
+    },
+    {
+      "_id": "6fa9fc11-abab-44df-aeb5-623278be0ea5",
+      "createdAt": "2026-11-26T19:46:04.313Z",
+      "updatedAt": "2026-11-26T19:46:04.324Z",
+      "creatorId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "creatorAlias": "Chilled Scholar #99",
+      "title": "Library AC working",
+      "content": "3rd floor AC is on and it is super chill right now for study sessions!",
+      "tag": "Study SOS",
+      "sticker": "📍 Central Library",
+      "reactions": {
+        "🔥": 1,
+        "⚡": 0,
+        "😂": 0,
+        "👀": 0
+      },
+      "expiresIn": "24 hours"
+    }
+  ],
+  "feedPosts": [
+    {
+      "_id": "9f959756-df85-493f-811e-1d701bd178c4",
+      "createdAt": "2026-11-26T16:38:14.018Z",
+      "updatedAt": "2026-11-26T19:38:14.018Z",
+      "creatorAlias": "Crimson Owl #381",
+      "college": "Atria Institute of Technology",
+      "department": "Computer Science and Engineering",
+      "title": "The Great CIE-2 Preparation Dilemma",
+      "content": "VTU timetable says 2 IAs this sem. How much of the Software Testing & QA syllabus have you guys actually covered honestly? 😂 Vote below so we all know we are not suffering alone.",
+      "category": "Campus Buzz",
+      "poll": {
+        "question": "How ready are you for CIE-2 this week?",
+        "totalVotes": 87,
+        "options": [
+          {
+            "id": 1,
+            "text": "Fully prepped, 90+ internal locked in",
+            "votes": 8
+          },
+          {
+            "id": 2,
+            "text": "Module 1 & 2 done, praying for grace marks",
+            "votes": 41
+          },
+          {
+            "id": 3,
+            "text": "Haven't downloaded the syllabus PDF yet 💀",
+            "votes": 38
+          }
+        ]
+      },
+      "tags": [
+        "VTU CIE-2",
+        "CSE Sem V",
+        "Exam Stress"
+      ],
+      "upvotes": 68,
+      "downvotes": 4,
+      "score": 64,
+      "commentCount": 2,
+      "comments": [
+        {
+          "id": "c1",
+          "authorAlias": "Onyx 17",
+          "text": "Module 3 is pure pain, who designed this syllabus 😭",
+          "createdAt": "2026-11-26T18:38:14.018Z"
+        },
+        {
+          "id": "c2",
+          "authorAlias": "Nova 42",
+          "text": "Just do previous 3 years model question papers, 70% repeat guaranteed",
+          "createdAt": "2026-11-26T19:08:14.018Z"
+        }
+      ]
+    },
+    {
+      "_id": "5562034f-e5db-4ccd-b1da-a6ffcf1f0b00",
+      "createdAt": "2026-11-26T11:38:14.019Z",
+      "updatedAt": "2026-11-26T19:38:14.019Z",
+      "creatorAlias": "Byte Runner #904",
+      "college": "Atria Institute of Technology",
+      "department": "Computer Science and Engineering",
+      "title": "Free React & Socket.IO Boilerplate for Sem 5 Mini-Projects",
+      "content": "Built a clean dual-mode template with real-time websocket chat and JWT auth that fits the VTU BRALB507 lab syllabus. Free to use for anyone struggling with project architecture! Check the Marketplace or ping me.",
+      "category": "Tech & Hackathons",
+      "tags": [
+        "React.js",
+        "Socket.IO",
+        "VTU Lab",
+        "Open Source"
+      ],
+      "upvotes": 94,
+      "downvotes": 2,
+      "score": 92,
+      "commentCount": 1,
+      "comments": [
+        {
+          "id": "c3",
+          "authorAlias": "Phantom 09",
+          "text": "Bro you saved my semester viva! Legend 🙌",
+          "createdAt": "2026-11-26T17:38:14.019Z"
+        }
+      ]
+    },
+    {
+      "_id": "96a85dcd-3311-4301-9f21-fa0b2fef61f9",
+      "createdAt": "2026-11-26T07:38:14.019Z",
+      "updatedAt": "2026-11-26T19:38:14.019Z",
+      "creatorAlias": "Shadow Fox #211",
+      "college": "Atria Institute of Technology",
+      "department": "Computer Science and Engineering",
+      "title": "Found: HP Pen Drive in Lab 508 (CNS Lab)",
+      "content": "Found a silver HP 64GB flash drive on System 14 after the Tuesday B1 batch lab session. Has some Packet Tracer .pkt files on it. Left it with the lab instructor or DM me your folder names to claim!",
+      "category": "Lost & Found",
+      "tags": [
+        "Lost & Found",
+        "CNS Lab",
+        "Room 508"
+      ],
+      "upvotes": 39,
+      "downvotes": 1,
+      "score": 38,
+      "commentCount": 0,
+      "comments": []
+    },
+    {
+      "_id": "79f9720a-dd72-4b12-a1ea-538f999fd267",
+      "createdAt": "2026-11-26T19:44:30.083Z",
+      "updatedAt": "2026-11-26T19:44:30.092Z",
+      "creatorAlias": "Code Architect #77",
+      "college": "Atria Institute of Technology",
+      "department": "Computer Science and Engineering",
+      "title": "VTU 5th Sem Miniproject Stack Poll",
+      "content": "Which stack is your group picking for the Database / Web tech miniproject?",
+      "category": "Academic SOS",
+      "imageUrl": null,
+      "poll": {
+        "question": "Preferred Tech Stack?",
+        "totalVotes": 0,
+        "options": [
+          {
+            "id": 1,
+            "text": "MERN Stack",
+            "votes": 0
+          },
+          {
+            "id": 2,
+            "text": "Next.js + Supabase",
+            "votes": 0
+          },
+          {
+            "id": 3,
+            "text": "Python Flask + SQLite",
+            "votes": 0
+          },
+          {
+            "id": 4,
+            "text": "Flutter + Firebase",
+            "votes": 0
+          }
+        ]
+      },
+      "tags": [
+        "Atria CSE"
+      ],
+      "upvotes": 0,
+      "downvotes": 0,
+      "score": 0,
+      "commentCount": 0,
+      "comments": []
+    },
+    {
+      "_id": "e067609a-4b34-48ac-b10b-0224ba4d3404",
+      "createdAt": "2026-11-26T19:45:05.277Z",
+      "updatedAt": "2026-11-26T19:45:05.298Z",
+      "creatorAlias": "Code Architect #77",
+      "college": "Atria Institute of Technology",
+      "department": "Computer Science and Engineering",
+      "title": "VTU 5th Sem Miniproject Stack Poll",
+      "content": "Which stack is your group picking for the Database / Web tech miniproject?",
+      "category": "Academic SOS",
+      "imageUrl": null,
+      "poll": {
+        "question": "Preferred Tech Stack?",
+        "totalVotes": 1,
+        "options": [
+          {
+            "id": 1,
+            "text": "MERN Stack",
+            "votes": 1
+          },
+          {
+            "id": 2,
+            "text": "Next.js + Supabase",
+            "votes": 0
+          },
+          {
+            "id": 3,
+            "text": "Python Flask + SQLite",
+            "votes": 0
+          },
+          {
+            "id": 4,
+            "text": "Flutter + Firebase",
+            "votes": 0
+          }
+        ]
+      },
+      "tags": [
+        "Atria CSE"
+      ],
+      "upvotes": 1,
+      "downvotes": 0,
+      "score": 1,
+      "commentCount": 0,
+      "comments": []
+    },
+    {
+      "_id": "e176906d-78ee-4c8a-bab7-f71cb3449de6",
+      "createdAt": "2026-11-26T19:46:04.366Z",
+      "updatedAt": "2026-11-26T19:46:04.398Z",
+      "creatorAlias": "Code Architect #77",
+      "college": "Atria Institute of Technology",
+      "department": "Computer Science and Engineering",
+      "title": "VTU 5th Sem Miniproject Stack Poll",
+      "content": "Which stack is your group picking for the Database / Web tech miniproject?",
+      "category": "Academic SOS",
+      "imageUrl": null,
+      "poll": {
+        "question": "Preferred Tech Stack?",
+        "totalVotes": 1,
+        "options": [
+          {
+            "id": 1,
+            "text": "MERN Stack",
+            "votes": 1
+          },
+          {
+            "id": 2,
+            "text": "Next.js + Supabase",
+            "votes": 0
+          },
+          {
+            "id": 3,
+            "text": "Python Flask + SQLite",
+            "votes": 0
+          },
+          {
+            "id": 4,
+            "text": "Flutter + Firebase",
+            "votes": 0
+          }
+        ]
+      },
+      "tags": [
+        "Atria CSE"
+      ],
+      "upvotes": 1,
+      "downvotes": 0,
+      "score": 1,
+      "commentCount": 1,
+      "comments": [
+        {
+          "id": "c_1795722364397",
+          "authorAlias": "Viva Pro #12",
+          "text": "MERN is easiest for VTU external viva evaluation!",
+          "createdAt": "2026-11-26T19:46:04.397Z"
+        }
+      ]
+    }
+  ],
+  "marketplaceListings": [
+    {
+      "_id": "7f71f691-d648-4f0e-80d5-f01288669aef",
+      "createdAt": "2026-11-26T14:38:14.021Z",
+      "updatedAt": "2026-11-26T19:38:14.021Z",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "@code_wizard_v",
+      "sellerRating": 4.95,
+      "title": "Full-Stack AI Study Companion Web App (React + Express + Socket.IO)",
+      "description": "Complete VTU 5th Sem compliant mini-project repository. Comes with IEEE base paper summary, system architecture diagram, schema SQL/JSON, and viva questions preparation guide.",
+      "category": "Projects",
+      "price": 699,
+      "priceType": "fixed",
+      "deliveryTime": "⚡ Instant GitHub Access",
+      "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop&q=80",
+      "previewCode": "// Features: Real-time room chat, JWT auth, Dynamic Timetable sync",
+      "tags": [
+        "React.js",
+        "Node.js",
+        "VTU Mini-Project",
+        "IEEE Base Paper",
+        "Full Repo"
+      ],
+      "viewsCount": 142,
+      "inquiriesCount": 8
+    },
+    {
+      "_id": "8b3ffa9b-d394-4a6f-9955-40a522be8004",
+      "createdAt": "2026-11-26T09:38:14.021Z",
+      "updatedAt": "2026-11-26T19:38:14.022Z",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "@calligraphy_scribe",
+      "sellerRating": 4.98,
+      "title": "Neatly Handwritten React & Node.js Lab Record Book (VTU Format)",
+      "description": "All 10 experiments written with clean blue/black gel pen on official Atria college record sheets. Aim, Algorithm, Code, Output screenshots, and Results included. Guaranteed lab signature approval.",
+      "category": "Records",
+      "price": 350,
+      "priceType": "fixed",
+      "deliveryTime": "⚡ 24 Hours Delivery",
+      "imageUrl": "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=600&auto=format&fit=crop&q=80",
+      "tags": [
+        "BRALB507",
+        "Handwritten",
+        "Lab Record",
+        "100% Viva Safe",
+        "Atria Format"
+      ],
+      "viewsCount": 215,
+      "inquiriesCount": 14
+    },
+    {
+      "_id": "f19a873a-eaec-4012-a154-5ab97faa45a5",
+      "createdAt": "2026-11-26T01:38:14.022Z",
+      "updatedAt": "2026-11-26T19:38:14.022Z",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "@hardware_hacker",
+      "sellerRating": 4.9,
+      "title": "Arduino Uno R3 + 37 Sensor Modules Lab Kit (Rent or Buy)",
+      "description": "Available for rental during VTU practical exams or direct purchase. Includes Arduino Uno, Breadboard, Jumper wires, DHT11 Temp sensor, Ultrasonic sensor, Relay module, and LCD display.",
+      "category": "Hardware",
+      "price": 200,
+      "priceType": "quote",
+      "deliveryTime": "⚡ Same Day Campus Handover",
+      "imageUrl": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=600&auto=format&fit=crop&q=80",
+      "tags": [
+        "Arduino",
+        "IoT Lab",
+        "Sensors",
+        "Hardware Rental",
+        "Robotics"
+      ],
+      "viewsCount": 98,
+      "inquiriesCount": 5
+    },
+    {
+      "_id": "b4cc161e-ba8c-49d7-8597-cf7d78ceaadd",
+      "createdAt": "2026-11-25T19:38:14.023Z",
+      "updatedAt": "2026-11-26T19:38:14.023Z",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "@topper_scribe_9",
+      "sellerRating": 5,
+      "title": "Solved Question Bank & Hand-Drafted Notes: Computer Networks & Security (BCNSB502)",
+      "description": "Detailed notes covering Module 1 to 5 with solved VTU model papers (2022 Scheme). Contains all subnetting numericals, routing algorithms (Dijkstra, Bellman-Ford), and crypto ciphers.",
+      "category": "Notes",
+      "price": 149,
+      "priceType": "fixed",
+      "deliveryTime": "⚡ Instant PDF Download",
+      "imageUrl": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80",
+      "tags": [
+        "BCNSB502",
+        "Solved Numerical",
+        "VTU 2022 Scheme",
+        "Topper Notes"
+      ],
+      "viewsCount": 184,
+      "inquiriesCount": 11
+    },
+    {
+      "_id": "cf6fcc7b-df3d-4d72-b45d-07b2af783ee6",
+      "createdAt": "2026-11-26T19:45:05.318Z",
+      "updatedAt": "2026-11-26T19:45:05.325Z",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "SQL Wizard #31",
+      "sellerRating": 4.9,
+      "title": "VTU 2022 Scheme DBMS Mini-Project (Hospital Management)",
+      "description": "Includes ER diagram, Relational Schema, SQL DDL scripts, Node backend and clean Vite UI.",
+      "category": "Projects",
+      "price": 600,
+      "priceType": "fixed",
+      "deliveryTime": "⚡ Instant Zip Download",
+      "imageUrl": null,
+      "previewCode": null,
+      "tags": [
+        "DBMS",
+        "SQL",
+        "MERN",
+        "MiniProject"
+      ],
+      "viewsCount": 0,
+      "inquiriesCount": 1
+    },
+    {
+      "_id": "cc289e93-d756-470d-8afa-9eaaae383ec4",
+      "createdAt": "2026-11-26T19:46:04.413Z",
+      "updatedAt": "2026-11-26T19:46:04.422Z",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "SQL Wizard #31",
+      "sellerRating": 4.9,
+      "title": "VTU 2022 Scheme DBMS Mini-Project (Hospital Management)",
+      "description": "Includes ER diagram, Relational Schema, SQL DDL scripts, Node backend and clean Vite UI.",
+      "category": "Projects",
+      "price": 600,
+      "priceType": "fixed",
+      "deliveryTime": "⚡ Instant Zip Download",
+      "imageUrl": null,
+      "previewCode": null,
+      "tags": [
+        "DBMS",
+        "SQL",
+        "MERN",
+        "MiniProject"
+      ],
+      "viewsCount": 0,
+      "inquiriesCount": 1
+    }
+  ],
+  "eventRsvps": [
+    {
+      "_id": "80513f7b-ffac-4e6a-9d38-8f75da5dba22",
+      "createdAt": "2026-11-26T19:46:04.346Z",
+      "updatedAt": "2026-11-26T19:46:04.346Z",
+      "eventId": "3ffcc099-65ea-4fa7-8b79-bc91031a074a",
+      "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "status": "going"
+    }
+  ],
+  "marketplaceConversations": [
+    {
+      "_id": "ceed2f3f-0d08-4fb1-869b-cf9c970351fc",
+      "createdAt": "2026-11-26T19:45:05.325Z",
+      "updatedAt": "2026-11-26T19:45:05.325Z",
+      "listingId": "cf6fcc7b-df3d-4d72-b45d-07b2af783ee6",
+      "listingTitle": "VTU 2022 Scheme DBMS Mini-Project (Hospital Management)",
+      "listingCategory": "Projects",
+      "listingPrice": 600,
+      "buyerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "buyerAlias": "Buyer #414",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "SQL Wizard #31",
+      "messages": [],
+      "lastMessage": "Started anonymous inquiry",
+      "lastMessageAt": "2026-11-26T19:45:05.325Z"
+    },
+    {
+      "_id": "9074656b-a8b6-4726-9e0b-cdb8a6b80aca",
+      "createdAt": "2026-11-26T19:46:04.421Z",
+      "updatedAt": "2026-11-26T19:46:04.433Z",
+      "listingId": "cc289e93-d756-470d-8afa-9eaaae383ec4",
+      "listingTitle": "VTU 2022 Scheme DBMS Mini-Project (Hospital Management)",
+      "listingCategory": "Projects",
+      "listingPrice": 600,
+      "buyerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "buyerAlias": "Buyer #205",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "SQL Wizard #31",
+      "messages": [
+        {
+          "id": "msg_1795722364422",
+          "senderId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+          "senderAlias": "SQL Wizard #31",
+          "content": "Hi! Does this come with the PPT for the VTU viva?",
+          "timestamp": "2026-11-26T19:46:04.422Z"
+        },
+        {
+          "id": "msg_1795722364432",
+          "senderId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+          "senderAlias": "SQL Wizard #31",
+          "content": "Yes, includes 12-slide standard VTU presentation format!",
+          "fileUrl": null,
+          "fileName": null,
+          "timestamp": "2026-11-26T19:46:04.433Z"
+        }
+      ],
+      "lastMessage": "Yes, includes 12-slide standard VTU presentation format!",
+      "lastMessageAt": "2026-11-26T19:46:04.433Z"
+    }
+  ]
 }
