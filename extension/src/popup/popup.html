@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Hub</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="header">
+            <div>
+                <p class="eyebrow">STUDENT HUB</p>
+                <h1 id="greeting">Hello, Student</h1>
+                <p class="date" id="todayDate"></p>
+            </div>
+            <div class="profile" id="profileInitial">S</div>
+        </div>
+
+        <div class="status-card">
+            <div class="status-top">
+                <span>Overall Attendance</span>
+                <span class="status-target">Target 75%</span>
+            </div>
+
+            <strong id="overallAttendance">--</strong>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="overallProgress"></div>
+            </div>
+
+            <small id="overallStatus">Loading live data...</small>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <h2>Today's Classes</h2>
+                <span id="todayClassCount">0 classes</span>
+            </div>
+
+            <div id="todayClasses">
+                <div class="empty-state">Loading timetable...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <h2>Attention</h2>
+                <span id="attentionCount">0</span>
+            </div>
+
+            <div class="warning-card" id="attentionCard">
+                <strong id="attentionSubject">All clear</strong>
+                <p id="attentionText">
+                    No subject is currently below the 75% target.
+                </p>
+
+                <button id="plannerButton">
+                    Open Attendance →
+                </button>
+            </div>
+        </div>
+
+        <button class="dashboard-button" id="dashboardButton">
+            Open Student Hub
+        </button>
+
+    </div>
+
+    <script src="../data/studentData.js"></script>
+    <script src="../data/timetable.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

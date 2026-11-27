@@ -3,7 +3,7 @@
     {
       "_id": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "createdAt": "2026-11-26T12:00:11.180Z",
-      "updatedAt": "2026-11-26T12:00:11.180Z",
+      "updatedAt": "2026-11-27T09:14:16.597Z",
       "username": "neel_dev",
       "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
       "fullName": "Neel Kumar Gupta",
@@ -12,8 +12,9 @@
       "section": "C",
       "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "isVerified": true,
-      "emailHash": "519a9f3703e1d13daeaeea84bc7649bc02b52dd5d6cf54eabb83dd96d4860437",
-      "bio": "5th Sem CSE student @ Atria. Building React & Node apps."
+      "emailHash": "8c6587cf8cab51bc95c0631f7e3c53a002ff02f8641ab3a9ca56ac8c1240a1f0",
+      "bio": "5th Sem CSE student @ Atria. Building React & Node apps.",
+      "email": "neel.22cs@atria.edu"
     },
     {
       "_id": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
@@ -89,6 +90,60 @@
       "section": "C",
       "batch": "B1",
       "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Atria%20Student&backgroundColor=4f46e5",
+      "isVerified": true,
+      "emailAlerts": true,
+      "bio": "5th Sem Computer Student @ Atria"
+    },
+    {
+      "_id": "5ca75a93-1ee7-4767-a238-2d32ed476bf2",
+      "createdAt": "2026-11-27T09:12:50.376Z",
+      "updatedAt": "2026-11-27T09:12:50.376Z",
+      "username": "user_1795770769866",
+      "passwordHash": "$2a$10$j.WbDFC2PGYi3wrJWU3h6.3Q1zExazZ137oNYiyOfnVTytgziNz76",
+      "fullName": "Test Atria Student",
+      "email": "teststudent.1795770769828@atria.edu",
+      "emailHash": "163262d86853e53b4c6e4479c8640ac4375d92345ce531c3b770017e69157742",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "batch": "B1",
+      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Atria%20Student&backgroundColor=4f46e5",
+      "isVerified": true,
+      "emailAlerts": true,
+      "bio": "5th Sem Computer Student @ Atria"
+    },
+    {
+      "_id": "ea36a5f8-45aa-4096-bcc9-e92b61f835d8",
+      "createdAt": "2026-11-27T09:20:34.898Z",
+      "updatedAt": "2026-11-27T09:20:34.898Z",
+      "username": "teststudent_eval",
+      "passwordHash": "$2a$10$MgGkwndyQwBfZH72kQmBIe5CX6xkvOe5liUlHlWVvu2mN9Ku1JbKm",
+      "fullName": "Test Student",
+      "email": "teststudent.cse22@atria.edu",
+      "emailHash": "c409041694f03b867bad925840e73b3d35dcb5920c8efe1d099ebd17e46aa0d1",
+      "department": "CSE",
+      "semester": "V",
+      "section": "C",
+      "batch": "B1",
+      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Student&backgroundColor=4f46e5",
+      "isVerified": true,
+      "emailAlerts": true,
+      "bio": "5th Sem CSE Student @ Atria"
+    },
+    {
+      "_id": "c848a0ea-c347-4043-be13-4ed7a1454490",
+      "createdAt": "2026-11-27T09:25:29.181Z",
+      "updatedAt": "2026-11-27T09:25:29.181Z",
+      "username": "neel_cse22",
+      "passwordHash": "$2a$10$bfMKGjoxjYl54Ui7y60lX.jjU1E86P2.ardwKGYV04RJv6tBGlDVC",
+      "fullName": "Neel Kumar",
+      "email": "neel.22cse@atria.edu",
+      "emailHash": "52448349317e304830a9ec5f36fb44316618d05f5f592c38198b75f90ee1f0bd",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "batch": "B1",
+      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Neel%20Kumar&backgroundColor=4f46e5",
       "isVerified": true,
       "emailAlerts": true,
       "bio": "5th Sem Computer Student @ Atria"
@@ -521,7 +576,16 @@
       }
     }
   ],
-  "personalCompletions": [],
+  "personalCompletions": [
+    {
+      "_id": "becfe11c-997e-45e3-af69-cf1a2b5513b2",
+      "createdAt": "2026-11-27T08:52:47.274Z",
+      "updatedAt": "2026-11-27T08:52:47.274Z",
+      "assignmentId": "3d30f465-1c16-43b6-9592-3091050cf325",
+      "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "completedAt": "2026-11-27T08:52:47.272Z"
+    }
+  ],
   "attendanceRecords": [
     {
       "_id": "cb5594c4-2603-4092-8585-393c89aef1ea",
@@ -736,17 +800,16 @@
     {
       "_id": "e6e1deac-203b-4506-ba23-734b68e7b3b0",
       "createdAt": "2026-11-26T18:04:37.066Z",
-      "updatedAt": "2026-11-26T18:04:41.011Z",
+      "updatedAt": "2026-11-27T08:50:17.246Z",
       "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
       "data": {
         "theory": [
           {
             "name": "Artificial Intelligence Concepts and Practice",
-            "code": "BAINB501",
+            "code": "BAICB501",
             "conducted": 14,
             "present": 10,
             "absent": 4,
-            "percentage": 71.4,
             "section": "theory"
           },
           {
@@ -755,7 +818,6 @@
             "conducted": 16,
             "present": 12,
             "absent": 4,
-            "percentage": 75,
             "section": "theory"
           },
           {
@@ -764,45 +826,56 @@
             "conducted": 10,
             "present": 9,
             "absent": 1,
-            "percentage": 90,
             "section": "theory"
           },
           {
             "name": "Software Testing and Quality Assurance",
-            "code": "BSTQAB515",
+            "code": "BSTQAB515A",
             "conducted": 8,
             "present": 7,
             "absent": 1,
-            "percentage": 87.5,
+            "section": "theory"
+          },
+          {
+            "name": "Economics and Financial Management",
+            "code": "BEFMK506",
+            "conducted": 8,
+            "present": 6,
+            "absent": 2,
             "section": "theory"
           },
           {
             "name": "Research Methodology and IPR",
             "code": "BRMIK504",
-            "conducted": 6,
-            "present": 5,
-            "absent": 1,
-            "percentage": 83.3,
+            "conducted": 0,
+            "present": 0,
+            "absent": 0,
             "section": "theory"
           }
         ],
         "laboratory": [
+          {
+            "name": "React and Node JS Lab",
+            "code": "BRALB507",
+            "conducted": 4,
+            "present": 4,
+            "absent": 0,
+            "section": "laboratory"
+          },
           {
             "name": "Intelligent Data Analytics Lab",
             "code": "BIDAB503L",
             "conducted": 4,
             "present": 3,
             "absent": 1,
-            "percentage": 75,
             "section": "laboratory"
           },
           {
             "name": "Artificial Intelligence Concepts Lab",
             "code": "BAICB501L",
             "conducted": 4,
-            "present": 2,
-            "absent": 2,
-            "percentage": 50,
+            "present": 1,
+            "absent": 3,
             "section": "laboratory"
           },
           {
@@ -811,31 +884,105 @@
             "conducted": 2,
             "present": 2,
             "absent": 0,
-            "percentage": 100,
-            "section": "laboratory"
-          },
-          {
-            "name": "React and Node JS Lab",
-            "code": "BRALB507",
-            "conducted": 4,
-            "present": 4,
-            "absent": 0,
-            "percentage": 100,
             "section": "laboratory"
           }
         ],
-        "electives": [
+        "electives": [],
+        "extractedAt": "2026-11-27T08:50:17.226Z"
+      }
+    },
+    {
+      "_id": "a5187699-cd41-49b8-96e5-0c6a718a6060",
+      "createdAt": "2026-11-27T09:26:14.116Z",
+      "updatedAt": "2026-11-27T09:26:51.264Z",
+      "userId": "c848a0ea-c347-4043-be13-4ed7a1454490",
+      "data": {
+        "theory": [
+          {
+            "name": "Artificial Intelligence Concepts and Practice",
+            "code": "BAICB501",
+            "conducted": 14,
+            "present": 10,
+            "absent": 4,
+            "section": "theory"
+          },
+          {
+            "name": "Computer Networks and Security",
+            "code": "BCNSB502",
+            "conducted": 16,
+            "present": 12,
+            "absent": 4,
+            "section": "theory"
+          },
+          {
+            "name": "Intelligent Data Analytics",
+            "code": "BIDAB503",
+            "conducted": 10,
+            "present": 9,
+            "absent": 1,
+            "section": "theory"
+          },
+          {
+            "name": "Software Testing and Quality Assurance",
+            "code": "BSTQAB515A",
+            "conducted": 8,
+            "present": 7,
+            "absent": 1,
+            "section": "theory"
+          },
           {
             "name": "Economics and Financial Management",
             "code": "BEFMK506",
             "conducted": 8,
             "present": 6,
             "absent": 2,
-            "percentage": 75,
-            "section": "electives"
+            "section": "theory"
+          },
+          {
+            "name": "Research Methodology and IPR",
+            "code": "BRMIK504",
+            "conducted": 0,
+            "present": 0,
+            "absent": 0,
+            "section": "theory"
           }
         ],
-        "extractedAt": "2026-11-26T18:04:41.011Z"
+        "laboratory": [
+          {
+            "name": "React and Node JS Lab",
+            "code": "BRALB507",
+            "conducted": 4,
+            "present": 4,
+            "absent": 0,
+            "section": "laboratory"
+          },
+          {
+            "name": "Intelligent Data Analytics Lab",
+            "code": "BIDAB503L",
+            "conducted": 4,
+            "present": 3,
+            "absent": 1,
+            "section": "laboratory"
+          },
+          {
+            "name": "Artificial Intelligence Concepts Lab",
+            "code": "BAICB501L",
+            "conducted": 4,
+            "present": 1,
+            "absent": 3,
+            "section": "laboratory"
+          },
+          {
+            "name": "Computer Networks and Security Lab",
+            "code": "BCNSB502L",
+            "conducted": 2,
+            "present": 2,
+            "absent": 0,
+            "section": "laboratory"
+          }
+        ],
+        "electives": [],
+        "extractedAt": "2026-11-27T09:26:47.074Z"
       }
     }
   ],
@@ -940,7 +1087,7 @@
     {
       "_id": "3ffcc099-65ea-4fa7-8b79-bc91031a074a",
       "createdAt": "2026-11-26T19:38:14.009Z",
-      "updatedAt": "2026-11-26T19:46:04.347Z",
+      "updatedAt": "2026-11-27T03:41:15.630Z",
       "title": "Rangmanch 2026: Annual Inter-College Cultural & Tech Fest",
       "category": "FEST",
       "organizer": "Atria Student Council & Cultural Club",
@@ -949,13 +1096,13 @@
       "description": "Battle of the Bands, Pro-Show DJ Night, Street Play, and 48-Hour Game Jam. Food stalls & merchandise available.",
       "imageUrl": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&auto=format&fit=crop&q=80",
       "urgency": "• MAIN EVENT",
-      "goingCount": 413,
+      "goingCount": 414,
       "interestedCount": 890
     },
     {
       "_id": "ccb7626d-6510-4472-816b-59e7e383b613",
       "createdAt": "2026-11-26T19:38:14.011Z",
-      "updatedAt": "2026-11-26T19:38:14.011Z",
+      "updatedAt": "2026-11-27T03:41:17.756Z",
       "title": "HackAtria 2026: 24-Hour AI & Web3 Sprint",
       "category": "HACKATHON",
       "organizer": "Department of CSE & Atria IEDC",
@@ -964,7 +1111,7 @@
       "description": "Team up and build production prototypes across Web, AI, and Sustainability tracks. Cash prizes of ₹50,000 + sponsor API credits.",
       "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&auto=format&fit=crop&q=80",
       "urgency": "• 14 places left",
-      "goingCount": 128,
+      "goingCount": 129,
       "interestedCount": 340
     },
     {
@@ -1106,7 +1253,7 @@
     {
       "_id": "6fa9fc11-abab-44df-aeb5-623278be0ea5",
       "createdAt": "2026-11-26T19:46:04.313Z",
-      "updatedAt": "2026-11-26T19:46:04.324Z",
+      "updatedAt": "2026-11-27T03:39:49.675Z",
       "creatorId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "creatorAlias": "Chilled Scholar #99",
       "title": "Library AC working",
@@ -1114,7 +1261,7 @@
       "tag": "Study SOS",
       "sticker": "📍 Central Library",
       "reactions": {
-        "🔥": 1,
+        "🔥": 2,
         "⚡": 0,
         "😂": 0,
         "👀": 0
@@ -1403,7 +1550,7 @@
     {
       "_id": "8b3ffa9b-d394-4a6f-9955-40a522be8004",
       "createdAt": "2026-11-26T09:38:14.021Z",
-      "updatedAt": "2026-11-26T19:38:14.022Z",
+      "updatedAt": "2026-11-27T03:38:58.275Z",
       "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "sellerAlias": "@calligraphy_scribe",
       "sellerRating": 4.98,
@@ -1422,7 +1569,7 @@
         "Atria Format"
       ],
       "viewsCount": 215,
-      "inquiriesCount": 14
+      "inquiriesCount": 15
     },
     {
       "_id": "f19a873a-eaec-4012-a154-5ab97faa45a5",
@@ -1528,6 +1675,22 @@
       "eventId": "3ffcc099-65ea-4fa7-8b79-bc91031a074a",
       "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "status": "going"
+    },
+    {
+      "_id": "378d673e-096c-4ba9-bc45-382490aead57",
+      "createdAt": "2026-11-27T03:41:15.628Z",
+      "updatedAt": "2026-11-27T03:41:15.628Z",
+      "eventId": "3ffcc099-65ea-4fa7-8b79-bc91031a074a",
+      "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "status": "going"
+    },
+    {
+      "_id": "88cfb0ac-839f-4a67-922b-6c7d7cb030bc",
+      "createdAt": "2026-11-27T03:41:17.754Z",
+      "updatedAt": "2026-11-27T03:41:17.754Z",
+      "eventId": "ccb7626d-6510-4472-816b-59e7e383b613",
+      "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "status": "going"
     }
   ],
   "marketplaceConversations": [
@@ -1579,6 +1742,30 @@
       ],
       "lastMessage": "Yes, includes 12-slide standard VTU presentation format!",
       "lastMessageAt": "2026-11-26T19:46:04.433Z"
+    },
+    {
+      "_id": "13332ffe-148c-48c2-8f5c-ecafbbf535a5",
+      "createdAt": "2026-11-27T03:38:58.271Z",
+      "updatedAt": "2026-11-27T03:38:58.278Z",
+      "listingId": "8b3ffa9b-d394-4a6f-9955-40a522be8004",
+      "listingTitle": "Neatly Handwritten React & Node.js Lab Record Book (VTU Format)",
+      "listingCategory": "Records",
+      "listingPrice": 350,
+      "buyerId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "buyerAlias": "Buyer #743",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "@calligraphy_scribe",
+      "messages": [
+        {
+          "id": "msg_1795750738277",
+          "senderId": "4f6b1d4d-a595-4889-af57-992214368d53",
+          "senderAlias": "Buyer #743",
+          "content": "Hi! I am interested in your listing: \"Neatly Handwritten React & Node.js Lab Record Book (VTU Format)\". Is it available?",
+          "timestamp": "2026-11-27T03:38:58.278Z"
+        }
+      ],
+      "lastMessage": "Hi! I am interested in your listing: \"Neatly Handwritten React & Node.js Lab Record Book (VTU Format)\". Is it available?",
+      "lastMessageAt": "2026-11-27T03:38:58.278Z"
     }
   ]
 }

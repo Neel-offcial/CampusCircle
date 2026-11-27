@@ -1,0 +1,1907 @@
+/* ==========================================
+   STUDENT HUB
+   DASHBOARD STYLES
+   ========================================== */
+
+:root {
+    --bg: #090b10;
+    --sidebar: #0d1016;
+    --card: #11151d;
+    --card-hover: #171c26;
+    --border: #202733;
+
+    --text: #f4f6f8;
+    --muted: #8b95a7;
+
+    --accent: #6ea8fe;
+    --accent-soft: rgba(110, 168, 254, 0.12);
+
+    --green: #55d889;
+    --yellow: #e8bd55;
+    --red: #ef6262;
+
+    --sidebar-width: 250px;
+
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+    --input-bg: #0f131a;
+    --active-nav: #181e28;
+}
+
+/* Light theme */
+:root[data-theme="light"] {
+    --bg: #f5f7fb;
+    --sidebar: #ffffff;
+    --card: #ffffff;
+    --card-hover: #f1f4f9;
+    --border: #dfe5ee;
+
+    --text: #172033;
+    --muted: #647086;
+
+    --accent: #356dcc;
+    --accent-soft: rgba(53, 109, 204, 0.10);
+
+    --green: #16834b;
+    --yellow: #b47a00;
+    --red: #d63d3d;
+
+    --shadow: 0 12px 32px rgba(35, 52, 80, 0.10);
+    --input-bg: #f7f9fc;
+    --active-nav: #edf3ff;
+}
+
+/* System theme follows the OS preference. */
+@media (prefers-color-scheme: light) {
+    :root[data-theme="system"] {
+        --bg: #f5f7fb;
+        --sidebar: #ffffff;
+        --card: #ffffff;
+        --card-hover: #f1f4f9;
+        --border: #dfe5ee;
+        --text: #172033;
+        --muted: #647086;
+        --accent: #356dcc;
+        --accent-soft: rgba(53, 109, 204, 0.10);
+        --green: #16834b;
+        --yellow: #b47a00;
+        --red: #d63d3d;
+        --shadow: 0 12px 32px rgba(35, 52, 80, 0.10);
+        --input-bg: #f7f9fc;
+        --active-nav: #edf3ff;
+    }
+}
+
+
+/* ==========================================
+   RESET
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   SIDEBAR
+   ========================================== */
+
+.sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: var(--sidebar-width);
+
+    padding: 32px 20px;
+
+    background: var(--sidebar);
+
+    border-right: 1px solid var(--border);
+
+    z-index: 100;
+}
+
+
+/* Brand */
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 10px;
+
+    margin-bottom: 60px;
+}
+
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #f1f3f5;
+
+    color: #111;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+
+.brand h2 {
+    font-size: 16px;
+
+    line-height: 1.2;
+
+    margin-bottom: 4px;
+}
+
+
+.brand span {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ==========================================
+   NAVIGATION
+   ========================================== */
+
+.navigation {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.nav-item {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px 16px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.nav-item:hover {
+    background: var(--card);
+
+    color: var(--text);
+}
+
+
+.nav-item.active {
+    background: #181e28;
+
+    color: var(--text);
+}
+
+
+.nav-icon {
+    width: 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+}
+
+
+/* ==========================================
+   THEME SWITCHER
+   ========================================== */
+
+.sidebar-bottom {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 24px;
+}
+
+.theme-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--muted);
+    font: inherit;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.theme-button:hover,
+.theme-button[aria-expanded="true"] {
+    background: var(--card-hover);
+    color: var(--text);
+}
+
+.theme-button-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.theme-chevron {
+    margin-left: auto;
+    font-size: 16px;
+}
+
+.theme-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 8px);
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    z-index: 200;
+}
+
+.theme-option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.theme-option:hover,
+.theme-option.active {
+    background: var(--accent-soft);
+    color: var(--text);
+}
+
+/* ==========================================
+   MAIN CONTENT
+   ========================================== */
+
+.main-content {
+    margin-left: var(--sidebar-width);
+
+    min-height: 100vh;
+
+    padding: 42px 52px 70px;
+}
+
+
+/* ==========================================
+   TOP BAR
+   ========================================== */
+
+.topbar {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    margin-bottom: 38px;
+}
+
+
+.current-date {
+    margin-bottom: 14px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+.topbar h1 {
+    font-size: 32px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.8px;
+
+    margin-bottom: 8px;
+}
+
+
+.topbar > div:first-child > p {
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   PROFILE
+   ========================================== */
+
+.profile-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+.notification-button {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: var(--card);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: background 0.2s ease;
+}
+
+
+.notification-button:hover {
+    background: var(--card-hover);
+}
+
+
+.profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.profile-avatar {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #1d2531;
+
+    color: white;
+
+    font-weight: 700;
+}
+
+
+.profile {
+    display: flex;
+
+    align-items: center;
+}
+
+
+.profile > div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.profile strong {
+    font-size: 12px;
+}
+
+
+.profile span {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* ==========================================
+   PAGE SECTIONS
+   ========================================== */
+
+.page-section {
+    display: none;
+}
+
+
+.page-section.active {
+    display: block;
+}
+
+
+/* ==========================================
+   STATS GRID
+   ========================================== */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+}
+
+
+.stat-card {
+    min-height: 165px;
+
+    padding: 24px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-2px);
+
+    background: var(--card-hover);
+}
+
+
+.stat-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-bottom: 24px;
+}
+
+
+.stat-number {
+    display: block;
+
+    font-size: 38px;
+
+    line-height: 1;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 18px;
+}
+
+
+.warning-number {
+    color: var(--yellow);
+}
+
+
+.stat-description {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ==========================================
+   PROGRESS BAR
+   ========================================== */
+
+.progress-bar {
+    width: 100%;
+
+    height: 6px;
+
+    margin-bottom: 11px;
+
+    background: #252c37;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+
+.progress-fill {
+    height: 100%;
+
+    width: 0;
+
+    background: var(--green);
+
+    border-radius: inherit;
+
+    transition: width 0.4s ease;
+}
+
+
+/* ==========================================
+   CONTENT CARDS
+   ========================================== */
+
+.content-card,
+.attendance-list-card {
+    padding: 24px;
+
+    margin-bottom: 22px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+}
+
+
+.card-header,
+.section-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+}
+
+
+.card-header h2,
+.section-heading h2 {
+    font-size: 17px;
+
+    margin-bottom: 5px;
+}
+
+
+.card-header p,
+.section-heading p {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+.text-button {
+    border: none;
+
+    background: transparent;
+
+    color: var(--accent);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+
+.text-button:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================
+   TODAY'S CLASSES
+   ========================================== */
+
+.today-classes {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.today-class {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 15px;
+
+    background: #0e1219;
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.today-class:hover {
+    background: var(--card-hover);
+
+    border-color: #303949;
+}
+
+
+.today-class-time {
+    min-width: 70px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.today-class-time strong {
+    font-size: 12px;
+}
+
+
+.today-class-time span {
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+.today-class > div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.today-class > div:last-child strong {
+    font-size: 12px;
+}
+
+
+.today-class > div:last-child span {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* ==========================================
+   ATTENDANCE LIST
+   ========================================== */
+
+.attendance-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+
+.attendance-item {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 15px 16px;
+
+    background: #0e1219;
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.attendance-item:hover {
+    background: var(--card-hover);
+
+    border-color: #303949;
+
+    transform: translateX(2px);
+}
+
+
+.attendance-subject {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.attendance-subject-code {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: 0.6px;
+
+    margin-bottom: 5px;
+}
+
+
+.attendance-subject-name {
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+
+.attendance-numbers {
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    white-space: nowrap;
+}
+
+
+.attendance-numbers > span {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+.attendance-numbers strong {
+    min-width: 48px;
+
+    text-align: right;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   ATTENDANCE COLORS
+   ========================================== */
+
+.attendance-good {
+    color: var(--green);
+}
+
+
+.attendance-warning {
+    color: var(--yellow);
+}
+
+
+.attendance-danger {
+    color: var(--red);
+}
+
+
+.attendance-none {
+    color: var(--muted);
+}
+
+
+/* ==========================================
+   PAGE HEADINGS
+   ========================================== */
+
+.page-heading {
+    margin-bottom: 28px;
+}
+
+
+.eyebrow {
+    color: var(--accent);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+
+    margin-bottom: 8px;
+}
+
+
+.page-heading h1 {
+    font-size: 30px;
+
+    letter-spacing: -0.7px;
+
+    margin-bottom: 7px;
+}
+
+
+.page-heading p {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   ATTENDANCE SUMMARY
+   ========================================== */
+
+.attendance-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 22px;
+}
+
+
+.summary-card {
+    padding: 20px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+
+.summary-card span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.summary-card strong {
+    display: block;
+
+    font-size: 25px;
+}
+
+
+/* ==========================================
+   WEEKLY PLANNER / TIMETABLE
+   ========================================== */
+
+.timetable-content {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.timetable-day {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.timetable-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.day-label {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    margin-bottom: 4px;
+}
+
+.timetable-day-header h2 {
+    font-size: 19px;
+    margin: 0;
+}
+
+.class-count {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* Independent blocks instead of a timetable table/row layout */
+.timetable-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.timetable-card-block {
+    position: relative;
+    min-width: 0;
+    padding: 15px;
+    background: #0e1219;
+    border: 1px solid var(--border);
+    border-left: 3px solid #8b95a7;
+    border-radius: 14px;
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.timetable-card-block:hover {
+    background: var(--card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.timetable-card-block.attendance-good {
+    border-left-color: #55d889;
+}
+
+.timetable-card-block.attendance-warning {
+    border-left-color: #e8bd55;
+}
+
+.timetable-card-block.attendance-danger {
+    border-left-color: #ef6262;
+}
+
+.timetable-card-block.attendance-none {
+    border-left-color: #8b95a7;
+}
+
+
+.timetable-card-block.activity {
+    border-left-color: var(--yellow);
+}
+
+.class-block-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.class-time-block {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.class-time-block strong {
+    font-size: 12px;
+}
+
+.class-time-block span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.class-code {
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: right;
+}
+
+.class-block-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 54px;
+}
+
+.class-block-title-row h3 {
+    font-size: 13px;
+    line-height: 1.35;
+    margin: 0 0 7px;
+}
+
+.class-arrow {
+    color: var(--muted);
+    font-size: 20px;
+    line-height: 1;
+}
+
+.component-label-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 7px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.class-block-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 9px;
+    min-height: 30px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+.class-block-meta span::before {
+    content: "•";
+    margin-right: 5px;
+    color: #566173;
+}
+
+.class-attendance {
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid #202733;
+}
+
+.class-attendance-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.attendance-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 43px;
+    padding: 4px 7px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.attendance-pill.attendance-good {
+    color: #55d889;
+    background: rgba(85, 216, 137, 0.12);
+}
+
+.attendance-pill.attendance-warning {
+    color: #e8bd55;
+    background: rgba(232, 189, 85, 0.12);
+}
+
+.attendance-pill.attendance-danger {
+    color: #ef6262;
+    background: rgba(239, 98, 98, 0.12);
+}
+
+.attendance-pill.attendance-none {
+    color: #8b95a7;
+    background: rgba(139, 149, 167, 0.1);
+}
+
+.attendance-mini-text {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.attendance-mini-bar {
+    height: 4px;
+    margin-top: 8px;
+    background: #202733;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.attendance-mini-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #8b95a7;
+}
+
+.timetable-card-block.attendance-good .attendance-mini-bar span {
+    background: #55d889;
+}
+
+.timetable-card-block.attendance-warning .attendance-mini-bar span {
+    background: #e8bd55;
+}
+
+.timetable-card-block.attendance-danger .attendance-mini-bar span {
+    background: #ef6262;
+}
+
+
+.class-type-badge {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.activity-badge {
+    color: var(--yellow);
+    background: rgba(232, 189, 85, 0.1);
+}
+
+.no-data-badge {
+    color: var(--muted);
+    background: rgba(139, 149, 167, 0.08);
+}
+
+/* ==========================================
+   EMPTY STATE
+   ========================================== */
+
+.empty-state {
+    padding: 35px 20px;
+
+    color: var(--muted);
+
+    text-align: center;
+
+    font-size: 12px;
+}
+
+
+.empty-icon {
+    margin-bottom: 12px;
+
+    font-size: 30px;
+}
+
+
+.empty-state h2 {
+    color: var(--text);
+
+    font-size: 17px;
+
+    margin-bottom: 8px;
+}
+
+
+.empty-state p {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ==========================================
+   RESPONSIVE — TABLET
+   ========================================== */
+
+@media (max-width: 1000px) {
+
+    :root {
+        --sidebar-width: 210px;
+    }
+
+
+    .main-content {
+        padding: 35px 30px 60px;
+    }
+
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .attendance-summary {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* ==========================================
+   RESPONSIVE — MOBILE
+   ========================================== */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+
+        padding: 18px;
+
+        border-right: none;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+
+    .brand {
+        margin-bottom: 20px;
+    }
+
+
+    .navigation {
+        flex-direction: row;
+
+        overflow-x: auto;
+
+        padding-bottom: 4px;
+    }
+
+
+    .nav-item {
+        width: auto;
+
+        min-width: max-content;
+
+        padding: 10px 13px;
+    }
+
+
+    .main-content {
+        margin-left: 0;
+
+        padding: 28px 18px 50px;
+    }
+
+
+    .topbar {
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+
+    .topbar h1 {
+        font-size: 26px;
+    }
+
+
+    .profile-area {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .attendance-item {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+
+    .attendance-numbers {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+
+    .timetable-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .timetable-card-block {
+        padding: 13px;
+    }
+
+}
+
+/* ==========================================
+   ATTENDANCE PLANNER
+   ========================================== */
+
+.planner-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background: rgba(0, 0, 0, 0.72);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 9999;
+}
+
+
+.planner-panel {
+    width: min(720px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #11151d;
+
+    border: 1px solid #29313e;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+
+.planner-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 25px 26px;
+
+    border-bottom: 1px solid #202733;
+}
+
+
+.planner-title-area {
+    min-width: 0;
+}
+
+
+.planner-code {
+    color: #6ea8fe;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 7px;
+}
+
+
+.planner-title {
+    color: #f4f6f8;
+
+    font-size: 21px;
+
+    line-height: 1.3;
+}
+
+
+.planner-close {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #29313e;
+
+    border-radius: 9px;
+
+    background: #171c26;
+
+    color: #8b95a7;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+.planner-close:hover {
+    color: #fff;
+
+    background: #202733;
+}
+
+
+.planner-body {
+    padding: 26px;
+}
+
+
+.planner-attendance-hero {
+    display: grid;
+
+    grid-template-columns: 150px 1fr;
+
+    gap: 24px;
+
+    align-items: center;
+
+    margin-bottom: 26px;
+}
+
+
+.planner-percentage {
+    font-size: 42px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    margin-bottom: 7px;
+}
+
+
+.planner-fraction {
+    color: #8b95a7;
+
+    font-size: 11px;
+}
+
+
+.planner-progress {
+    width: 100%;
+
+    height: 9px;
+
+    background: #252c37;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 10px;
+}
+
+
+.planner-progress-fill {
+    height: 100%;
+
+    border-radius: inherit;
+
+    transition: width 0.3s ease;
+}
+
+
+.planner-target {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #8b95a7;
+
+    font-size: 10px;
+}
+
+
+.planner-section {
+    margin-top: 25px;
+}
+
+
+.planner-section-title {
+    color: #f4f6f8;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 13px;
+}
+
+
+/* Theory / Lab cards */
+
+.component-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.component-card {
+    padding: 16px;
+
+    background: #0e1219;
+
+    border: 1px solid #202733;
+
+    border-radius: 12px;
+}
+
+
+.component-label {
+    color: #8b95a7;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 7px;
+}
+
+
+.component-card strong {
+    display: block;
+
+    font-size: 20px;
+
+    margin-bottom: 5px;
+}
+
+
+.component-card span {
+    color: #8b95a7;
+
+    font-size: 10px;
+}
+
+
+/* Projection rows */
+
+.projection-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.projection-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        100px
+        80px;
+
+    align-items: center;
+
+    padding: 12px 14px;
+
+    background: #0e1219;
+
+    border: 1px solid #202733;
+
+    border-radius: 9px;
+}
+
+
+.projection-row span {
+    color: #8b95a7;
+
+    font-size: 10px;
+}
+
+
+.projection-row strong {
+    text-align: right;
+
+    font-size: 12px;
+}
+
+
+/* Next week */
+
+.next-week-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.next-week-class {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 12px 14px;
+
+    background: #0e1219;
+
+    border: 1px solid #202733;
+
+    border-radius: 9px;
+}
+
+
+.next-week-day {
+    min-width: 75px;
+
+    color: #6ea8fe;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.next-week-time {
+    min-width: 90px;
+
+    color: #8b95a7;
+
+    font-size: 10px;
+}
+
+
+.next-week-info {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.next-week-info strong {
+    display: block;
+
+    font-size: 11px;
+
+    margin-bottom: 4px;
+}
+
+
+.next-week-info span {
+    color: #8b95a7;
+
+    font-size: 9px;
+}
+
+
+/* Status */
+
+.planner-status {
+    padding: 14px 16px;
+
+    margin-bottom: 20px;
+
+    border-radius: 11px;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+.planner-status.good {
+    background: rgba(85, 216, 137, 0.10);
+
+    border: 1px solid rgba(85, 216, 137, 0.22);
+
+    color: #55d889;
+}
+
+
+.planner-status.warning {
+    background: rgba(232, 189, 85, 0.10);
+
+    border: 1px solid rgba(232, 189, 85, 0.22);
+
+    color: #e8bd55;
+}
+
+
+.planner-status.danger {
+    background: rgba(239, 98, 98, 0.10);
+
+    border: 1px solid rgba(239, 98, 98, 0.22);
+
+    color: #ef6262;
+}
+
+
+.planner-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.planner-meta-item {
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    background: #171c26;
+
+    color: #8b95a7;
+
+    font-size: 9px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 650px) {
+
+    .planner-overlay {
+        padding: 12px;
+    }
+
+
+    .planner-header,
+    .planner-body {
+        padding: 20px;
+    }
+
+
+    .planner-attendance-hero {
+        grid-template-columns: 1fr;
+    }
+
+
+    .component-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .projection-row {
+        grid-template-columns:
+            1fr
+            75px
+            65px;
+    }
+
+
+    .next-week-class {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+}
+
+.component-subject-name {
+    color: #f4f6f8;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    margin-bottom: 12px;
+}
+
+@media (max-width: 800px) {
+    .sidebar-bottom {
+        display: none;
+    }
+}

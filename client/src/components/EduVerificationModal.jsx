@@ -9,6 +9,7 @@ export default function EduVerificationModal({ isOpen, onClose }) {
   const [step, setStep] = useState('email'); // 'email' or 'otp'
   const [loading, setLoading] = useState(false);
   const [demoCode, setDemoCode] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -21,6 +22,7 @@ export default function EduVerificationModal({ isOpen, onClose }) {
     try {
       const res = await sendEduOtp(email);
       setDemoCode(res.demoOtp || '');
+      setPreviewUrl(res.previewUrl || '');
       setStep('otp');
       setSuccess('Verification code generated!');
     } catch (err) {
@@ -153,6 +155,18 @@ export default function EduVerificationModal({ isOpen, onClose }) {
                   className="w-full pl-10 pr-4 py-2.5 text-sm tracking-widest font-mono rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
                 />
               </div>
+              {previewUrl && (
+                <div className="mt-2 text-center">
+                  <a
+                    href={previewUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold underline hover:text-indigo-800"
+                  >
+                    View Test Email in Web Inbox ↗
+                  </a>
+                </div>
+              )}
               {demoCode && (
                 <div className="mt-2 p-2 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-700 dark:text-amber-300 flex items-center justify-between">
                   <span>Demo Code for Lab: <strong>{demoCode}</strong></span>

@@ -25,8 +25,11 @@ export async function initiateRegistration(req, res) {
     const cleanUsername = username.trim().toLowerCase();
     const cleanEmail = email.trim().toLowerCase();
 
-    // Strict @atria.edu Domain Validation
-    if (!cleanEmail.endsWith('@atria.edu')) {
+    // Institutional / Email Validation
+    const isAtriaEmail = cleanEmail.endsWith('@atria.edu') || cleanEmail.endsWith('@atriadigitalcampus.com');
+    const allowAny = process.env.ALLOW_ANY_EMAIL === 'true' || process.env.NODE_ENV !== 'production';
+
+    if (!isAtriaEmail && !allowAny) {
       return res.status(400).json({
         message: 'Registration is restricted strictly to official Atria Institute of Technology student emails ending with @atria.edu'
       });
@@ -41,7 +44,7 @@ export async function initiateRegistration(req, res) {
     // Check if email already registered
     const existingEmail = db.findOne('users', { email: cleanEmail });
     if (existingEmail) {
-      return res.status(400).json({ message: 'An account is already registered with this @atria.edu email. Please log in.' });
+      return res.status(400).json({ message: 'An account is already registered with this email. Please log in.' });
     }
 
     const otp = generateOtp();
@@ -61,11 +64,15 @@ export async function initiateRegistration(req, res) {
     });
 
     // Send email via Nodemailer
-    await sendRegistrationOtp(cleanEmail, otp, fullName);
+    const emailRes = await sendRegistrationOtp(cleanEmail, otp, fullName);
 
     res.json({
-      message: `Verification code sent to ${cleanEmail}. Please check your inbox.`,
-      demoOtp: otp, // For seamless lab evaluation fallback
+      message: emailRes.mode === 'smtp'
+        ? `Verification code delivered to ${cleanEmail}. Please check your inbox.`
+        : `Verification code generated for ${cleanEmail}.`,
+      demoOtp: otp,
+      previewUrl: emailRes.previewUrl || null,
+      deliveryMode: emailRes.mode || 'console',
       email: cleanEmail
     });
   } catch (err) {
@@ -184,7 +191,10 @@ export async function sendEduOtp(req, res) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    if (!cleanEmail.endsWith('@atria.edu')) {
+    const isAtriaEmail = cleanEmail.endsWith('@atria.edu') || cleanEmail.endsWith('@atriadigitalcampus.com');
+    const allowAny = process.env.ALLOW_ANY_EMAIL === 'true' || process.env.NODE_ENV !== 'production';
+
+    if (!isAtriaEmail && !allowAny) {
       return res.status(400).json({
         message: 'Only official student emails ending with @atria.edu are permitted.'
       });
@@ -200,11 +210,13 @@ export async function sendEduOtp(req, res) {
       expiresAt
     });
 
-    await sendRegistrationOtp(cleanEmail, otp, req.user.fullName);
+    const emailRes = await sendRegistrationOtp(cleanEmail, otp, req.user.fullName);
 
     res.json({
-      message: `Verification code sent to ${cleanEmail}`,
+      message: `Verification code generated for ${cleanEmail}`,
       demoOtp: otp,
+      previewUrl: emailRes.previewUrl || null,
+      deliveryMode: emailRes.mode || 'console',
       expiresInMinutes: 10
     });
   } catch (err) {

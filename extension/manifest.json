@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "CampusCircle Companion - Atria Student Hub",
+  "version": "1.0.0",
+  "description": "Live attendance extractor and VTU academic companion for Atria Institute of Technology students.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://atriadigitalcampus.com/*"
+  ],
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:5188/*",
+      "http://127.0.0.1:5188/*",
+      "https://*.campuscircle.app/*",
+      "https://*.atria.edu/*"
+    ]
+  },
+  "background": {
+    "service_worker": "src/background/serviceWorker.js"
+  },
+  "action": {
+    "default_title": "CampusCircle Companion",
+    "default_popup": "src/popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://atriadigitalcampus.com/EDUApp/student/iaAttendence*",
+        "https://atriadigitalcampus.com/EDUApp/student/*"
+      ],
+      "js": [
+        "src/content/atria.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

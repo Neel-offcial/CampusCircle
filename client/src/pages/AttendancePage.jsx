@@ -15,7 +15,16 @@ import {
   Utensils,
   Layers,
   Filter,
-  FileJson
+  FileJson,
+  Download,
+  HelpCircle,
+  ExternalLink,
+  ShieldCheck,
+  Globe,
+  ChevronRight,
+  Info,
+  Terminal,
+  Zap
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -36,6 +45,10 @@ export default function AttendancePage() {
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
   const [jsonText, setJsonText] = useState('');
   const [jsonError, setJsonError] = useState('');
+
+  // Extension Guide Modal State
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
+  const [guideTab, setGuideTab] = useState('workflow'); // 'workflow' | 'webstore' | 'privacy'
 
   const loadData = async () => {
     try {
@@ -175,11 +188,19 @@ export default function AttendancePage() {
 
         <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
           <button
+            onClick={() => setGuideModalOpen(true)}
+            className="px-3.5 py-2 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/70 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+          >
+            <HelpCircle size={14} className="text-indigo-600 dark:text-indigo-400" />
+            <span>Extension Guide & Setup</span>
+          </button>
+
+          <button
             onClick={() => setJsonModalOpen(true)}
             className="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
           >
             <FileJson size={14} className="text-indigo-600" />
-            <span>Import Extension JSON</span>
+            <span>Import JSON</span>
           </button>
 
           <button
@@ -189,6 +210,41 @@ export default function AttendancePage() {
           >
             <RefreshCw size={14} className={syncing ? 'animate-spin' : ''} />
             <span>{syncing ? 'Connecting...' : 'Sync Live Attendance'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Extension Companion Info Banner */}
+      <div className="bg-gradient-to-r from-indigo-50 via-purple-50/50 to-blue-50 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-blue-950/20 border border-indigo-200/80 dark:border-indigo-800/60 rounded-3xl p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-indigo-500/20">
+            <Sparkles size={20} />
+          </div>
+          <div>
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span>Sync Live Attendance via Atria Digital Campus Companion</span>
+              <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 rounded">v1.0.0</span>
+            </h3>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              Install the companion Chrome extension to automatically mirror real-time attendance directly from your logged-in Atria portal.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+          <a
+            href="/CampusCircle-Companion-Extension.zip"
+            download="CampusCircle-Companion-Extension.zip"
+            className="flex-1 sm:flex-none justify-center px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 text-[11px] font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
+          >
+            <Download size={13} className="text-indigo-600" />
+            <span>Download .zip</span>
+          </a>
+          <button
+            onClick={() => setGuideModalOpen(true)}
+            className="flex-1 sm:flex-none justify-center px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-semibold flex items-center gap-1 shadow-sm transition-all"
+          >
+            <span>User Guide</span>
+            <ChevronRight size={13} />
           </button>
         </div>
       </div>
@@ -643,6 +699,273 @@ export default function AttendancePage() {
                   className="px-4 py-2 text-xs rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
                 >
                   Import & Sync
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* COMPANION EXTENSION USER GUIDE & SETUP MODAL                   */}
+      {/* ============================================================== */}
+      {guideModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
+          <div className="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800 relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setGuideModalOpen(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold"
+            >
+              ×
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 shadow-sm">
+                <HelpCircle size={26} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                    Atria Portal Companion Extension Guide
+                  </h2>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Manifest V3
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400">
+                  Automated attendance sync from Atria Digital Campus (`atriadigitalcampus.com`)
+                </p>
+              </div>
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className="flex border-b border-slate-200 dark:border-slate-800 mb-5 gap-4">
+              <button
+                type="button"
+                onClick={() => setGuideTab('workflow')}
+                className={`pb-2.5 text-xs font-semibold border-b-2 transition-all flex items-center gap-1.5 ${
+                  guideTab === 'workflow'
+                    ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+                }`}
+              >
+                <Zap size={13} />
+                <span>Quick Setup (4 Steps)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setGuideTab('webstore')}
+                className={`pb-2.5 text-xs font-semibold border-b-2 transition-all flex items-center gap-1.5 ${
+                  guideTab === 'webstore'
+                    ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+                }`}
+              >
+                <Globe size={13} />
+                <span>Chrome Web Store Release</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setGuideTab('privacy')}
+                className={`pb-2.5 text-xs font-semibold border-b-2 transition-all flex items-center gap-1.5 ${
+                  guideTab === 'privacy'
+                    ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+                }`}
+              >
+                <ShieldCheck size={13} />
+                <span>Zero-Password Security</span>
+              </button>
+            </div>
+
+            {/* TAB 1: WORKFLOW & QUICK SETUP */}
+            {guideTab === 'workflow' && (
+              <div className="space-y-4">
+                {/* FAQ Prompt */}
+                <div className="p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-xs text-slate-700 dark:text-slate-300">
+                  <div className="flex items-center gap-1.5 font-bold text-indigo-900 dark:text-indigo-300 mb-1">
+                    <Info size={14} className="text-indigo-600" />
+                    <span>Do I need to install the extension first?</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">
+                    <strong>For automatic real-time sync:</strong> Yes! Because the Atria portal is protected behind university session cookies and blocks external servers via CORS, the companion extension runs locally in your browser to read your attendance securely.
+                    <br />
+                    <strong>For quick preview:</strong> You can also click <em>"Sync Live Attendance"</em> on CampusCircle directly to load our verified academic records, or paste your JSON anytime without installing anything.
+                  </p>
+                </div>
+
+                {/* 4 Steps Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Step 1 */}
+                  <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[11px] font-bold flex items-center justify-center">1</span>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">Load Unpacked in Chrome</h4>
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mb-3">
+                      Download the extension package. Open <code className="font-mono text-indigo-600 dark:text-indigo-400 bg-slate-200 dark:bg-slate-700 px-1 py-0.5 rounded">chrome://extensions</code>, toggle <strong>Developer mode</strong> ON, click <strong>Load unpacked</strong> and select the unzipped folder.
+                    </p>
+                    <a
+                      href="/CampusCircle-Companion-Extension.zip"
+                      download="CampusCircle-Companion-Extension.zip"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-semibold transition-colors shadow-xs"
+                    >
+                      <Download size={13} />
+                      <span>Download .zip Package</span>
+                    </a>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[11px] font-bold flex items-center justify-center">2</span>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">Open Atria Portal</h4>
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mb-3">
+                      Go to <a href="https://atriadigitalcampus.com/" target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 underline font-semibold">atriadigitalcampus.com ↗</a> and log in with your USN and password. Navigate to <strong>Academics → Attendance / IA Marks</strong>.
+                    </p>
+                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                      <CheckCircle2 size={12} /> URL: /EDUApp/student/iaAttendence*
+                    </span>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[11px] font-bold flex items-center justify-center">3</span>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">Live HUD Confirmation</h4>
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mb-2">
+                      The content script automatically reads your Theory & Laboratory tables. A floating dark-indigo pill appears in the bottom right corner confirming:
+                    </p>
+                    <div className="px-2.5 py-1.5 rounded-lg bg-indigo-950 text-indigo-200 font-mono text-[10px] flex items-center gap-1.5 border border-indigo-800">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span>CampusCircle Sync: Live Attendance Captured!</span>
+                    </div>
+                  </div>
+
+                  {/* Step 4 */}
+                  <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[11px] font-bold flex items-center justify-center">4</span>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">Sync in CampusCircle</h4>
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mb-3">
+                      Return here and click <strong>"Sync Live Attendance"</strong>. Your VTU 75% health meter, safe bunk planner, and timetable highlights will immediately refresh!
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setGuideModalOpen(false);
+                        handleSyncFromExtension();
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white text-[11px] font-semibold flex items-center gap-1.5 transition-colors"
+                    >
+                      <RefreshCw size={12} />
+                      <span>Test Sync Right Now</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: CHROME WEB STORE RELEASE */}
+            {guideTab === 'webstore' && (
+              <div className="space-y-4">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 space-y-3">
+                  <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-sm">
+                    <Globe size={16} className="text-indigo-600" />
+                    <span>How to Make the Extension Public on Chrome Web Store</span>
+                  </div>
+                  <p className="text-[12px] leading-relaxed text-slate-500 dark:text-slate-400">
+                    The extension source code inside <code className="font-mono text-indigo-600 bg-slate-200 dark:bg-slate-700 px-1 py-0.5 rounded">CampusCircle/extension</code> is 100% Manifest V3 compliant and completely ready for Chrome Web Store publishing.
+                  </p>
+
+                  <div className="space-y-2 border-t border-slate-200 dark:border-slate-700/80 pt-3">
+                    <div className="flex items-start gap-2">
+                      <span className="font-bold text-indigo-600 shrink-0">1.</span>
+                      <span className="text-[11px]">
+                        <strong>Chrome Developer Account:</strong> Register at <a href="https://chrome.google.com/webstore/devconsole/" target="_blank" rel="noreferrer" className="text-indigo-600 underline font-semibold">chrome.google.com/webstore/devconsole ↗</a> (requires a one-time $5 USD registration fee to Google).
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="font-bold text-indigo-600 shrink-0">2.</span>
+                      <span className="text-[11px]">
+                        <strong>Package Upload:</strong> Upload the generated <code className="font-mono bg-slate-200 dark:bg-slate-700 px-1 rounded">CampusCircle-Companion-Extension.zip</code> directly to the developer console.
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="font-bold text-indigo-600 shrink-0">3.</span>
+                      <span className="text-[11px]">
+                        <strong>Store Listing:</strong> Category: <em>Productivity / Education</em>. A pre-filled store description and justification are documented in <code className="font-mono bg-slate-200 dark:bg-slate-700 px-1 rounded">extension/README.md</code>.
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="font-bold text-indigo-600 shrink-0">4.</span>
+                      <span className="text-[11px]">
+                        <strong>Review Turnaround:</strong> Manifest V3 extensions with standard storage permissions typically get approved automatically within 24 to 48 hours.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-amber-800 dark:text-amber-300 text-xs">
+                  <div className="flex items-center gap-2">
+                    <Terminal size={16} />
+                    <span>Full deployment guide written in <code className="font-mono font-bold">extension/README.md</code></span>
+                  </div>
+                  <a
+                    href="/CampusCircle-Companion-Extension.zip"
+                    download="CampusCircle-Companion-Extension.zip"
+                    className="px-3 py-1 rounded-xl bg-amber-200 hover:bg-amber-300 dark:bg-amber-800 dark:hover:bg-amber-700 text-amber-900 dark:text-amber-100 font-bold text-[11px]"
+                  >
+                    Download .zip
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: ZERO-PASSWORD SECURITY */}
+            {guideTab === 'privacy' && (
+              <div className="space-y-3.5">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-sm">
+                    <ShieldCheck size={16} className="text-emerald-600" />
+                    <span>Zero-Knowledge & Credential Protection</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
+                    Unlike unofficial scrapers that ask you to type your password into an untrusted form, CampusCircle NEVER sees or stores your Atria portal login credentials.
+                  </p>
+                  <ul className="list-disc list-inside space-y-1.5 text-[11px] text-slate-600 dark:text-slate-400 pt-1">
+                    <li><strong>No Passwords Handled:</strong> You log in normally through the official Atria SSL portal (`https://atriadigitalcampus.com/`).</li>
+                    <li><strong>Segregated Theory & Lab:</strong> Per VTU academic rules, Theory and Practical Lab sessions are kept in isolated ledgers and never averaged together improperly.</li>
+                    <li><strong>Local Sandbox Only:</strong> Extracted tables are stored inside your browser's private Chrome Storage (`chrome.storage.local`).</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Actions */}
+            <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4 mt-6">
+              <span className="text-[11px] text-slate-400">
+                Atria Institute of Technology • CSE Sem V Sec C
+              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/CampusCircle-Companion-Extension.zip"
+                  download="CampusCircle-Companion-Extension.zip"
+                  className="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                >
+                  <Download size={13} />
+                  <span>Download .zip</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setGuideModalOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-sm transition-all"
+                >
+                  Got It, Thanks!
                 </button>
               </div>
             </div>

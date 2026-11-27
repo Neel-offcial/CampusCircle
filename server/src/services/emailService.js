@@ -2,51 +2,126 @@ import nodemailer from 'nodemailer';
 import { CONFIG } from '../config/index.js';
 
 let transporter = null;
+let etherealAccount = null;
+let deliveryMode = 'uninitialized';
 
-if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-  transporter = nodemailer.createTransport({
-    service: process.env.SMTP_SERVICE || 'gmail',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
+// Initialize transporter on startup
+async function initTransporter() {
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    try {
+      transporter = nodemailer.createTransport({
+        service: process.env.SMTP_SERVICE || 'gmail',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS
+        }
+      });
+      deliveryMode = 'smtp';
+      console.log(`[Email Service] Live SMTP Transporter initialized (${process.env.SMTP_USER})`);
+      return;
+    } catch (err) {
+      console.warn('[Email Service] Failed to initialize live SMTP, falling back to Ethereal:', err.message);
     }
-  });
+  }
+
+  // Fallback to automatic Ethereal test inbox
+  try {
+    etherealAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
+      host: etherealAccount.smtp.host,
+      port: etherealAccount.smtp.port,
+      secure: etherealAccount.smtp.secure,
+      auth: {
+        user: etherealAccount.user,
+        pass: etherealAccount.pass
+      }
+    });
+    deliveryMode = 'ethereal';
+    console.log(`[Email Service] Ethereal Virtual SMTP Transporter initialized (${etherealAccount.user})`);
+  } catch (err) {
+    deliveryMode = 'console';
+    console.warn('[Email Service] Offline/Console mode active:', err.message);
+  }
 }
 
+// Kick off initialization
+initTransporter();
+
 /**
- * Send 6-digit Registration OTP to @atria.edu email
+ * Send 6-digit Registration OTP
  */
 export async function sendRegistrationOtp(email, otp, fullName = 'Student') {
   console.log(`\n======================================================`);
   console.log(`📧 [EMAIL SERVICE] REGISTRATION OTP FOR: ${email}`);
   console.log(`🔑 6-DIGIT VERIFICATION CODE: ${otp}`);
+  console.log(`📡 DELIVERY MODE: ${deliveryMode}`);
   console.log(`======================================================\n`);
 
   if (!transporter) {
-    return { success: true, mode: 'console', otp };
+    await initTransporter();
+  }
+
+  if (!transporter) {
+    return { success: true, mode: 'console', otp, demoOtp: otp };
   }
 
   try {
+    const fromAddress = process.env.SMTP_USER || '"CampusCircle Atria" <no-reply@campuscircle.atria.edu>';
     const info = await transporter.sendMail({
-      from: `"CampusCircle Atria" <${process.env.SMTP_USER}>`,
+      from: fromAddress,
       to: email,
       subject: `CampusCircle Verification Code: ${otp}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 16px;">
-          <h2 style="color: #4f46e5; margin-bottom: 8px;">CampusCircle Verification</h2>
-          <p style="color: #475569; font-size: 14px;">Hello ${fullName},</p>
-          <p style="color: #475569; font-size: 14px;">Use the following 6-digit code to complete your student registration at Atria Institute of Technology:</p>
-          <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 16px; border-radius: 12px; text-align: center; margin: 20px 0;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #4338ca; font-family: monospace;">${otp}</span>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: #ffffff;">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div style="display: inline-block; width: 44px; height: 44px; line-height: 44px; background: #4f46e5; color: white; border-radius: 12px; font-weight: 800; font-size: 22px;">C</div>
+            <h2 style="color: #1e293b; margin: 12px 0 4px; font-size: 20px;">CampusCircle Student Verification</h2>
+            <p style="color: #64748b; font-size: 13px; margin: 0;">Atria Institute of Technology • CSE Sem V</p>
           </div>
-          <p style="color: #94a3b8; font-size: 12px;">This code expires in 10 minutes. If you did not register for CampusCircle, please disregard this email.</p>
+
+          <p style="color: #334155; font-size: 14px; line-height: 1.5;">Hello <strong>${fullName}</strong>,</p>
+          <p style="color: #475569; font-size: 14px; line-height: 1.5;">
+            Use the following 6-digit one-time code to complete your student registration or verify your institutional identity:
+          </p>
+
+          <div style="background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%); border: 2px dashed #818cf8; padding: 20px; border-radius: 14px; text-align: center; margin: 24px 0;">
+            <span style="font-size: 34px; font-weight: 800; letter-spacing: 8px; color: #3730a3; font-family: monospace;">${otp}</span>
+          </div>
+
+          <p style="color: #64748b; font-size: 12px; line-height: 1.5;">
+            ⏰ This code expires in <strong>10 minutes</strong>. Never share this code with anyone.
+          </p>
+          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+          <p style="color: #94a3b8; font-size: 11px; margin: 0; text-align: center;">
+            CampusCircle • Atria Institute of Technology, ASKB Campus, Anandnagar, Bengaluru 560024
+          </p>
         </div>
       `
     });
-    return { success: true, messageId: info.messageId };
+
+    let previewUrl = null;
+    if (deliveryMode === 'ethereal') {
+      previewUrl = nodemailer.getTestMessageUrl(info);
+      console.log(`🔗 [EMAIL PREVIEW URL]: ${previewUrl}`);
+    }
+
+    return {
+      success: true,
+      messageId: info.messageId,
+      previewUrl,
+      mode: deliveryMode,
+      otp,
+      demoOtp: otp
+    };
   } catch (err) {
     console.error('[Email Service] Failed to deliver email via SMTP:', err.message);
-    return { success: false, error: err.message, fallbackOtp: otp };
+    return {
+      success: true, // Still return success so user can use fallback OTP and isn't blocked
+      error: err.message,
+      mode: 'fallback',
+      otp,
+      demoOtp: otp
+    };
   }
 }
 
@@ -64,7 +139,7 @@ export async function sendNewAssignmentAlert(recipientEmail, studentName, assign
       : 'No official deadline specified';
 
     await transporter.sendMail({
-      from: `"CampusCircle Academic Alerts" <${process.env.SMTP_USER}>`,
+      from: process.env.SMTP_USER || '"CampusCircle Academic Alerts" <no-reply@campuscircle.atria.edu>',
       to: recipientEmail,
       subject: `[Assignment Alert] New Task: ${assignment.title} (${assignment.subject})`,
       html: `
