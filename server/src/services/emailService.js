@@ -9,13 +9,25 @@ let deliveryMode = 'uninitialized';
 async function initTransporter() {
   if (process.env.SMTP_USER && process.env.SMTP_PASS) {
     try {
-      transporter = nodemailer.createTransport({
-        service: process.env.SMTP_SERVICE || 'gmail',
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS
-        }
-      });
+      const transportConfig = process.env.SMTP_HOST
+        ? {
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT) || 587,
+            secure: process.env.SMTP_SECURE === 'true',
+            auth: {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS
+            }
+          }
+        : {
+            service: process.env.SMTP_SERVICE || 'gmail',
+            auth: {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS
+            }
+          };
+
+      transporter = nodemailer.createTransport(transportConfig);
       deliveryMode = 'smtp';
       console.log(`[Email Service] Live SMTP Transporter initialized (${process.env.SMTP_USER})`);
       return;
