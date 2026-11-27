@@ -54,7 +54,7 @@ export default function CampusPulsePage() {
   // Layout & Navigation State
   const [currentEventIdx, setCurrentEventIdx] = useState(0);
 
-  // Instagram / Facebook Story Viewer State
+  // Instagram / Facebook Story Viewer State (Campus Pulse = 24h Stories)
   const [activeStoryIdx, setActiveStoryIdx] = useState(null); // null or index of active pulse
   const [storyProgress, setStoryProgress] = useState(0); // 0 to 100
   const [isStoryPaused, setIsStoryPaused] = useState(false);
@@ -82,7 +82,7 @@ export default function CampusPulsePage() {
   const [pollOptions, setPollOptions] = useState(['', '']);
   const [submittingPost, setSubmittingPost] = useState(false);
 
-  // Pulse Creator State
+  // Pulse (Story) Creator State
   const [pulseTitle, setPulseTitle] = useState('');
   const [pulseContent, setPulseContent] = useState('');
   const [pulseTag, setPulseTag] = useState('Food Alert');
@@ -114,7 +114,7 @@ export default function CampusPulsePage() {
     loadPulseData();
   }, [selectedCategory, sortBy]);
 
-  // Instagram Story Auto-Advancer
+  // Instagram Story Auto-Advancer (Campus Pulse Stories)
   useEffect(() => {
     if (activeStoryIdx === null || isStoryPaused || pulses.length === 0) return;
 
@@ -192,7 +192,7 @@ export default function CampusPulsePage() {
     }
   };
 
-  // React to a 24h Pulse
+  // React to a 24h Pulse (Story)
   const handleReactPulse = async (pulseId, emoji) => {
     try {
       const res = await api.post(`/feed/pulses/${pulseId}/react`, { emoji });
@@ -301,7 +301,7 @@ export default function CampusPulsePage() {
     }
   };
 
-  // Create Pulse Story
+  // Create Pulse (Story)
   const handleCreatePulse = async (e) => {
     e.preventDefault();
     if (!pulseContent.trim()) return;
@@ -377,93 +377,14 @@ export default function CampusPulsePage() {
       </div>
 
       {/* ============================================================== */}
-      {/* 2. MAIN 2-COLUMN DASHBOARD: CENTER FEED (LEFT) + SIDEBAR (RIGHT) */}
+      {/* 2. MAIN 2-COLUMN DASHBOARD: CENTER NEWSFEED (LEFT) + RIGHT SIDEBAR */}
       {/* ============================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* ============================================================ */}
-        {/* CENTER / MAIN COLUMN: STORIES TRAY + NEWSFEED (COLS 1-8) */}
+        {/* CENTER / MAIN COLUMN: THE STUDENT NEWSFEED (COLS 1-8) */}
         {/* ============================================================ */}
-        <main className="lg:col-span-8 xl:col-span-8 space-y-6">
-          {/* ---------------------------------------------------------- */}
-          {/* A. INSTAGRAM / FACEBOOK STORIES TRAY (AUTHENTIC GRADIENT RINGS) */}
-          {/* ---------------------------------------------------------- */}
-          <div className="p-4 md:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
-                <h3 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-                  <span>Campus Stories</span>
-                  <span className="text-[10px] font-semibold text-rose-500 bg-rose-50 dark:bg-rose-950/50 px-2 py-0.5 rounded-full font-mono">
-                    24H LIVE
-                  </span>
-                </h3>
-              </div>
-              <span className="text-[11px] font-medium text-slate-400">
-                Tap to watch full story
-              </span>
-            </div>
-
-            {/* Stories Horizontal Tray */}
-            <div className="flex items-center gap-4 overflow-x-auto pb-2 pt-1 no-scrollbar scroll-smooth">
-              {/* Slot 1: Your Pulse / Add Story Button */}
-              <button
-                onClick={() => setCreatePulseOpen(true)}
-                className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none"
-              >
-                <div className="relative w-16 h-16 rounded-full border-2 border-dashed border-indigo-400 dark:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 flex items-center justify-center group-hover:border-indigo-500 transition-colors shadow-sm">
-                  <div className="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform shadow-md shadow-indigo-500/20">
-                    <Plus size={22} />
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white border-2 border-white dark:border-slate-900 flex items-center justify-center text-[10px] font-black">
-                    +
-                  </div>
-                </div>
-                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 max-w-[68px] truncate text-center">
-                  Your Pulse
-                </span>
-              </button>
-
-              {/* Active Campus Stories with Instagram Gradient Rings */}
-              {pulses.map((pulse, idx) => {
-                const reactionSum = Object.values(pulse.reactions || {}).reduce((s, c) => s + c, 0);
-
-                return (
-                  <button
-                    key={pulse._id}
-                    onClick={() => openStoryAt(idx)}
-                    className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none"
-                  >
-                    {/* Glowing Instagram Gradient Ring */}
-                    <div className="p-[2.5px] rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-rose-500/25 transition-all">
-                      <div className="p-[2px] bg-white dark:bg-slate-900 rounded-full">
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-700 via-indigo-700 to-[#1e1732] flex flex-col items-center justify-center text-white relative overflow-hidden">
-                          <span className="text-xs font-black tracking-tight">
-                            {pulse.creatorAlias?.slice(0, 2).toUpperCase() || 'CP'}
-                          </span>
-                          <span className="text-[8px] font-bold text-amber-300 mt-0.5 font-mono">
-                            {pulse.reactions?.['🔥'] ? `🔥${pulse.reactions['🔥']}` : '24h'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="text-center max-w-[72px]">
-                      <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block truncate leading-tight group-hover:text-rose-500 transition-colors">
-                        {pulse.title || pulse.creatorAlias}
-                      </span>
-                      <span className="text-[9px] text-slate-400 block truncate mt-0.5">
-                        {pulse.tag}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ---------------------------------------------------------- */}
-          {/* B. QUICK COMPOSER CARD (ATRIA MASKED TRIGGER) */}
-          {/* ---------------------------------------------------------- */}
+        <main className="lg:col-span-8 xl:col-span-8 space-y-5">
+          {/* A. QUICK BUZZ COMPOSER CARD (ATRIA MASKED TRIGGER) */}
           <div className="p-4 md:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-rose-500 text-white font-black text-sm flex items-center justify-center shadow-md shadow-purple-500/20 shrink-0">
@@ -509,9 +430,7 @@ export default function CampusPulsePage() {
             </div>
           </div>
 
-          {/* ---------------------------------------------------------- */}
-          {/* C. NEWSFEED FILTER PILLS & SORT SWITCHER */}
-          {/* ---------------------------------------------------------- */}
+          {/* B. NEWSFEED FILTER PILLS & SORT SWITCHER */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
             {/* Category Filter Pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
@@ -562,9 +481,7 @@ export default function CampusPulsePage() {
             </div>
           </div>
 
-          {/* ---------------------------------------------------------- */}
-          {/* D. POSTS FEED STREAM */}
-          {/* ---------------------------------------------------------- */}
+          {/* C. POSTS FEED STREAM */}
           {loading ? (
             <div className="text-center py-16 text-xs text-slate-400">Loading campus pulse feed...</div>
           ) : posts.length === 0 ? (
@@ -792,21 +709,25 @@ export default function CampusPulsePage() {
         </main>
 
         {/* ============================================================ */}
-        {/* RIGHT COLUMN: 24H PULSES SUMMARY & HAPPENING ON CAMPUS (COLS 9-12) */}
+        {/* RIGHT COLUMN: CAMPUS PULSE (24H STORIES) & HAPPENING ON CAMPUS */}
         {/* ============================================================ */}
         <aside className="lg:col-span-4 xl:col-span-4 space-y-6 lg:sticky lg:top-4">
           {/* ---------------------------------------------------------- */}
-          {/* 1. TOP-RIGHT: 24H CAMPUS PULSES (STORIES LIST) */}
+          {/* 1. TOP-RIGHT: CAMPUS PULSE (24H STORIES LIKE INSTAGRAM/FB) */}
           {/* ---------------------------------------------------------- */}
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-4">
+            {/* Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center">
                   <Zap size={16} />
                 </div>
                 <div>
-                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
-                    24h Campus Pulses
+                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <span>Campus Pulse</span>
+                    <span className="text-[9px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950/50 px-1.5 py-0.2 rounded-full">
+                      24h Stories
+                    </span>
                   </h2>
                   <p className="text-[10px] text-slate-400 font-medium">Auto-expires in 24 hours</p>
                 </div>
@@ -814,30 +735,73 @@ export default function CampusPulsePage() {
 
               <button
                 onClick={() => setCreatePulseOpen(true)}
-                className="px-2.5 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[11px] font-bold transition-colors flex items-center gap-1"
-                title="Post 24h Pulse"
+                className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-[11px] font-bold transition-all shadow-sm flex items-center gap-1"
+                title="Post to Campus Pulse"
               >
                 <Plus size={13} />
-                <span>Post</span>
+                <span>+ Pulse</span>
               </button>
             </div>
 
-            {/* Pulses Vertical Stream */}
+            {/* Instagram-Style Story Circles Rail inside Campus Pulse Widget */}
+            <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar">
+              {/* Add Story Button */}
+              <button
+                onClick={() => setCreatePulseOpen(true)}
+                className="flex flex-col items-center gap-1 shrink-0 group focus:outline-none"
+                title="Share your pulse story"
+              >
+                <div className="relative w-12 h-12 rounded-full border-2 border-dashed border-indigo-400 dark:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 flex items-center justify-center group-hover:border-indigo-500 transition-colors">
+                  <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Plus size={16} />
+                  </div>
+                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-rose-500 text-white border-2 border-white dark:border-slate-900 flex items-center justify-center text-[9px] font-black">
+                    +
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 max-w-[50px] truncate text-center">
+                  You
+                </span>
+              </button>
+
+              {/* Story Circles with Glowing Rings */}
+              {pulses.map((pulse, idx) => (
+                <button
+                  key={pulse._id}
+                  onClick={() => openStoryAt(idx)}
+                  className="flex flex-col items-center gap-1 shrink-0 group focus:outline-none"
+                  title={`View ${pulse.creatorAlias}'s story`}
+                >
+                  <div className="p-[2px] rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 group-hover:scale-105 transition-all">
+                    <div className="p-[1.5px] bg-white dark:bg-slate-900 rounded-full">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-purple-700 to-indigo-700 flex items-center justify-center text-white text-[11px] font-black">
+                        {pulse.creatorAlias?.slice(0, 2).toUpperCase() || 'CP'}
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-300 max-w-[52px] truncate text-center">
+                    {pulse.creatorAlias?.split(' ')[0] || 'Story'}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* Quick Watch & Active Pulse Previews */}
             {pulses.length === 0 ? (
-              <div className="text-center py-8 px-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700/60 text-xs text-slate-400">
-                <Coffee size={24} className="mx-auto mb-2 text-slate-400" />
-                <p className="font-semibold text-slate-600 dark:text-slate-300">No active pulses</p>
-                <p className="text-[11px] mt-0.5">Be the first to drop a 24h update!</p>
+              <div className="text-center py-6 px-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700/60 text-xs text-slate-400">
+                <Coffee size={22} className="mx-auto mb-1.5 text-slate-400" />
+                <p className="font-semibold text-slate-600 dark:text-slate-300">No active stories</p>
+                <p className="text-[10px] mt-0.5">Post a 24h pulse to appear here!</p>
               </div>
             ) : (
-              <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1 no-scrollbar">
+              <div className="space-y-2.5 max-h-[340px] overflow-y-auto pr-1 no-scrollbar">
                 {pulses.map((pulse, idx) => (
                   <div
                     key={pulse._id}
                     onClick={() => openStoryAt(idx)}
-                    className="group relative overflow-hidden rounded-2xl p-3.5 bg-gradient-to-br from-slate-900 to-[#1e1732] border border-purple-900/40 hover:border-rose-400/80 text-white cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm"
+                    className="group relative overflow-hidden rounded-2xl p-3 bg-gradient-to-br from-slate-900 to-[#1e1732] border border-purple-900/40 hover:border-rose-400/80 text-white cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm"
                   >
-                    <div className="relative z-10 space-y-2">
+                    <div className="relative z-10 space-y-1.5">
                       {/* Tags and Expiration */}
                       <div className="flex items-center justify-between gap-1 text-[10px]">
                         <span className="px-2 py-0.5 rounded-full font-bold bg-amber-400/15 text-amber-300 border border-amber-400/20 truncate max-w-[120px]">
@@ -848,19 +812,14 @@ export default function CampusPulsePage() {
                         </span>
                       </div>
 
-                      {/* Title & Excerpt */}
-                      <div>
-                        <h4 className="text-xs font-bold text-white group-hover:text-rose-300 transition-colors line-clamp-1">
-                          {pulse.title || pulse.creatorAlias}
-                        </h4>
-                        <p className="text-[11px] text-purple-100/75 line-clamp-2 mt-0.5 leading-relaxed font-normal">
-                          {pulse.content}
-                        </p>
-                      </div>
+                      {/* Content Excerpt */}
+                      <p className="text-[11px] text-purple-100/80 line-clamp-2 leading-relaxed font-normal">
+                        "{pulse.content}"
+                      </p>
 
                       {/* Location & Quick Reactions Bar */}
-                      <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px]">
-                        <span className="truncate max-w-[110px] text-purple-200/80 font-medium">
+                      <div className="pt-1.5 border-t border-white/10 flex items-center justify-between text-[10px]">
+                        <span className="truncate max-w-[100px] text-purple-200/80 font-medium">
                           {pulse.sticker}
                         </span>
 
@@ -1376,7 +1335,7 @@ export default function CampusPulsePage() {
       )}
 
       {/* ============================================================== */}
-      {/* MODAL 3: SHARE 24H PULSE */}
+      {/* MODAL 3: SHARE 24H PULSE (STORY) */}
       {/* ============================================================== */}
       {createPulseOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in">
@@ -1390,10 +1349,10 @@ export default function CampusPulsePage() {
 
             <h2 className="text-base font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
               <Zap size={18} className="text-amber-500" />
-              Share 24h Campus Pulse
+              Share 24h Campus Pulse (Story)
             </h2>
             <p className="text-xs text-slate-400 mb-4">
-              Quick bulletin visible in the Campus Stories tray. Self-destructs after 24 hours.
+              Disappears in 24 hours. Seen in the top-right Campus Pulse story rail.
             </p>
 
             <form onSubmit={handleCreatePulse} className="space-y-3.5">
