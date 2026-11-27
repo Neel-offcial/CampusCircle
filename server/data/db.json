@@ -64,7 +64,7 @@
     {
       "_id": "4f6b1d4d-a595-4889-af57-992214368d53",
       "createdAt": "2026-11-26T18:01:21.643Z",
-      "updatedAt": "2026-11-26T18:01:21.643Z",
+      "updatedAt": "2026-11-27T12:08:01.843Z",
       "username": "neel",
       "passwordHash": "$2a$10$Jl8cUU12Pshej8E2N42yIOHx81aPz1WdoFkNi.DFBB1U9cXhBzMbS",
       "fullName": "Neel kumar Gupta",
@@ -72,9 +72,10 @@
       "semester": "V",
       "section": "C",
       "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Neel%20kumar%20Gupta&backgroundColor=4f46e5",
-      "isVerified": false,
-      "emailHash": null,
-      "bio": "Student at CampusCircle"
+      "isVerified": true,
+      "emailHash": "ffff7b3cd8ffc255e6861f071afc280d242a2b548f80cb555ab431a253dc19aa",
+      "bio": "Student at CampusCircle",
+      "email": "1at24cs137@atria.edu"
     },
     {
       "_id": "603cfb81-9311-4931-9fe0-da6e194875d9",
