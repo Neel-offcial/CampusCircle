@@ -78,7 +78,9 @@ export async function sendRegistrationOtp(email, otp, fullName = 'Student') {
   }
 
   try {
-    const fromAddress = process.env.SMTP_USER || '"CampusCircle Atria" <no-reply@campuscircle.atria.edu>';
+    const fromAddress = process.env.SMTP_USER
+      ? `"CampusCircle Atria" <${process.env.SMTP_USER}>`
+      : '"CampusCircle Atria" <no-reply@campuscircle.atria.edu>';
     const info = await transporter.sendMail({
       from: fromAddress,
       to: email,
@@ -150,8 +152,12 @@ export async function sendNewAssignmentAlert(recipientEmail, studentName, assign
       ? new Date(assignment.deadline).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
       : 'No official deadline specified';
 
+    const fromAddress = process.env.SMTP_USER
+      ? `"CampusCircle Academic Alerts" <${process.env.SMTP_USER}>`
+      : '"CampusCircle Academic Alerts" <no-reply@campuscircle.atria.edu>';
+
     await transporter.sendMail({
-      from: process.env.SMTP_USER || '"CampusCircle Academic Alerts" <no-reply@campuscircle.atria.edu>',
+      from: fromAddress,
       to: recipientEmail,
       subject: `[Assignment Alert] New Task: ${assignment.title} (${assignment.subject})`,
       html: `
