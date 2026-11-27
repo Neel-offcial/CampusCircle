@@ -28,10 +28,10 @@ export async function comparePassword(password, hash) {
 }
 
 /**
- * Generate a 6-digit verification code
+ * Generate a cryptographically secure 6-digit verification code (CSPRNG)
  */
 export function generateOtp() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  return crypto.randomInt(100000, 1000000).toString();
 }
 
 /**
