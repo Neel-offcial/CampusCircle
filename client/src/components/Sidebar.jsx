@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import {
   LayoutGrid,
   Users,
@@ -89,17 +89,17 @@ export default function Sidebar({ onOpenCreateGroup }) {
     <aside className="w-64 flex-shrink-0 bg-white dark:bg-[#0e131f] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between p-5 min-h-screen transition-colors duration-200">
       <div className="overflow-y-auto pr-1 -mr-1">
         {/* Brand */}
-        <div className="flex items-center gap-3 px-2 py-1 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 font-bold text-xl">
+        <Link to="/" className="flex items-center gap-3 px-2 py-1 mb-6 group cursor-pointer hover:opacity-95 transition-opacity">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 font-bold text-xl group-hover:scale-105 transition-transform">
             C
           </div>
           <div>
-            <h1 className="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5">
+            <h1 className="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
               CampusCircle
             </h1>
             <p className="text-xs text-slate-400 font-medium">Academic Network</p>
           </div>
-        </div>
+        </Link>
 
         {/* Dashboard Link */}
         <div className="space-y-1 mb-5">

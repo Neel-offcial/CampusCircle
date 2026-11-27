@@ -134,7 +134,7 @@
     {
       "_id": "c848a0ea-c347-4043-be13-4ed7a1454490",
       "createdAt": "2026-11-27T09:25:29.181Z",
-      "updatedAt": "2026-11-27T09:25:29.181Z",
+      "updatedAt": "2026-11-27T12:19:53.894Z",
       "username": "neel_cse22",
       "passwordHash": "$2a$10$bfMKGjoxjYl54Ui7y60lX.jjU1E86P2.ardwKGYV04RJv6tBGlDVC",
       "fullName": "Neel Kumar",
@@ -144,7 +144,7 @@
       "semester": "V",
       "section": "C",
       "batch": "B1",
-      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Neel%20Kumar&backgroundColor=4f46e5",
+      "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=jckwn&backgroundColor=4f46e5",
       "isVerified": true,
       "emailAlerts": true,
       "bio": "5th Sem Computer Student @ Atria"
