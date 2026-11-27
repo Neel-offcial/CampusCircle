@@ -8,6 +8,8 @@ import {
   MapPin,
   ChevronUp,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   MessageSquare,
   Plus,
   BarChart2,
@@ -24,7 +26,12 @@ import {
   Heart,
   TrendingUp,
   ShieldCheck,
-  Award
+  Award,
+  Layers,
+  Compass,
+  Smile,
+  Radio,
+  ExternalLink
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -42,6 +49,10 @@ export default function CampusPulsePage() {
   const [events, setEvents] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Layout & Navigation State
+  const [currentEventIdx, setCurrentEventIdx] = useState(0);
+  const [mobileTab, setMobileTab] = useState('feed'); // 'feed' | 'pulses' | 'events'
 
   // Filters & Sorting
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -169,13 +180,13 @@ export default function CampusPulsePage() {
     }
   };
 
-  // Submit Comment
+  // Add Comment to Post
   const handleAddComment = async (postId) => {
     if (!commentInput.trim()) return;
     try {
       const res = await api.post(`/feed/posts/${postId}/comment`, {
         text: commentInput.trim(),
-        alias: generateRandomPersona()
+        alias: postAlias || generateRandomPersona()
       });
       setPosts((prev) =>
         prev.map((p) =>
@@ -193,16 +204,15 @@ export default function CampusPulsePage() {
   // Create Feed Post
   const handleCreatePost = async (e) => {
     e.preventDefault();
-    if (!postContent.trim() && !postImage && !showPollCreator) return;
+    if (!postContent.trim()) return;
 
     setSubmittingPost(true);
     try {
       const formData = new FormData();
-      if (postTitle.trim()) formData.append('title', postTitle.trim());
+      formData.append('title', postTitle.trim());
       formData.append('content', postContent.trim());
       formData.append('category', postCategory);
       formData.append('alias', postAlias.trim() || generateRandomPersona());
-      if (postImage) formData.append('image', postImage);
 
       if (showPollCreator && pollQuestion.trim()) {
         const validOpts = pollOptions.filter((o) => o.trim().length > 0);
@@ -212,6 +222,10 @@ export default function CampusPulsePage() {
             JSON.stringify({ question: pollQuestion.trim(), options: validOpts })
           );
         }
+      }
+
+      if (postImage) {
+        formData.append('image', postImage);
       }
 
       const res = await api.post('/feed/posts', formData, {
@@ -262,492 +276,686 @@ export default function CampusPulsePage() {
     }
   };
 
+  const activeEvent = events.length > 0 ? events[currentEventIdx % events.length] : null;
+
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12">
-      {/* CATCHY HERO BANNER (Offcampuz & ClgVibe Vibe) */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#171228] via-[#21183c] to-[#120d20] border border-purple-900/40 p-6 md:p-8 text-white shadow-xl">
-        <div className="relative z-10 max-w-2xl space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-bold uppercase tracking-wider">
-            <Flame size={13} className="text-rose-400 animate-pulse" />
-            <span>Campus Pulse • Real Students. Real Rules.</span>
+    <div className="max-w-7xl mx-auto pb-16 space-y-6">
+      {/* ============================================================== */}
+      {/* 1. SOPHISTICATED HERO HEADER (ELEGANT & UN-CRAMPED) */}
+      {/* ============================================================== */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#120e24] via-[#1c1436] to-[#0f0c1c] border border-purple-900/30 p-6 md:p-8 text-white shadow-xl">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-bold uppercase tracking-wider">
+              <Flame size={13} className="text-rose-400 animate-pulse" />
+              <span>Campus Pulse • Real Students. Real Rules.</span>
+            </div>
+
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white">
+              What Happens on Campus, Stays on Campus. ⚡
+            </h1>
+
+            <p className="text-xs md:text-sm text-purple-200/80 leading-relaxed font-medium">
+              Verified by <strong>@atria.edu</strong> • Masked from Faculty • Live 24h stories, fest updates, secret study hacks, and student polls.
+            </p>
           </div>
 
-          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white">
-            What Happens on Campus, Stays on Campus. ⚡
-          </h1>
-
-          <p className="text-xs md:text-sm text-purple-200/80 leading-relaxed font-medium">
-            Verified by <strong>@atria.edu</strong> • Masked from the Dean • Live stories, secret chai spots, fest tickets, and late-night exam panic.
-          </p>
-
-          <div className="pt-2 flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => setCreatePostOpen(true)}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-bold text-xs shadow-lg shadow-rose-500/30 transition-all flex items-center gap-1.5"
+              className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-bold text-xs shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40 transition-all flex items-center gap-2 group"
             >
-              <Plus size={15} />
+              <Plus size={16} className="group-hover:rotate-90 transition-transform" />
               <span>Drop Anonymous Buzz</span>
             </button>
             <button
               onClick={() => setCreatePulseOpen(true)}
-              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 backdrop-blur-sm"
+              className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold text-xs transition-colors flex items-center gap-2 backdrop-blur-md"
             >
-              <Zap size={14} className="text-amber-400" />
+              <Zap size={15} className="text-amber-400 animate-bounce" />
               <span>Share 24h Pulse</span>
             </button>
           </div>
         </div>
 
-        {/* Decorative background glow */}
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 rounded-full bg-rose-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute right-40 -top-10 w-60 h-60 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
+        {/* Decorative ambient lighting */}
+        <div className="absolute -right-12 -bottom-12 w-80 h-80 rounded-full bg-rose-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute right-60 -top-12 w-64 h-64 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
       </div>
 
       {/* ============================================================== */}
-      {/* 1. HORIZONTAL CAROUSEL: CAMPUS PULSES (Stories / Blinks) */}
+      {/* MOBILE TAB SWITCHER (VISIBLE ONLY ON MOBILE < LG) */}
       {/* ============================================================== */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-2">
-            <Zap size={18} className="text-amber-500" />
-            <h2 className="text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white">
-              Campus Pulses (Disappears in 24h)
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-slate-400">
-            Swipe left/right →
-          </span>
-        </div>
+      <div className="lg:hidden flex items-center p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60">
+        <button
+          onClick={() => setMobileTab('feed')}
+          className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
+            mobileTab === 'feed'
+              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+              : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          📰 News Feed
+        </button>
+        <button
+          onClick={() => setMobileTab('pulses')}
+          className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+            mobileTab === 'pulses'
+              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+              : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          <Zap size={13} className="text-amber-500" />
+          <span>24h Pulses ({pulses.length})</span>
+        </button>
+        <button
+          onClick={() => setMobileTab('events')}
+          className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+            mobileTab === 'events'
+              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+              : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          <Calendar size={13} className="text-rose-500" />
+          <span>Events ({events.length})</span>
+        </button>
+      </div>
 
-        {/* Horizontal Rail Container */}
-        <div className="flex items-center gap-3 overflow-x-auto pb-2 snap-x mandatory scrollbar-none no-scrollbar">
-          {/* Add Pulse Button */}
-          <button
-            onClick={() => setCreatePulseOpen(true)}
-            className="flex-shrink-0 w-28 h-36 rounded-2xl border-2 border-dashed border-indigo-300 dark:border-indigo-800/80 bg-indigo-50/50 dark:bg-indigo-950/20 hover:border-indigo-500 transition-colors flex flex-col items-center justify-center gap-2 text-center p-2.5 snap-start group"
+      {/* ============================================================== */}
+      {/* MAIN LAYOUT: LEFT SIDEBAR (PULSES & EVENTS) + CENTER (NEWSFEED) */}
+      {/* ============================================================== */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* ============================================================ */}
+        {/* LEFT COLUMN: TOP-LEFT PULSES & BOTTOM-LEFT EVENTS */}
+        {/* ============================================================ */}
+        <aside
+          className={`lg:col-span-4 xl:col-span-4 space-y-6 ${
+            mobileTab === 'feed' ? 'hidden lg:block' : 'block'
+          }`}
+        >
+          {/* ---------------------------------------------------------- */}
+          {/* 1. TOP-LEFT: CAMPUS PULSES (DISAPPEARING 24H STORIES) */}
+          {/* ---------------------------------------------------------- */}
+          <div
+            className={`rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-4 ${
+              mobileTab === 'events' ? 'hidden lg:block' : 'block'
+            }`}
           >
-            <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-md shadow-indigo-500/20">
-              <Plus size={20} />
-            </div>
-            <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 leading-tight">
-              Post Your Pulse
-            </span>
-            <span className="text-[9px] text-slate-400 font-medium">Auto-expires 24h</span>
-          </button>
-
-          {/* Pulse Cards */}
-          {pulses.map((pulse) => (
-            <div
-              key={pulse._id}
-              onClick={() => setActivePulseStory(pulse)}
-              className="flex-shrink-0 w-44 h-36 rounded-2xl bg-gradient-to-br from-[#1b152b] to-[#251d3b] border border-purple-800/50 text-white p-3.5 flex flex-col justify-between cursor-pointer snap-start hover:border-rose-400 transition-all shadow-md hover:-translate-y-0.5 group relative overflow-hidden"
-            >
-              <div className="relative z-10">
-                <div className="flex items-center justify-between gap-1 mb-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20 truncate max-w-[100px]">
-                    {pulse.tag}
-                  </span>
-                  <span className="text-[9px] text-slate-400 font-mono">24h</span>
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center">
+                  <Zap size={16} />
                 </div>
-                <h4 className="text-xs font-bold text-white line-clamp-1 group-hover:text-rose-300 transition-colors">
-                  {pulse.title || pulse.creatorAlias}
-                </h4>
-                <p className="text-[11px] text-purple-200/70 mt-1 line-clamp-2 leading-tight">
-                  {pulse.content}
-                </p>
-              </div>
-
-              <div className="relative z-10 flex items-center justify-between text-[10px] text-purple-300/80 pt-1 border-t border-white/10">
-                <span className="truncate max-w-[90px] font-semibold">{pulse.sticker}</span>
-                <span className="text-rose-400 font-bold flex items-center gap-0.5">
-                  🔥 {Object.values(pulse.reactions || {}).reduce((s, c) => s + c, 0)}
-                </span>
-              </div>
-
-              <div className="absolute -bottom-6 -right-6 w-16 h-16 rounded-full bg-rose-500/20 blur-xl group-hover:bg-rose-500/30 transition-colors" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ============================================================== */}
-      {/* 2. HORIZONTAL CAROUSEL: "THIS WEEK ON CAMPUS" EVENTS (Offcampuz) */}
-      {/* ============================================================== */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-2">
-            <Calendar size={18} className="text-rose-500" />
-            <h2 className="text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white">
-              Happening on Campus — Fests & Hackathons
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-slate-400">
-            Swipe left/right →
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4 overflow-x-auto pb-3 snap-x mandatory scrollbar-none no-scrollbar">
-          {events.map((evt) => {
-            const isGoing = evt.userRsvp === 'going';
-            const isInterested = evt.userRsvp === 'interested';
-
-            return (
-              <div
-                key={evt._id}
-                className="flex-shrink-0 w-80 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between overflow-hidden snap-start hover:border-indigo-400 transition-all group"
-              >
-                {/* Event Image Banner */}
-                <div className="relative h-36 w-full overflow-hidden bg-slate-800">
-                  <img
-                    src={evt.imageUrl}
-                    alt={evt.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30" />
-
-                  {/* Overlaid badges */}
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-600 text-white shadow-sm">
-                      {evt.category}
-                    </span>
-                    {evt.urgency && (
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-400 text-slate-950">
-                        {evt.urgency}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="absolute bottom-2.5 left-3 text-white">
-                    <span className="text-[10px] font-bold text-amber-300 block font-mono">
-                      {evt.date}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Event Details */}
-                <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1" title={evt.title}>
-                      {evt.title}
-                    </h3>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                      {evt.description}
-                    </p>
-                    <div className="flex items-center gap-1 text-[10px] text-slate-400 mt-2 font-medium">
-                      <MapPin size={11} className="text-rose-500" />
-                      <span className="truncate">{evt.venue}</span>
-                    </div>
-                  </div>
-
-                  {/* Footer with RSVP Interactive Pill Buttons */}
-                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <span className="text-[10px] font-semibold text-slate-400">
-                      👥 <strong className="text-slate-700 dark:text-slate-200">{evt.goingCount || 0}</strong> going
-                    </span>
-
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={() => handleRsvp(evt._id, 'interested')}
-                        className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-colors ${
-                          isInterested
-                            ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
-                        }`}
-                      >
-                        {isInterested ? '★ Interested' : '☆ Interested'}
-                      </button>
-
-                      <button
-                        onClick={() => handleRsvp(evt._id, 'going')}
-                        className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all shadow-sm ${
-                          isGoing
-                            ? 'bg-emerald-600 text-white shadow-emerald-500/20'
-                            : 'bg-rose-500 hover:bg-rose-600 text-white shadow-rose-500/20'
-                        }`}
-                      >
-                        {isGoing ? '✓ Going' : '+ Going'}
-                      </button>
-                    </div>
-                  </div>
+                <div>
+                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                    Campus Pulses
+                  </h2>
+                  <p className="text-[10px] text-slate-400 font-medium">Disappears after 24h</p>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* ============================================================== */}
-      {/* 3. MAIN STUDENT NEWSFEED WITH PERSONAS & POLLS */}
-      {/* ============================================================== */}
-      <div className="space-y-4">
-        {/* Filter Bar & Sort */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-            {[
-              { id: 'all', label: 'All Campus Buzz' },
-              { id: 'Campus Buzz', label: 'Campus Buzz' },
-              { id: 'Tech & Hackathons', label: 'Tech & Hackathons' },
-              { id: 'Lost & Found', label: 'Lost & Found' }
-            ].map((cat) => (
               <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
-                  selectedCategory === cat.id
-                    ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-                }`}
+                onClick={() => setCreatePulseOpen(true)}
+                className="px-2.5 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[11px] font-bold transition-colors flex items-center gap-1"
+                title="Post 24h Pulse"
               >
-                {cat.label}
+                <Plus size={13} />
+                <span>Post</span>
               </button>
-            ))}
-          </div>
+            </div>
 
-          {/* Sort Switcher */}
-          <div className="flex items-center gap-1.5 self-end sm:self-auto">
-            <button
-              onClick={() => setSortBy('recent')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                sortBy === 'recent'
-                  ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300'
-                  : 'text-slate-400 hover:text-slate-600'
-              }`}
-            >
-              Recent
-            </button>
-            <button
-              onClick={() => setSortBy('top')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors ${
-                sortBy === 'top'
-                  ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300'
-                  : 'text-slate-400 hover:text-slate-600'
-              }`}
-            >
-              <TrendingUp size={12} />
-              <span>Top Voted</span>
-            </button>
-          </div>
-        </div>
+            {/* Pulses Vertical Stream */}
+            {pulses.length === 0 ? (
+              <div className="text-center py-8 px-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700/60 text-xs text-slate-400">
+                <Coffee size={24} className="mx-auto mb-2 text-slate-400" />
+                <p className="font-semibold text-slate-600 dark:text-slate-300">No active pulses</p>
+                <p className="text-[11px] mt-0.5">Be the first to drop a 24h update!</p>
+              </div>
+            ) : (
+              <div className="space-y-2.5 max-h-[440px] overflow-y-auto pr-1 no-scrollbar">
+                {pulses.map((pulse) => {
+                  const reactionSum = Object.values(pulse.reactions || {}).reduce((s, c) => s + c, 0);
 
-        {/* Posts Feed Stream */}
-        {loading ? (
-          <div className="text-center py-12 text-xs text-slate-400">Loading campus pulse...</div>
-        ) : posts.length === 0 ? (
-          <div className="text-center py-12 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-400">
-            No posts found in this category. Click "Drop Anonymous Buzz" above to start the discussion!
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {posts.map((post) => {
-              const pollTotal = post.poll?.totalVotes || 0;
-              const isCommentOpen = activeCommentPostId === post._id;
-
-              return (
-                <div
-                  key={post._id}
-                  className="p-5 md:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex gap-4 transition-colors"
-                >
-                  {/* Upvote / Downvote Capsule (Offcampuz Style) */}
-                  <div className="flex flex-col items-center justify-start py-1 shrink-0">
-                    <button
-                      onClick={() => handleVotePost(post._id, 1)}
-                      className="p-1.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
-                      title="Upvote"
+                  return (
+                    <div
+                      key={pulse._id}
+                      onClick={() => setActivePulseStory(pulse)}
+                      className="group relative overflow-hidden rounded-2xl p-3.5 bg-gradient-to-br from-slate-900 to-[#1e1732] border border-purple-900/40 hover:border-rose-400/80 text-white cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm"
                     >
-                      <ChevronUp size={20} />
-                    </button>
-                    <span
-                      className={`text-xs font-black font-mono my-1 ${
-                        (post.score || 0) > 0
-                          ? 'text-indigo-600 dark:text-indigo-400'
-                          : (post.score || 0) < 0
-                          ? 'text-rose-500'
-                          : 'text-slate-500'
-                      }`}
-                    >
-                      {post.score || 0}
-                    </span>
-                    <button
-                      onClick={() => handleVotePost(post._id, -1)}
-                      className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                      title="Downvote"
-                    >
-                      <ChevronDown size={20} />
-                    </button>
-                  </div>
-
-                  {/* Post Content Body */}
-                  <div className="flex-1 space-y-3 min-w-0">
-                    {/* Persona Header */}
-                    <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <div className="flex items-center gap-2">
-                        {/* Circular Monogram Persona Avatar */}
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-rose-500 text-white font-black text-xs flex items-center justify-center shadow-sm">
-                          {post.creatorAlias?.slice(0, 2).toUpperCase() || 'AN'}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-slate-900 dark:text-white">
-                              {post.creatorAlias}
-                            </span>
-                            <span className="text-[10px] text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.2 rounded-full font-semibold flex items-center gap-0.5">
-                              <ShieldCheck size={10} /> Atria Verified
-                            </span>
-                          </div>
-                          <span className="text-[10px] text-slate-400">
-                            {post.department || 'CSE Sem V'} • {new Date(post.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      <div className="relative z-10 space-y-2">
+                        {/* Tags and Expiration */}
+                        <div className="flex items-center justify-between gap-1 text-[10px]">
+                          <span className="px-2 py-0.5 rounded-full font-bold bg-amber-400/15 text-amber-300 border border-amber-400/20 truncate max-w-[120px]">
+                            {pulse.tag}
                           </span>
+                          <span className="text-[10px] text-purple-300/70 font-mono flex items-center gap-0.5">
+                            <Clock size={10} /> 24h
+                          </span>
+                        </div>
+
+                        {/* Title & Excerpt */}
+                        <div>
+                          <h4 className="text-xs font-bold text-white group-hover:text-rose-300 transition-colors line-clamp-1">
+                            {pulse.title || pulse.creatorAlias}
+                          </h4>
+                          <p className="text-[11px] text-purple-100/75 line-clamp-2 mt-0.5 leading-relaxed font-normal">
+                            {pulse.content}
+                          </p>
+                        </div>
+
+                        {/* Location & Quick Reactions Bar */}
+                        <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px]">
+                          <span className="truncate max-w-[110px] text-purple-200/80 font-medium">
+                            {pulse.sticker}
+                          </span>
+
+                          <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                            {['🔥', '⚡', '👀'].map((emoji) => (
+                              <button
+                                key={emoji}
+                                onClick={() => handleReactPulse(pulse._id, emoji)}
+                                className="px-1.5 py-0.5 rounded-md bg-white/10 hover:bg-rose-500/30 transition-colors text-[10px] font-semibold text-purple-200 flex items-center gap-0.5"
+                                title={`React with ${emoji}`}
+                              >
+                                <span>{emoji}</span>
+                                <span>{pulse.reactions?.[emoji] || 0}</span>
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
-                      <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/50 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
-                        {post.category}
+                      {/* Subtle hover gradient glow */}
+                      <div className="absolute -bottom-6 -right-6 w-16 h-16 rounded-full bg-rose-500/10 group-hover:bg-rose-500/25 blur-xl transition-colors pointer-events-none" />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* ---------------------------------------------------------- */}
+          {/* 2. BOTTOM-LEFT: HAPPENING ON CAMPUS (EVENTS & FESTS) */}
+          {/* ---------------------------------------------------------- */}
+          <div
+            className={`rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-4 ${
+              mobileTab === 'pulses' ? 'hidden lg:block' : 'block'
+            }`}
+          >
+            {/* Header with Carousel Controls */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-rose-500/10 dark:bg-rose-500/20 text-rose-500 flex items-center justify-center">
+                  <Calendar size={16} />
+                </div>
+                <div>
+                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                    Happening on Campus
+                  </h2>
+                  <p className="text-[10px] text-slate-400 font-medium">Fests, Tech & Contests</p>
+                </div>
+              </div>
+
+              {events.length > 1 && (
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() =>
+                      setCurrentEventIdx((prev) => (prev > 0 ? prev - 1 : events.length - 1))
+                    }
+                    className="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors"
+                    title="Previous event"
+                  >
+                    <ChevronLeft size={14} />
+                  </button>
+                  <span className="text-[10px] font-mono font-bold text-slate-400 px-1">
+                    {(currentEventIdx % events.length) + 1}/{events.length}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setCurrentEventIdx((prev) => (prev + 1) % events.length)
+                    }
+                    className="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors"
+                    title="Next event"
+                  >
+                    <ChevronRight size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Event Display (Interactive Featured Card) */}
+            {activeEvent ? (
+              <div className="space-y-3">
+                <div className="rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm group">
+                  {/* Event Thumbnail Banner */}
+                  <div className="relative h-32 w-full overflow-hidden bg-slate-800">
+                    <img
+                      src={activeEvent.imageUrl}
+                      alt={activeEvent.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-black/30" />
+
+                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-600 text-white shadow-sm">
+                        {activeEvent.category}
                       </span>
+                      {activeEvent.urgency && (
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-400 text-slate-950">
+                          {activeEvent.urgency}
+                        </span>
+                      )}
                     </div>
 
-                    {/* Post Title & Text */}
-                    {post.title && (
-                      <h3 className="text-sm md:text-base font-bold text-slate-900 dark:text-white">
-                        {post.title}
-                      </h3>
-                    )}
+                    <div className="absolute bottom-2 left-2.5 text-white">
+                      <span className="text-[10px] font-mono font-bold text-amber-300 block">
+                        {activeEvent.date}
+                      </span>
+                    </div>
+                  </div>
 
-                    <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line font-medium">
-                      {post.content}
+                  {/* Event Details */}
+                  <div className="p-3.5 space-y-2">
+                    <h3 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1" title={activeEvent.title}>
+                      {activeEvent.title}
+                    </h3>
+
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-medium">
+                      {activeEvent.description}
                     </p>
 
-                    {/* Post Image Banner if uploaded */}
-                    {post.imageUrl && (
-                      <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 max-h-80">
-                        <img
-                          src={post.imageUrl}
-                          alt="Post media"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium">
+                      <MapPin size={11} className="text-rose-500 shrink-0" />
+                      <span className="truncate">{activeEvent.venue}</span>
+                    </div>
 
-                    {/* Interactive Embedded Poll (Offcampuz Style) */}
-                    {post.poll && (
-                      <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2.5">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                            <BarChart2 size={13} className="text-indigo-500" />
-                            {post.poll.question}
-                          </h4>
-                          <span className="text-[10px] text-slate-400 font-medium">
-                            {pollTotal} {pollTotal === 1 ? 'vote' : 'votes'}
-                          </span>
-                        </div>
+                    {/* Interactive RSVP Action Capsule */}
+                    <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                      <span className="text-[10px] font-semibold text-slate-400">
+                        👥 <strong className="text-slate-700 dark:text-slate-200">{activeEvent.goingCount || 0}</strong> going
+                      </span>
 
-                        <div className="space-y-2">
-                          {post.poll.options?.map((opt) => {
-                            const pct = pollTotal > 0 ? Math.round(((opt.votes || 0) / pollTotal) * 100) : 0;
-                            return (
-                              <button
-                                key={opt.id}
-                                onClick={() => handleVotePoll(post._id, opt.id)}
-                                className="w-full text-left relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 p-2.5 bg-white dark:bg-slate-900 hover:border-indigo-400 transition-colors group"
-                              >
-                                {/* Animated Percentage Bar */}
-                                <div
-                                  className="absolute left-0 top-0 bottom-0 bg-indigo-100 dark:bg-indigo-950/70 transition-all duration-500"
-                                  style={{ width: `${pct}%` }}
-                                />
-                                <div className="relative flex items-center justify-between text-xs font-medium text-slate-800 dark:text-slate-200">
-                                  <span>{opt.text}</span>
-                                  <span className="font-mono text-[11px] text-slate-500 group-hover:text-indigo-600 font-bold">
-                                    {pct}% ({opt.votes || 0})
-                                  </span>
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleRsvp(activeEvent._id, 'interested')}
+                          className={`px-2 py-1 rounded-xl text-[10px] font-semibold transition-colors ${
+                            activeEvent.userRsvp === 'interested'
+                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                              : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
+                          }`}
+                        >
+                          {activeEvent.userRsvp === 'interested' ? '★ Interested' : '☆ Interested'}
+                        </button>
 
-                    {/* Tags */}
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                        {post.tags.map((tag, i) => (
-                          <span
-                            key={i}
-                            className="text-[10px] text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Footer Actions */}
-                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
-                      <button
-                        onClick={() => setActiveCommentPostId(isCommentOpen ? null : post._id)}
-                        className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors font-semibold"
-                      >
-                        <MessageSquare size={14} />
-                        <span>{post.commentCount || 0} Comments</span>
-                      </button>
-
-                      <div className="flex items-center gap-3">
-                        <button className="hover:text-indigo-600 transition-colors flex items-center gap-1 text-[11px]">
-                          <Share2 size={13} />
-                          <span>Share</span>
+                        <button
+                          onClick={() => handleRsvp(activeEvent._id, 'going')}
+                          className={`px-2.5 py-1 rounded-xl text-[10px] font-bold transition-all shadow-sm ${
+                            activeEvent.userRsvp === 'going'
+                              ? 'bg-emerald-600 text-white shadow-emerald-500/20'
+                              : 'bg-rose-500 hover:bg-rose-600 text-white shadow-rose-500/20'
+                          }`}
+                        >
+                          {activeEvent.userRsvp === 'going' ? '✓ Going' : '+ Going'}
                         </button>
                       </div>
                     </div>
-
-                    {/* Expandable Comments Section */}
-                    {isCommentOpen && (
-                      <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 space-y-3 animate-in fade-in">
-                        {/* Comment Input */}
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            placeholder="Add an anonymous reply..."
-                            value={commentInput}
-                            onChange={(e) => setCommentInput(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleAddComment(post._id)}
-                            className="flex-1 px-3 py-1.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-indigo-500"
-                          />
-                          <button
-                            onClick={() => handleAddComment(post._id)}
-                            className="p-1.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
-                          >
-                            <Send size={13} />
-                          </button>
-                        </div>
-
-                        {/* Comment List */}
-                        <div className="space-y-2">
-                          {(post.comments || []).map((c) => (
-                            <div
-                              key={c.id}
-                              className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-xs space-y-1"
-                            >
-                              <div className="flex items-center justify-between text-[10px]">
-                                <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                                  {c.authorAlias}
-                                </span>
-                                <span className="text-slate-400">
-                                  {new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </span>
-                              </div>
-                              <p className="text-slate-700 dark:text-slate-200">{c.text}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
-              );
-            })}
+
+                {/* Event Thumb Pills for Easy Switching */}
+                <div className="flex items-center justify-center gap-1.5 pt-1">
+                  {events.map((evt, idx) => (
+                    <button
+                      key={evt._id}
+                      onClick={() => setCurrentEventIdx(idx)}
+                      className={`h-1.5 rounded-full transition-all ${
+                        idx === (currentEventIdx % events.length)
+                          ? 'w-6 bg-rose-500'
+                          : 'w-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300'
+                      }`}
+                      title={evt.title}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-6 text-xs text-slate-400">No events currently scheduled.</div>
+            )}
           </div>
-        )}
+        </aside>
+
+        {/* ============================================================ */}
+        {/* CENTER COLUMN: THE MAIN STUDENT NEWSFEED */}
+        {/* ============================================================ */}
+        <main
+          className={`lg:col-span-8 xl:col-span-8 space-y-5 ${
+            mobileTab !== 'feed' ? 'hidden lg:block' : 'block'
+          }`}
+        >
+          {/* Quick Composer Card (Atria Masked Trigger) */}
+          <div className="p-4 md:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-rose-500 text-white font-black text-sm flex items-center justify-center shadow-md shadow-purple-500/20 shrink-0">
+                ⚡
+              </div>
+              <button
+                onClick={() => setCreatePostOpen(true)}
+                className="flex-1 text-left px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 text-xs text-slate-400 font-medium transition-all"
+              >
+                What's buzzing on campus? Spills, notes, fest questions...
+              </button>
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setCreatePostOpen(true);
+                    setTimeout(() => postImageInputRef.current?.click(), 100);
+                  }}
+                  className="px-3 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold flex items-center gap-1.5 transition-colors text-xs"
+                >
+                  <Camera size={14} className="text-rose-500" />
+                  <span>Attach Media</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowPollCreator(true);
+                    setCreatePostOpen(true);
+                  }}
+                  className="px-3 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold flex items-center gap-1.5 transition-colors text-xs"
+                >
+                  <BarChart2 size={14} className="text-indigo-500" />
+                  <span>Live Poll</span>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                <ShieldCheck size={14} />
+                <span>Masked & Verified</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Newsfeed Filter Pills & Sort Switcher */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+            {/* Category Filter Pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
+              {[
+                { id: 'all', label: 'All Buzz' },
+                { id: 'Campus Buzz', label: 'Campus Buzz' },
+                { id: 'Tech & Hackathons', label: 'Tech & Fests' },
+                { id: 'Academic SOS', label: 'Academic SOS' },
+                { id: 'Lost & Found', label: 'Lost & Found' }
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
+                    selectedCategory === cat.id
+                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm font-bold'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Sort Switcher */}
+            <div className="flex items-center gap-1 self-end sm:self-auto shrink-0">
+              <button
+                onClick={() => setSortBy('recent')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                  sortBy === 'recent'
+                    ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 font-bold'
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                Recent
+              </button>
+              <button
+                onClick={() => setSortBy('top')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors ${
+                  sortBy === 'top'
+                    ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 font-bold'
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                <TrendingUp size={12} />
+                <span>Top Voted</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Posts Feed Stream */}
+          {loading ? (
+            <div className="text-center py-16 text-xs text-slate-400">Loading campus pulse feed...</div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-16 px-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-400 space-y-2">
+              <p className="font-bold text-slate-700 dark:text-slate-300 text-sm">No buzz in this category yet</p>
+              <p className="max-w-md mx-auto">Be the first Atria student to post! Your identity stays safely masked under a random persona.</p>
+              <button
+                onClick={() => setCreatePostOpen(true)}
+                className="mt-3 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs"
+              >
+                Drop First Buzz
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {posts.map((post) => {
+                const pollTotal = post.poll?.totalVotes || 0;
+                const isCommentOpen = activeCommentPostId === post._id;
+
+                return (
+                  <article
+                    key={post._id}
+                    className="p-5 md:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex gap-4 transition-all hover:border-slate-300 dark:hover:border-slate-700"
+                  >
+                    {/* Upvote / Downvote Capsule (Offcampuz Style) */}
+                    <div className="flex flex-col items-center justify-start py-1 shrink-0">
+                      <button
+                        onClick={() => handleVotePost(post._id, 1)}
+                        className="p-1.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
+                        title="Upvote"
+                      >
+                        <ChevronUp size={20} />
+                      </button>
+                      <span
+                        className={`text-xs font-black font-mono my-1 ${
+                          (post.score || 0) > 0
+                            ? 'text-indigo-600 dark:text-indigo-400'
+                            : (post.score || 0) < 0
+                            ? 'text-rose-500'
+                            : 'text-slate-500'
+                        }`}
+                      >
+                        {post.score || 0}
+                      </span>
+                      <button
+                        onClick={() => handleVotePost(post._id, -1)}
+                        className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                        title="Downvote"
+                      >
+                        <ChevronDown size={20} />
+                      </button>
+                    </div>
+
+                    {/* Post Content Body */}
+                    <div className="flex-1 space-y-3 min-w-0">
+                      {/* Persona Header */}
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <div className="flex items-center gap-2.5">
+                          {/* Circular Monogram Persona Avatar */}
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-rose-500 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                            {post.creatorAlias?.slice(0, 2).toUpperCase() || 'AN'}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white">
+                                {post.creatorAlias}
+                              </span>
+                              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.2 rounded-full font-semibold flex items-center gap-0.5">
+                                <ShieldCheck size={10} /> Atria Verified
+                              </span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 font-medium">
+                              {post.department || 'CSE Sem V'} • {new Date(post.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                        </div>
+
+                        <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/50 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
+                          {post.category}
+                        </span>
+                      </div>
+
+                      {/* Post Title & Text */}
+                      {post.title && (
+                        <h3 className="text-sm md:text-base font-bold text-slate-900 dark:text-white leading-snug">
+                          {post.title}
+                        </h3>
+                      )}
+
+                      <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line font-medium">
+                        {post.content}
+                      </p>
+
+                      {/* Post Image Banner if uploaded */}
+                      {post.imageUrl && (
+                        <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 max-h-80">
+                          <img
+                            src={post.imageUrl}
+                            alt="Post media"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+
+                      {/* Interactive Embedded Poll */}
+                      {post.poll && (
+                        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2.5">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                              <BarChart2 size={13} className="text-indigo-500" />
+                              {post.poll.question}
+                            </h4>
+                            <span className="text-[10px] text-slate-400 font-medium">
+                              {pollTotal} {pollTotal === 1 ? 'vote' : 'votes'}
+                            </span>
+                          </div>
+
+                          <div className="space-y-2">
+                            {post.poll.options?.map((opt) => {
+                              const pct = pollTotal > 0 ? Math.round(((opt.votes || 0) / pollTotal) * 100) : 0;
+                              return (
+                                <button
+                                  key={opt.id}
+                                  onClick={() => handleVotePoll(post._id, opt.id)}
+                                  className="w-full text-left relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 p-2.5 bg-white dark:bg-slate-900 hover:border-indigo-400 transition-colors group"
+                                >
+                                  {/* Animated Percentage Bar */}
+                                  <div
+                                    className="absolute left-0 top-0 bottom-0 bg-indigo-100 dark:bg-indigo-950/70 transition-all duration-500"
+                                    style={{ width: `${pct}%` }}
+                                  />
+                                  <div className="relative flex items-center justify-between text-xs font-medium text-slate-800 dark:text-slate-200">
+                                    <span>{opt.text}</span>
+                                    <span className="font-mono text-[11px] text-slate-500 group-hover:text-indigo-600 font-bold">
+                                      {pct}% ({opt.votes || 0})
+                                    </span>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Tags */}
+                      {post.tags && post.tags.length > 0 && (
+                        <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                          {post.tags.map((tag, i) => (
+                            <span
+                              key={i}
+                              className="text-[10px] text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md"
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Footer Actions */}
+                      <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <button
+                          onClick={() => setActiveCommentPostId(isCommentOpen ? null : post._id)}
+                          className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors font-semibold"
+                        >
+                          <MessageSquare size={14} />
+                          <span>{post.commentCount || 0} Comments</span>
+                        </button>
+
+                        <div className="flex items-center gap-3">
+                          <button className="hover:text-indigo-600 transition-colors flex items-center gap-1 text-[11px]">
+                            <Share2 size={13} />
+                            <span>Share</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Expandable Comments Section */}
+                      {isCommentOpen && (
+                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 space-y-3 animate-in fade-in">
+                          {/* Comment Input */}
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              placeholder="Add an anonymous reply..."
+                              value={commentInput}
+                              onChange={(e) => setCommentInput(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleAddComment(post._id)}
+                              className="flex-1 px-3 py-1.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-indigo-500"
+                            />
+                            <button
+                              onClick={() => handleAddComment(post._id)}
+                              className="p-1.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
+                            >
+                              <Send size={13} />
+                            </button>
+                          </div>
+
+                          {/* Comment List */}
+                          <div className="space-y-2">
+                            {(post.comments || []).map((c) => (
+                              <div
+                                key={c.id}
+                                className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-xs space-y-1"
+                              >
+                                <div className="flex items-center justify-between text-[10px]">
+                                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
+                                    {c.authorAlias}
+                                  </span>
+                                  <span className="text-slate-400">
+                                    {new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                  </span>
+                                </div>
+                                <p className="text-slate-700 dark:text-slate-200">{c.text}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </main>
       </div>
 
       {/* ============================================================== */}
@@ -927,7 +1135,7 @@ export default function CampusPulsePage() {
               Share 24h Campus Pulse
             </h2>
             <p className="text-xs text-slate-400 mb-4">
-              Quick bulletin visible at the top of the campus feed. Self-destructs after 24 hours.
+              Quick bulletin visible at the top-left of the campus feed. Self-destructs after 24 hours.
             </p>
 
             <form onSubmit={handleCreatePulse} className="space-y-3.5">
