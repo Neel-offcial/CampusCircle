@@ -575,6 +575,25 @@
         "🫂": 0,
         "🎯": 0
       }
+    },
+    {
+      "_id": "1c2b7e0b-40b8-4259-996f-f51654ac1a52",
+      "createdAt": "2026-11-27T12:32:10.745Z",
+      "updatedAt": "2026-11-27T12:32:25.064Z",
+      "tag": "Anon #5825",
+      "content": "fdhdfh",
+      "imageUrl": null,
+      "poll": null,
+      "upvotes": 24,
+      "downvotes": 0,
+      "score": 24,
+      "reactions": {
+        "❤️": 1,
+        "😂": 0,
+        "💀": 0,
+        "🫂": 0,
+        "🎯": 0
+      }
     }
   ],
   "personalCompletions": [
@@ -585,6 +604,14 @@
       "assignmentId": "3d30f465-1c16-43b6-9592-3091050cf325",
       "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
       "completedAt": "2026-11-27T08:52:47.272Z"
+    },
+    {
+      "_id": "4ea01b0c-77f0-4864-9a62-496cec89b70f",
+      "createdAt": "2026-11-27T12:31:51.021Z",
+      "updatedAt": "2026-11-27T12:31:51.021Z",
+      "assignmentId": "5c964dc8-7c7b-4dcb-a747-e27d173ef1ad",
+      "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
+      "completedAt": "2026-11-27T12:31:51.019Z"
     }
   ],
   "attendanceRecords": [
@@ -801,7 +828,7 @@
     {
       "_id": "e6e1deac-203b-4506-ba23-734b68e7b3b0",
       "createdAt": "2026-11-26T18:04:37.066Z",
-      "updatedAt": "2026-11-27T08:50:17.246Z",
+      "updatedAt": "2026-11-27T12:31:17.480Z",
       "userId": "4f6b1d4d-a595-4889-af57-992214368d53",
       "data": {
         "theory": [
@@ -889,7 +916,7 @@
           }
         ],
         "electives": [],
-        "extractedAt": "2026-11-27T08:50:17.226Z"
+        "extractedAt": "2026-11-27T12:31:17.463Z"
       }
     },
     {

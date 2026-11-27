@@ -91,6 +91,18 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Serve compiled React frontend in production
+const clientDist = path.resolve(__dirname, '../../client/dist');
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/socket.io')) {
+      return next();
+    }
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
+
 // Seed sample data if database is fresh
 seedDatabase();
 
