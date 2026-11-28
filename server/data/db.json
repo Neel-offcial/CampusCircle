@@ -1712,7 +1712,7 @@
     {
       "_id": "8b3ffa9b-d394-4a6f-9955-40a522be8004",
       "createdAt": "2026-11-26T09:38:14.021Z",
-      "updatedAt": "2026-11-27T03:38:58.275Z",
+      "updatedAt": "2026-11-28T08:42:51.175Z",
       "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "sellerAlias": "@calligraphy_scribe",
       "sellerRating": 4.98,
@@ -1731,7 +1731,7 @@
         "Atria Format"
       ],
       "viewsCount": 215,
-      "inquiriesCount": 15
+      "inquiriesCount": 16
     },
     {
       "_id": "f19a873a-eaec-4012-a154-5ab97faa45a5",
@@ -1928,6 +1928,30 @@
       ],
       "lastMessage": "Hi! I am interested in your listing: \"Neatly Handwritten React & Node.js Lab Record Book (VTU Format)\". Is it available?",
       "lastMessageAt": "2026-11-27T03:38:58.278Z"
+    },
+    {
+      "_id": "49080359-2254-4921-80e3-45d3a26f317f",
+      "createdAt": "2026-11-28T08:42:51.170Z",
+      "updatedAt": "2026-11-28T08:42:51.178Z",
+      "listingId": "8b3ffa9b-d394-4a6f-9955-40a522be8004",
+      "listingTitle": "Neatly Handwritten React & Node.js Lab Record Book (VTU Format)",
+      "listingCategory": "Records",
+      "listingPrice": 350,
+      "buyerId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+      "buyerAlias": "Buyer #820",
+      "sellerId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
+      "sellerAlias": "@calligraphy_scribe",
+      "messages": [
+        {
+          "id": "msg_1795855371177",
+          "senderId": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
+          "senderAlias": "Buyer #820",
+          "content": "Hi! I am interested in your listing: \"Neatly Handwritten React & Node.js Lab Record Book (VTU Format)\". Is it available?",
+          "timestamp": "2026-11-28T08:42:51.178Z"
+        }
+      ],
+      "lastMessage": "Hi! I am interested in your listing: \"Neatly Handwritten React & Node.js Lab Record Book (VTU Format)\". Is it available?",
+      "lastMessageAt": "2026-11-28T08:42:51.178Z"
     }
   ]
 }
