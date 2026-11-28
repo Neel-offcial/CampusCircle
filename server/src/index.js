@@ -21,6 +21,8 @@ import attendanceRoutes from './routes/attendanceRoutes.js';
 import gpaRoutes from './routes/gpaRoutes.js';
 import feedRoutes from './routes/feedRoutes.js';
 import marketplaceRoutes from './routes/marketplaceRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import examRoutes from './routes/examRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,6 +74,8 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/gpa', gpaRoutes);
 app.use('/api/feed', feedRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/exams', examRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import ExamScheduleModal from '../components/ExamScheduleModal';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -37,6 +38,7 @@ export default function DashboardPage() {
   const [timetable, setTimetable] = useState(null);
   const [pulses, setPulses] = useState([]);
   const [listings, setListings] = useState([]);
+  const [showExamModal, setShowExamModal] = useState(false);
 
   // What-If Bunk Planner State
   const [selectedSubjectCode, setSelectedSubjectCode] = useState('');
@@ -219,72 +221,78 @@ export default function DashboardPage() {
       </div>
 
       {/* ============================================================== */}
+      {/* LIVE EXAM COUNTDOWN HERO BANNER (IA & LAB IA) */}
+      {/* ============================================================== */}
+      <div
+        onClick={() => setShowExamModal(true)}
+        className="p-4 md:p-5 rounded-3xl bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-indigo-500/10 border border-rose-500/30 dark:border-rose-500/40 shadow-sm cursor-pointer hover:border-rose-500 hover:shadow-md transition-all group flex flex-col md:flex-row md:items-center justify-between gap-4"
+      >
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-500 text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md shadow-rose-500/20">
+            🚨
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500 text-white">
+                Approaching in 4 Days (Dec 4)
+              </span>
+              <span className="text-sm font-black text-slate-900 dark:text-white">
+                IA-2: AI Concepts (BAICB501) • 09:30 AM (LH-501)
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+              Modules 1 & 2 • <strong>Batch {user?.batch || 'B1'} Lab IA:</strong> React & Node Lab on Dec 2 (Lab 326)
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-indigo-600 dark:text-indigo-400 font-bold text-xs shadow-xs group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0 flex items-center gap-1.5 self-start md:self-auto"
+        >
+          <Calendar size={14} />
+          <span>View Date-Sheet & Portions</span>
+          <ArrowUpRight size={13} />
+        </button>
+      </div>
+
+      {/* ============================================================== */}
       {/* 2. TOP BENTO METRICS GRID (4 TILES) */}
       {/* ============================================================== */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {/* Tile 1: Attendance Health (Radial Ring) */}
+        {/* Tile 1: Subject Attendance Radar (No Useless Averages) */}
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-all group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Clock size={15} className="text-indigo-500" /> Attendance Health
+              <Clock size={15} className="text-rose-500" /> Subject Attendance Radar
             </span>
-            <span
-              className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                overallAttendance >= 75
-                  ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400'
-                  : 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-400'
-              }`}
-            >
-              {overallAttendance >= 75 ? 'Safe ✓' : 'Shortage ⚠'}
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">
+              1 Shortage Alert ⚠️
             </span>
           </div>
 
-          <div className="flex items-center gap-4 my-1">
-            {/* Radial SVG Ring */}
-            <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
-              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="14"
-                  fill="none"
-                  className="stroke-slate-100 dark:stroke-slate-800"
-                  strokeWidth="3.5"
-                />
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="14"
-                  fill="none"
-                  stroke={overallAttendance >= 75 ? '#10b981' : '#f43f5e'}
-                  strokeWidth="3.5"
-                  strokeDasharray={`${overallAttendance}, 100`}
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span className="absolute text-xs font-black text-slate-900 dark:text-white">
-                {Math.round(overallAttendance)}%
-              </span>
-            </div>
-
-            <div>
-              <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                {overallAttendance}%
-              </span>
-              <p className="text-[11px] text-slate-400 font-medium mt-0.5">
-                {totalPresent} of {totalConducted} classes attended
+          <div className="my-1 space-y-2">
+            {/* The Critical Shortage Warning */}
+            <div className="p-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                  AI Concepts (BAICB501)
+                </span>
+                <span className="text-xs font-black text-rose-600">71.4%</span>
+              </div>
+              <p className="text-[10px] text-rose-700 dark:text-rose-300 font-semibold mt-0.5">
+                Must attend next <strong className="underline">2 classes</strong> to cross 75%!
               </p>
             </div>
+
+            {/* Quick Safe Courses */}
+            <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+              <span>IDA (90%): <strong className="text-emerald-600">+2 Bunks</strong></span>
+              <span>CNS (75%): <strong className="text-amber-600">0 Bunks</strong></span>
+            </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
-            <span className="text-slate-500">
-              {belowTargetCount > 0 ? (
-                <strong className="text-rose-600">{belowTargetCount} at risk</strong>
-              ) : (
-                <strong className="text-emerald-600">All subjects safe</strong>
-              )}
-            </span>
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+            <span className="text-slate-500 font-medium">Under VTU: 75% per course</span>
             <Link
               to="/attendance"
               className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-0.5"
@@ -332,44 +340,40 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Tile 3: VTU Internal CIE Base */}
+        {/* Tile 3: VTU CIE Target Predictor (No Useless Averages) */}
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-all group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <GraduationCap size={15} className="text-purple-500" /> VTU CIE Base
+              <GraduationCap size={15} className="text-purple-500" /> CIE Target Predictor
             </span>
-            <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 px-2 py-0.5 rounded-full font-mono">
-              Max 50
+            <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-0.5 rounded-full font-mono">
+              Target: 40/50
             </span>
           </div>
 
-          <div className="my-1 space-y-1.5">
-            <div className="flex items-baseline justify-between">
-              <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                {avgCie}
-                <span className="text-sm text-slate-400 font-normal"> / 50</span>
-              </span>
-              <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400">
-                84.2% Base
-              </span>
+          <div className="my-1 space-y-2">
+            <p className="text-[11px] text-slate-500 leading-tight">
+              Scores needed in upcoming <strong>IA-2</strong> to hit target:
+            </p>
+            <div className="space-y-1.5 text-xs">
+              <div className="flex items-center justify-between p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-[11px]">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Computer Networks</span>
+                <span className="font-bold text-indigo-600 dark:text-indigo-400">Need 18 / 20 in IA-2</span>
+              </div>
+              <div className="flex items-center justify-between p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-[11px]">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">AI Concepts</span>
+                <span className="font-bold text-indigo-600 dark:text-indigo-400">Need 15 / 20 in IA-2</span>
+              </div>
             </div>
-            {/* Visual Progress Meter */}
-            <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full"
-                style={{ width: `${(parseFloat(avgCie) / 50) * 100}%` }}
-              />
-            </div>
-            <p className="text-[10px] text-slate-400">Avg(IA1, IA2) × 30/50 + Assignment(20)</p>
           </div>
 
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
-            <span className="text-slate-500 font-medium">Strong Base for SEE</span>
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+            <span className="text-emerald-600 font-semibold">Min 20/50 for SEE Cleared</span>
             <Link
               to="/gpa-predictor"
               className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-0.5"
             >
-              <span>Breakdown</span>
+              <span>Simulator</span>
               <ArrowUpRight size={12} />
             </Link>
           </div>
@@ -785,6 +789,13 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Live Exam & IA Date-Sheet Modal */}
+      <ExamScheduleModal
+        isOpen={showExamModal}
+        onClose={() => setShowExamModal(false)}
+        user={user}
+      />
     </div>
   );
 }

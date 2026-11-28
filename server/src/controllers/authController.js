@@ -125,6 +125,8 @@ export async function completeRegistration(req, res) {
       avatarUrl: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(pending.fullName)}&backgroundColor=4f46e5`,
       isVerified: true,
       emailAlerts: true,
+      role: 'student',
+      crApplicationStatus: 'none',
       bio: `5th Sem ${pending.department.split(' ')[0]} Student @ Atria`
     });
 

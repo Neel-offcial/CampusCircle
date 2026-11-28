@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCircle Mobile App Preview</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom mobile scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-subtle { animation: pulse-ring 3s infinite ease-in-out; }
+  </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 p-4 flex flex-col items-center justify-center min-h-screen font-sans antialiased select-none">
+
+  <!-- Outer Control Header -->
+  <div class="w-full max-w-md flex items-center justify-between mb-4 px-2">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+        <h2 class="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">CampusCircle Mobile App</h2>
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300">v1.3 Admin & CR</span>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400">CR Application • Super Admin PDF Upload • Scoped Lab IA</p>
+    </div>
+
+    <!-- Theme & Platform Toggles -->
+    <div class="flex items-center gap-2">
+      <button id="toggle-device-theme" class="px-2.5 py-1 text-xs font-semibold rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs hover:bg-slate-50 transition-colors">
+        🌗 Theme
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Phone Frame (iPhone 16 Pro Style) -->
+  <div id="phone-container" class="relative w-[375px] h-[780px] bg-slate-50 dark:bg-[#0b0f19] rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] border-[10px] border-slate-800 dark:border-slate-700 overflow-hidden flex flex-col transition-colors duration-200">
+    
+    <!-- Phone Top Notch / Dynamic Island -->
+    <div class="h-10 w-full flex items-center justify-between px-7 pt-3 shrink-0 z-40 bg-transparent">
+      <!-- Time -->
+      <span class="text-xs font-bold font-mono tracking-tight text-slate-800 dark:text-slate-200">09:41</span>
+      
+      <!-- Dynamic Island Pill -->
+      <div class="w-24 h-5 rounded-full bg-black flex items-center justify-end px-2 gap-1.5 shadow-inner">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700"></span>
+      </div>
+
+      <!-- Battery & Signal -->
+      <div class="flex items-center gap-1.5 text-slate-800 dark:text-slate-200">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
+        <span class="text-[10px] font-bold">5G</span>
+        <div class="w-5 h-2.5 rounded-sm border border-current p-0.5 flex items-center">
+          <div class="h-full w-full bg-current rounded-2xs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Screen Viewport -->
+    <div id="screen-container" class="flex-1 overflow-y-auto no-scrollbar relative pb-20">
+
+      <!-- ============================================================== -->
+      <!-- SCREEN 1: ACADEMIC DASHBOARD                                   -->
+      <!-- ============================================================== -->
+      <div id="screen-home" class="screen-view p-4 space-y-3.5">
+        
+        <!-- User Top Welcome Header -->
+        <div class="flex items-center justify-between pt-1">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm shadow-md shadow-indigo-500/20">
+              NK
+            </div>
+            <div>
+              <div class="flex items-center gap-1">
+                <h1 class="text-sm font-black text-slate-900 dark:text-white">Neel Kumar</h1>
+                <span class="text-emerald-500 text-xs">✓</span>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300">ADMIN</span>
+              </div>
+              <p class="text-[11px] text-slate-400 font-medium">CSE Sem V • Sec C (Batch B1)</p>
+            </div>
+          </div>
+          <button class="w-9 h-9 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center text-slate-600 dark:text-slate-300 shadow-xs relative">
+            <span class="text-sm">🔔</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+          </button>
+        </div>
+
+        <!-- NEW: LIVE EXAM COUNTDOWN BANNER (IA & LAB IA) -->
+        <div class="p-3 rounded-2xl bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-indigo-500/10 border border-rose-500/30 dark:border-rose-500/40 shadow-xs cursor-pointer hover:border-rose-500 transition-colors" id="home-to-exams">
+          <div class="flex items-center justify-between mb-1.5">
+            <div class="flex items-center gap-1.5">
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-500 text-white">
+                🚨 Approaching in 4 Days
+              </span>
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Dec 4</span>
+            </div>
+            <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-0.5">
+              Schedule & Portions →
+            </span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-xs font-black text-slate-900 dark:text-white">IA-2: AI Concepts (BAICB501)</h4>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">09:30 AM • LH-501 • Modules 1 & 2</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
+                Lab IA Dec 2
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next Up Class Card (Master Timetable Driven) -->
+        <div class="p-3.5 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 text-white shadow-lg shadow-indigo-500/25 relative overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded-full">
+              ⏰ Next Class • 10:45 AM
+            </span>
+            <span class="text-[10px] font-bold bg-emerald-400 text-emerald-950 px-2 py-0.5 rounded-full">
+              75% Safe ✓
+            </span>
+          </div>
+          <h3 class="text-base font-black leading-tight">Computer Networks & Security</h3>
+          <p class="text-xs text-indigo-100 mt-0.5">Room LH-501 • Ms. Shammi L • Lecture</p>
+        </div>
+
+        <!-- SUBJECT DANGER ZONE RADAR -->
+        <div class="p-3.5 rounded-3xl bg-white dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/60 shadow-xs space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">🎯</span>
+              <span class="text-xs font-black text-slate-900 dark:text-white tracking-tight">Subject Attendance Radar</span>
+            </div>
+            <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+              1 Subject in Danger ⚠️
+            </span>
+          </div>
+
+          <!-- Weak Link -->
+          <div class="p-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-slate-900 dark:text-white">AI Concepts & Practice</span>
+                <span class="text-[9px] font-black text-rose-600 bg-rose-100 dark:bg-rose-900/60 px-1.5 py-0.2 rounded">71.4%</span>
+              </div>
+              <p class="text-[10px] text-rose-700 dark:text-rose-300 font-semibold mt-0.5">
+                🚨 Shortage alert: Must attend next <span class="underline font-black">2 classes</span> to reach 75%
+              </p>
+            </div>
+            <span class="text-lg">⛔</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- SCREEN 2: CAMPUS PULSE & STORIES                               -->
+      <!-- ============================================================== -->
+      <div id="screen-pulse" class="screen-view p-4 space-y-4 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span>Campus Pulse</span>
+              <span class="text-[9px] font-black uppercase bg-rose-500 text-white px-1.5 py-0.5 rounded-full">HOT</span>
+            </h2>
+            <p class="text-[11px] text-slate-400">Atria Stories & Real-Time Vibes</p>
+          </div>
+          <button class="px-2.5 py-1 rounded-xl bg-indigo-600 text-white text-[11px] font-bold shadow-xs">
+            + Post
+          </button>
+        </div>
+
+        <div class="p-3.5 rounded-3xl bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-200">Class Rep Notice (Sec C)</span>
+            <span class="text-[9px] font-bold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">Official</span>
+          </div>
+          <p class="text-xs text-slate-700 dark:text-slate-300">
+            📢 CR Update: Batch B1 React Lab IA is scheduled for Monday 08:30 AM in Lab 326. Check the Exams tab for the 6 program question bank.
+          </p>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- SCREEN 3: EXAMS & ATTENDANCE INTELLIGENCE                      -->
+      <!-- ============================================================== -->
+      <div id="screen-attendance" class="screen-view p-4 space-y-3.5 hidden">
+        
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-black text-slate-900 dark:text-white">Exams & Academic Health</h2>
+            <p class="text-[11px] text-slate-400">Atria CSE Sem V Sec C • Batch B1</p>
+          </div>
+          <button id="btn-sync-modal" class="px-2.5 py-1.5 rounded-xl bg-indigo-600 text-white text-[10px] font-bold flex items-center gap-1 shadow-xs hover:bg-indigo-700">
+            <span>⚡ Sync Portal</span>
+          </button>
+        </div>
+
+        <!-- 3-Segment Switcher -->
+        <div class="flex rounded-2xl bg-slate-200/70 dark:bg-slate-800 p-1 text-[11px] font-bold">
+          <button id="tab-btn-exams" class="flex-1 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-xs font-black transition-all">
+            🚨 Exams & IA
+          </button>
+          <button id="tab-btn-radar" class="flex-1 py-1.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 transition-all">
+            🎯 Subject Radar
+          </button>
+          <button id="tab-btn-timetable" class="flex-1 py-1.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 transition-all">
+            📅 Timetable
+          </button>
+        </div>
+
+        <!-- SUBVIEW 1: EXAM SCHEDULE -->
+        <div id="subview-exams" class="space-y-3">
+          
+          <!-- Theory IA-2 Schedule -->
+          <div class="p-3.5 rounded-3xl bg-white dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/60 shadow-xs space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-[9px] font-black uppercase tracking-wider bg-rose-500 text-white px-2 py-0.5 rounded-full">
+                  Approaching in 4 Days
+                </span>
+                <h3 class="text-xs font-black text-slate-900 dark:text-white mt-1">Theory IA-2 Schedule (Dec 2026)</h3>
+              </div>
+              <span class="text-xs">📝</span>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/40 flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-bold text-slate-900 dark:text-white">AI Concepts & Practice (BAICB501)</p>
+                  <p class="text-[10px] text-slate-500">Dec 4 • 09:30 - 10:45 AM • LH-501 (Mod 1 & 2)</p>
+                </div>
+                <button class="px-2 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold">
+                  📚 Notes
+                </button>
+              </div>
+
+              <div class="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/40 flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-bold text-slate-900 dark:text-white">Computer Networks & Security (BCNSB502)</p>
+                  <p class="text-[10px] text-slate-500">Dec 5 • 09:30 - 10:45 AM • LH-501 (Mod 1 & 2)</p>
+                </div>
+                <button class="px-2 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold">
+                  📚 Notes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lab IA Schedule (CR Managed • Batch B1 Filtered) -->
+          <div class="p-3.5 rounded-3xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/50 shadow-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs">🧪</span>
+                <div>
+                  <h3 class="text-xs font-black text-slate-900 dark:text-white">Lab IA (CR Section Updated)</h3>
+                  <p class="text-[9px] text-slate-500">Batch-wise flexible schedule</p>
+                </div>
+              </div>
+              <span class="text-[9px] font-bold text-amber-800 dark:text-amber-300 bg-amber-100 dark:bg-amber-900 px-2 py-0.5 rounded-full">
+                Batch B1: In 2 Days
+              </span>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold text-slate-900 dark:text-white">React & Node.js Lab IA</p>
+                <p class="text-[10px] text-slate-500">Dec 2 • 08:30 - 11:30 AM • Lab 326</p>
+                <p class="text-[9px] text-indigo-600 dark:text-indigo-400 font-semibold mt-0.5">Updated by Section CR: Programs 1 to 6</p>
+              </div>
+              <button class="px-2 py-1 rounded-lg bg-amber-500 text-white text-[10px] font-bold shadow-xs">
+                Cheatsheet
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SUBVIEW 2: RADAR -->
+        <div id="subview-radar" class="space-y-2.5 hidden">
+          <div class="p-3 rounded-2xl bg-white dark:bg-slate-800/70 border border-rose-200 dark:border-rose-900/60 shadow-xs space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 dark:text-white">AI Concepts & Practice (BAICB501)</h4>
+              <span class="text-xs font-black text-rose-600">71.4% Shortage</span>
+            </div>
+            <p class="text-[10px] text-rose-700 dark:text-rose-300 font-semibold">
+              👉 Must attend next 2 classes to hit 75%. 0 bunks allowed.
+            </p>
+          </div>
+        </div>
+
+        <!-- SUBVIEW 3: TIMETABLE & CR UPLOAD -->
+        <div id="subview-timetable" class="space-y-3 hidden">
+          <div class="p-3.5 rounded-3xl bg-white dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/60 shadow-xs space-y-2">
+            <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400">Central Master</span>
+            <h3 class="text-xs font-black text-slate-900 dark:text-white">Atria CSE • Sem V • Sec C</h3>
+            <p class="text-[11px] text-slate-500">Students don't need to upload anything. Timetable is auto-synced.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- SCREEN 4: GROUPS & CHAT                                        -->
+      <!-- ============================================================== -->
+      <div id="screen-chat" class="screen-view p-4 space-y-3 hidden">
+        <h2 class="text-base font-black text-slate-900 dark:text-white">Study Groups</h2>
+        <div class="p-3 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-xs flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">5C</div>
+          <div>
+            <h4 class="text-xs font-bold text-slate-900 dark:text-white">CSE 5th Sem - Section C</h4>
+            <p class="text-[11px] text-slate-500">CR: New Lab IA batch slots updated!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- SCREEN 5: PROFILE & ROLE PRIVILEGES (CR & SUPER ADMIN)         -->
+      <!-- ============================================================== -->
+      <div id="screen-profile" class="screen-view p-4 space-y-3.5 hidden">
+        <h2 class="text-base font-black text-slate-900 dark:text-white">Profile & Roles</h2>
+        
+        <!-- User Badge Card -->
+        <div class="p-3.5 rounded-3xl bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-xs flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white font-black text-lg flex items-center justify-center shadow-md">
+              NK
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <h3 class="text-xs font-bold text-slate-900 dark:text-white">Neel Kumar Gupta</h3>
+                <span class="text-emerald-500 text-xs">✓</span>
+              </div>
+              <p class="text-[10px] text-slate-400">1AT24CS137 • neel.22cse@atria.edu</p>
+              <span class="inline-block mt-0.5 px-2 py-0.2 text-[9px] font-black bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300 rounded-full">
+                🛡️ Super Admin
+              </span>
+            </div>
+          </div>
+          <!-- Role View Switcher Demo -->
+          <button id="toggle-view-role" class="px-2 py-1 text-[10px] font-extrabold rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600">
+            Switch View ⇄
+          </button>
+        </div>
+
+        <!-- ================= SECTION A: STUDENT CR APPLICATION ================= -->
+        <div id="panel-cr-application" class="p-3.5 rounded-3xl bg-gradient-to-br from-indigo-50/80 to-violet-50/80 dark:from-indigo-950/40 dark:to-violet-950/30 border border-indigo-200 dark:border-indigo-900/60 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">🎓</span>
+              <h4 class="text-xs font-black text-slate-900 dark:text-white">Apply as Class Representative (CR)</h4>
+            </div>
+            <span class="text-[9px] font-bold bg-indigo-600 text-white px-2 py-0.5 rounded-full">Sec C</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+            Elected as your class CR? Apply for CR privileges. Your application will be sent to <strong>Admin Neel</strong> for verification.
+          </p>
+          <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 space-y-1.5 text-[11px]">
+            <div class="flex justify-between">
+              <span class="text-slate-400">Target Section:</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200">CSE • Sem V • Sec C</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Student USN:</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200">1AT24CS137</span>
+            </div>
+          </div>
+          <button id="btn-apply-cr" class="w-full py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs shadow-xs hover:bg-indigo-700">
+            📨 Submit CR Application to Admin
+          </button>
+        </div>
+
+        <!-- ================= SECTION B: SUPER ADMIN PORTAL (NEEL ONLY) ================= -->
+        <div id="panel-super-admin" class="p-3.5 rounded-3xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/60 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">🛡️</span>
+              <h4 class="text-xs font-black text-purple-950 dark:text-purple-200">Super Admin Console (Neel)</h4>
+            </div>
+            <span class="text-[9px] font-black uppercase bg-purple-600 text-white px-2 py-0.5 rounded-full">Master</span>
+          </div>
+
+          <!-- Sub-Feature 1: Approve Pending CR Applications -->
+          <div class="p-3 rounded-2xl bg-white dark:bg-slate-800/80 border border-purple-100 dark:border-purple-900/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                Pending CR Approvals (1)
+              </span>
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold text-slate-900 dark:text-white">Sarah Jenkins (USN: 1AT24CS142)</p>
+                <p class="text-[10px] text-slate-400">Applied for: CSE Sem V - Sec C</p>
+                <p class="text-[9px] text-indigo-500 italic">"Elected as CR for Sec C lab batches"</p>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button id="btn-approve-cr" class="flex-1 py-1.5 rounded-xl bg-emerald-600 text-white text-[11px] font-bold shadow-xs hover:bg-emerald-700">
+                ✓ Grant CR Access
+              </button>
+              <button class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[11px] font-bold">
+                ✕ Decline
+              </button>
+            </div>
+          </div>
+
+          <!-- Sub-Feature 2: Super Admin PDF Timetable & Academic Calendar Uploader -->
+          <div class="p-3 rounded-2xl bg-white dark:bg-slate-800/80 border border-purple-100 dark:border-purple-900/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                📤 Master Academic PDF Uploader
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-500">
+              Upload official college circulars (PDF) for any department or semester:
+            </p>
+            
+            <div class="grid grid-cols-2 gap-1.5 text-[10px]">
+              <select class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                <option>Dept: CSE</option>
+                <option>Dept: ISE</option>
+                <option>Dept: ECE</option>
+                <option>Dept: AIML</option>
+              </select>
+              <select class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                <option>Semester V</option>
+                <option>Semester III</option>
+                <option>Semester VII</option>
+                <option>All Semesters</option>
+              </select>
+            </div>
+
+            <!-- PDF Dropzone -->
+            <div id="pdf-dropzone" class="border-2 border-dashed border-purple-300 dark:border-purple-700/60 rounded-xl p-3 text-center cursor-pointer hover:bg-purple-50/50 dark:hover:bg-purple-950/20 transition-colors">
+              <span class="text-base">📄</span>
+              <p class="text-[11px] font-bold text-purple-600 dark:text-purple-400">Tap to Upload Circular (PDF)</p>
+              <p class="text-[9px] text-slate-400">Academic Calendar or Master Timetable</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= SECTION C: SCOPED CR LAB IA CONTROLS (SECTION C ONLY) ================= -->
+        <div id="panel-cr-scoped" class="p-3.5 rounded-3xl bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">⚡</span>
+              <h4 class="text-xs font-black text-amber-950 dark:text-amber-200">CR Controls (Section C Only)</h4>
+            </div>
+            <span class="text-[9px] font-black uppercase bg-amber-500 text-white px-2 py-0.5 rounded-full">Scoped</span>
+          </div>
+          <div class="p-2 rounded-xl bg-amber-100/60 dark:bg-amber-900/30 text-[10px] text-amber-900 dark:text-amber-200 font-medium">
+            🔒 <strong>Strict Scope:</strong> You can only edit Lab IA & notices for <strong>CSE Sem V - Sec C</strong>. Other sections are locked.
+          </div>
+
+          <!-- Batch-Wise Lab IA Slot Rescheduler -->
+          <div class="p-2.5 rounded-2xl bg-white dark:bg-slate-800/80 border border-amber-100 dark:border-amber-900/40 space-y-2 text-[11px]">
+            <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
+              Flexible Lab IA Schedule (Batch-Wise)
+            </span>
+
+            <!-- Batch B1 -->
+            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">Batch B1 • React Lab</span>
+                <p class="text-[10px] text-slate-400">Dec 2 • 08:30 AM • Lab 326</p>
+              </div>
+              <button class="px-2 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-[10px] font-bold">Edit Slot</button>
+            </div>
+
+            <!-- Batch B2 -->
+            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">Batch B2 • IDA Lab</span>
+                <p class="text-[10px] text-slate-400">Dec 3 • 10:45 AM • Lab 509</p>
+              </div>
+              <button class="px-2 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-[10px] font-bold">Edit Slot</button>
+            </div>
+
+            <!-- Batch B3 -->
+            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">Batch B3 • AI Lab</span>
+                <p class="text-[10px] text-slate-400">Dec 4 • 01:30 PM • Lab 508</p>
+              </div>
+              <button class="px-2 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-[10px] font-bold">Edit Slot</button>
+            </div>
+
+            <button class="w-full py-2 rounded-xl bg-amber-500 text-white font-bold text-xs shadow-xs hover:bg-amber-600">
+              📢 Save & Broadcast Schedule to Sec C
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Phone Bottom Navigation Bar (Fixed 5-Tab Bar) -->
+    <div class="absolute bottom-0 inset-x-0 h-16 bg-white/95 dark:bg-[#0e131f]/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 flex items-center justify-around px-2 z-40">
+      <button data-target="screen-home" class="nav-tab flex flex-col items-center gap-1 text-indigo-600 dark:text-indigo-400 transition-colors">
+        <span class="text-base">📊</span>
+        <span class="text-[9px] font-bold">Home</span>
+      </button>
+
+      <button data-target="screen-pulse" class="nav-tab flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <span class="text-base">🔥</span>
+        <span class="text-[9px] font-semibold">Pulse</span>
+      </button>
+
+      <button data-target="screen-attendance" class="nav-tab flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <span class="text-base">⏰</span>
+        <span class="text-[9px] font-semibold">Exams & Radar</span>
+      </button>
+
+      <button data-target="screen-chat" class="nav-tab flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <span class="text-base">💬</span>
+        <span class="text-[9px] font-semibold">Groups</span>
+      </button>
+
+      <button data-target="screen-profile" class="nav-tab flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <span class="text-base">👤</span>
+        <span class="text-[9px] font-semibold">Profile</span>
+      </button>
+    </div>
+
+    <!-- Phone Home Indicator Swipe Bar -->
+    <div class="absolute bottom-1 inset-x-0 flex justify-center z-50 pointer-events-none">
+      <div class="w-32 h-1 bg-slate-400/60 dark:bg-slate-600/60 rounded-full"></div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const screens = document.querySelectorAll('.screen-view');
+    const phoneContainer = document.getElementById('phone-container');
+    const themeBtn = document.getElementById('toggle-device-theme');
+    
+    // Switch Screen Tabs
+    function showScreen(targetId) {
+      screens.forEach(s => s.classList.add('hidden'));
+      document.getElementById(targetId)?.classList.remove('hidden');
+
+      navTabs.forEach(t => {
+        t.classList.remove('text-indigo-600', 'dark:text-indigo-400');
+        t.classList.add('text-slate-400');
+        const span = t.querySelector('span:last-child');
+        if (span) span.className = 'text-[9px] font-semibold';
+      });
+
+      const activeTab = Array.from(navTabs).find(t => t.getAttribute('data-target') === targetId);
+      if (activeTab) {
+        activeTab.classList.remove('text-slate-400');
+        activeTab.classList.add('text-indigo-600', 'dark:text-indigo-400');
+        const span = activeTab.querySelector('span:last-child');
+        if (span) span.className = 'text-[9px] font-bold';
+      }
+    }
+
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        showScreen(tab.getAttribute('data-target'));
+      });
+    });
+
+    // Home Exam Banner Click -> Switches to Exams Screen
+    document.getElementById('home-to-exams')?.addEventListener('click', () => {
+      showScreen('screen-attendance');
+      showExamSubview('subview-exams');
+    });
+
+    // Segmented Subviews inside Screen-Attendance
+    const subviewExams = document.getElementById('subview-exams');
+    const subviewRadar = document.getElementById('subview-radar');
+    const subviewTimetable = document.getElementById('subview-timetable');
+    const btnExams = document.getElementById('tab-btn-exams');
+    const btnRadar = document.getElementById('tab-btn-radar');
+    const btnTimetable = document.getElementById('tab-btn-timetable');
+
+    function showExamSubview(subviewId) {
+      subviewExams.classList.add('hidden');
+      subviewRadar.classList.add('hidden');
+      subviewTimetable.classList.add('hidden');
+
+      [btnExams, btnRadar, btnTimetable].forEach(b => {
+        b.className = 'flex-1 py-1.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 transition-all';
+      });
+
+      if (subviewId === 'subview-exams') {
+        subviewExams.classList.remove('hidden');
+        btnExams.className = 'flex-1 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-xs font-black transition-all';
+      } else if (subviewId === 'subview-radar') {
+        subviewRadar.classList.remove('hidden');
+        btnRadar.className = 'flex-1 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-xs font-black transition-all';
+      } else if (subviewId === 'subview-timetable') {
+        subviewTimetable.classList.remove('hidden');
+        btnTimetable.className = 'flex-1 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-xs font-black transition-all';
+      }
+    }
+
+    btnExams?.addEventListener('click', () => showExamSubview('subview-exams'));
+    btnRadar?.addEventListener('click', () => showExamSubview('subview-radar'));
+    btnTimetable?.addEventListener('click', () => showExamSubview('subview-timetable'));
+
+    // Theme toggle
+    themeBtn?.addEventListener('click', () => {
+      phoneContainer.classList.toggle('dark');
+    });
+
+    // CR Apply Button
+    document.getElementById('btn-apply-cr')?.addEventListener('click', () => {
+      alert('✓ CR Application for CSE Sem V Sec C submitted to Admin Neel! Status is now PENDING.');
+    });
+
+    // Admin Approve CR
+    document.getElementById('btn-approve-cr')?.addEventListener('click', () => {
+      alert('✓ Sarah Jenkins approved as CR for CSE Sem V Sec C! Permissions are strictly scoped to Section C.');
+    });
+
+    // PDF Dropzone
+    document.getElementById('pdf-dropzone')?.addEventListener('click', () => {
+      alert('📄 Master PDF Timetable / Academic Calendar uploaded for CSE Semester V. Instant sync deployed to all students!');
+    });
+  </script>
+
+</body>
+</html>

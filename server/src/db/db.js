@@ -15,7 +15,10 @@ const INITIAL_SCHEMA = {
   confessions: [],
   personalCompletions: [],
   attendanceRecords: [],
-  gpaProfiles: []
+  gpaProfiles: [],
+  crApplications: [],
+  academicDocuments: [],
+  examSchedules: []
 };
 
 class JSONDatabase {

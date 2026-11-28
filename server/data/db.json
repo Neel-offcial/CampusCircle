@@ -3,7 +3,7 @@
     {
       "_id": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "createdAt": "2026-11-26T12:00:11.180Z",
-      "updatedAt": "2026-11-27T09:14:16.597Z",
+      "updatedAt": "2026-11-28T08:25:22.082Z",
       "username": "neel_dev",
       "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
       "fullName": "Neel Kumar Gupta",
@@ -14,12 +14,18 @@
       "isVerified": true,
       "emailHash": "8c6587cf8cab51bc95c0631f7e3c53a002ff02f8641ab3a9ca56ac8c1240a1f0",
       "bio": "5th Sem CSE student @ Atria. Building React & Node apps.",
-      "email": "neel.22cs@atria.edu"
+      "email": "neel.22cs@atria.edu",
+      "role": "admin",
+      "crSection": {
+        "department": "All",
+        "semester": "All",
+        "section": "All"
+      }
     },
     {
       "_id": "f96934e5-db6b-422f-b07d-ff90ca5da9a1",
       "createdAt": "2026-11-26T12:00:11.181Z",
-      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-28T08:25:22.099Z",
       "username": "sarah_admin",
       "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
       "fullName": "Sarah Jenkins",
@@ -29,12 +35,13 @@
       "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
       "isVerified": true,
       "emailHash": "49362a5d0d0a23481f90fee7524e0eebbbb639ca5e2587bef81f46913ba83b43",
-      "bio": "Class Representative & Study Group Coordinator"
+      "bio": "Class Representative & Study Group Coordinator",
+      "role": "student"
     },
     {
       "_id": "fc261ff1-dc8e-488d-a2ed-3e1ad01358c4",
       "createdAt": "2026-11-26T12:00:11.181Z",
-      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-28T08:25:22.100Z",
       "username": "alex_student",
       "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
       "fullName": "Alex Rivera",
@@ -44,12 +51,13 @@
       "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       "isVerified": true,
       "emailHash": "1aa38ff0298e1de73310b6068deecb86af7f129998dfce6444c688b48e32cf99",
-      "bio": "Passionate about Computer Networks & Cybersecurity"
+      "bio": "Passionate about Computer Networks & Cybersecurity",
+      "role": "student"
     },
     {
       "_id": "c019a3f7-158f-4e62-a6aa-98675344307c",
       "createdAt": "2026-11-26T12:00:11.181Z",
-      "updatedAt": "2026-11-26T12:00:11.181Z",
+      "updatedAt": "2026-11-28T08:25:22.103Z",
       "username": "prof_prathyusha",
       "passwordHash": "$2a$10$3/Zs8549lpXkR51vftue5OnghHUaNSTiml3ikujNNWWOiRddXYGQG",
       "fullName": "Prof. Prathyusha R",
@@ -59,12 +67,13 @@
       "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
       "isVerified": true,
       "emailHash": "1cc77d8b02d1c5edc35307e4e61e3bb4b5577fa15b81b36f58dfe8da2c44d265",
-      "bio": "Assistant Professor, Department of CSE. Handling React and Node JS Lab (BRALB507)."
+      "bio": "Assistant Professor, Department of CSE. Handling React and Node JS Lab (BRALB507).",
+      "role": "student"
     },
     {
       "_id": "4f6b1d4d-a595-4889-af57-992214368d53",
       "createdAt": "2026-11-26T18:01:21.643Z",
-      "updatedAt": "2026-11-27T12:08:01.843Z",
+      "updatedAt": "2026-11-28T08:25:22.104Z",
       "username": "neel",
       "passwordHash": "$2a$10$Jl8cUU12Pshej8E2N42yIOHx81aPz1WdoFkNi.DFBB1U9cXhBzMbS",
       "fullName": "Neel kumar Gupta",
@@ -75,12 +84,18 @@
       "isVerified": true,
       "emailHash": "ffff7b3cd8ffc255e6861f071afc280d242a2b548f80cb555ab431a253dc19aa",
       "bio": "Student at CampusCircle",
-      "email": "1at24cs137@atria.edu"
+      "email": "1at24cs137@atria.edu",
+      "role": "admin",
+      "crSection": {
+        "department": "All",
+        "semester": "All",
+        "section": "All"
+      }
     },
     {
       "_id": "603cfb81-9311-4931-9fe0-da6e194875d9",
       "createdAt": "2026-11-26T19:00:59.163Z",
-      "updatedAt": "2026-11-26T19:00:59.163Z",
+      "updatedAt": "2026-11-28T08:25:22.105Z",
       "username": "student_8959",
       "passwordHash": "$2a$10$T7hLn09gCeMb7Q2jfrhsh.Lcdw/nYa0N0jC3ZlFFA623oJc6yv7N2",
       "fullName": "Test Atria Student",
@@ -93,12 +108,13 @@
       "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Atria%20Student&backgroundColor=4f46e5",
       "isVerified": true,
       "emailAlerts": true,
-      "bio": "5th Sem Computer Student @ Atria"
+      "bio": "5th Sem Computer Student @ Atria",
+      "role": "student"
     },
     {
       "_id": "5ca75a93-1ee7-4767-a238-2d32ed476bf2",
       "createdAt": "2026-11-27T09:12:50.376Z",
-      "updatedAt": "2026-11-27T09:12:50.376Z",
+      "updatedAt": "2026-11-28T08:25:22.106Z",
       "username": "user_1795770769866",
       "passwordHash": "$2a$10$j.WbDFC2PGYi3wrJWU3h6.3Q1zExazZ137oNYiyOfnVTytgziNz76",
       "fullName": "Test Atria Student",
@@ -111,12 +127,13 @@
       "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Atria%20Student&backgroundColor=4f46e5",
       "isVerified": true,
       "emailAlerts": true,
-      "bio": "5th Sem Computer Student @ Atria"
+      "bio": "5th Sem Computer Student @ Atria",
+      "role": "student"
     },
     {
       "_id": "ea36a5f8-45aa-4096-bcc9-e92b61f835d8",
       "createdAt": "2026-11-27T09:20:34.898Z",
-      "updatedAt": "2026-11-27T09:20:34.898Z",
+      "updatedAt": "2026-11-28T08:25:22.107Z",
       "username": "teststudent_eval",
       "passwordHash": "$2a$10$MgGkwndyQwBfZH72kQmBIe5CX6xkvOe5liUlHlWVvu2mN9Ku1JbKm",
       "fullName": "Test Student",
@@ -129,12 +146,13 @@
       "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Test%20Student&backgroundColor=4f46e5",
       "isVerified": true,
       "emailAlerts": true,
-      "bio": "5th Sem CSE Student @ Atria"
+      "bio": "5th Sem CSE Student @ Atria",
+      "role": "student"
     },
     {
       "_id": "c848a0ea-c347-4043-be13-4ed7a1454490",
       "createdAt": "2026-11-27T09:25:29.181Z",
-      "updatedAt": "2026-11-27T12:19:53.894Z",
+      "updatedAt": "2026-11-28T08:25:22.108Z",
       "username": "neel_cse22",
       "passwordHash": "$2a$10$bfMKGjoxjYl54Ui7y60lX.jjU1E86P2.ardwKGYV04RJv6tBGlDVC",
       "fullName": "Neel Kumar",
@@ -147,7 +165,13 @@
       "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=jckwn&backgroundColor=4f46e5",
       "isVerified": true,
       "emailAlerts": true,
-      "bio": "5th Sem Computer Student @ Atria"
+      "bio": "5th Sem Computer Student @ Atria",
+      "role": "admin",
+      "crSection": {
+        "department": "All",
+        "semester": "All",
+        "section": "All"
+      }
     }
   ],
   "groups": [
@@ -594,6 +618,25 @@
         "🫂": 0,
         "🎯": 0
       }
+    },
+    {
+      "_id": "e59f081d-60b8-4057-b4b0-baf270eb6d05",
+      "createdAt": "2026-11-28T05:34:32.888Z",
+      "updatedAt": "2026-11-28T05:34:36.230Z",
+      "tag": "Anon #2118",
+      "content": "hgfguyrfsef",
+      "imageUrl": null,
+      "poll": null,
+      "upvotes": 3,
+      "downvotes": 0,
+      "score": 3,
+      "reactions": {
+        "❤️": 0,
+        "😂": 0,
+        "💀": 0,
+        "🫂": 0,
+        "🎯": 0
+      }
     }
   ],
   "personalCompletions": [
@@ -618,17 +661,16 @@
     {
       "_id": "cb5594c4-2603-4092-8585-393c89aef1ea",
       "createdAt": "2026-11-26T15:06:31.254Z",
-      "updatedAt": "2026-11-26T15:06:31.254Z",
+      "updatedAt": "2026-11-28T05:35:42.330Z",
       "userId": "bb8f0d48-3d86-4f7f-9786-73265934c721",
       "data": {
         "theory": [
           {
             "name": "Artificial Intelligence Concepts and Practice",
-            "code": "BAINB501",
+            "code": "BAICB501",
             "conducted": 14,
             "present": 10,
             "absent": 4,
-            "percentage": 71.4,
             "section": "theory"
           },
           {
@@ -637,7 +679,6 @@
             "conducted": 16,
             "present": 12,
             "absent": 4,
-            "percentage": 75,
             "section": "theory"
           },
           {
@@ -646,45 +687,56 @@
             "conducted": 10,
             "present": 9,
             "absent": 1,
-            "percentage": 90,
             "section": "theory"
           },
           {
             "name": "Software Testing and Quality Assurance",
-            "code": "BSTQAB515",
+            "code": "BSTQAB515A",
             "conducted": 8,
             "present": 7,
             "absent": 1,
-            "percentage": 87.5,
+            "section": "theory"
+          },
+          {
+            "name": "Economics and Financial Management",
+            "code": "BEFMK506",
+            "conducted": 8,
+            "present": 6,
+            "absent": 2,
             "section": "theory"
           },
           {
             "name": "Research Methodology and IPR",
             "code": "BRMIK504",
-            "conducted": 6,
-            "present": 5,
-            "absent": 1,
-            "percentage": 83.3,
+            "conducted": 0,
+            "present": 0,
+            "absent": 0,
             "section": "theory"
           }
         ],
         "laboratory": [
+          {
+            "name": "React and Node JS Lab",
+            "code": "BRALB507",
+            "conducted": 4,
+            "present": 4,
+            "absent": 0,
+            "section": "laboratory"
+          },
           {
             "name": "Intelligent Data Analytics Lab",
             "code": "BIDAB503L",
             "conducted": 4,
             "present": 3,
             "absent": 1,
-            "percentage": 75,
             "section": "laboratory"
           },
           {
             "name": "Artificial Intelligence Concepts Lab",
             "code": "BAICB501L",
             "conducted": 4,
-            "present": 2,
-            "absent": 2,
-            "percentage": 50,
+            "present": 1,
+            "absent": 3,
             "section": "laboratory"
           },
           {
@@ -693,31 +745,11 @@
             "conducted": 2,
             "present": 2,
             "absent": 0,
-            "percentage": 100,
-            "section": "laboratory"
-          },
-          {
-            "name": "React and Node JS Lab",
-            "code": "BRALB507",
-            "conducted": 4,
-            "present": 4,
-            "absent": 0,
-            "percentage": 100,
             "section": "laboratory"
           }
         ],
-        "electives": [
-          {
-            "name": "Economics and Financial Management",
-            "code": "BEFMK506",
-            "conducted": 8,
-            "present": 6,
-            "absent": 2,
-            "percentage": 75,
-            "section": "electives"
-          }
-        ],
-        "extractedAt": "2026-11-26T15:06:31.254Z"
+        "electives": [],
+        "extractedAt": "2026-11-28T05:35:42.311Z"
       }
     },
     {
@@ -1108,6 +1140,108 @@
         }
       ],
       "targetGpa": 8.75
+    }
+  ],
+  "crApplications": [],
+  "academicDocuments": [],
+  "examSchedules": [
+    {
+      "_id": "f090f7fb-e2dc-4564-8a80-fff525c408e8",
+      "createdAt": "2026-11-28T08:33:02.490Z",
+      "updatedAt": "2026-11-28T08:33:02.493Z",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "section": "C",
+      "theoryIa": [
+        {
+          "code": "BAICB501",
+          "name": "Artificial Intelligence Concepts and Practice",
+          "examDate": "2026-12-04",
+          "startTime": "09:30",
+          "endTime": "10:45",
+          "room": "LH-501",
+          "portions": "Module 1 (Search Strategies & Heuristics) & Module 2 (Adversarial Search, Alpha-Beta Pruning)",
+          "faculty": "Prof. Preetha M",
+          "pyqAvailable": true
+        },
+        {
+          "code": "BCNSB502",
+          "name": "Computer Networks and Security",
+          "examDate": "2026-12-05",
+          "startTime": "09:30",
+          "endTime": "10:45",
+          "room": "LH-501",
+          "portions": "Module 1 (Application Layer Protocols & DNS) & Module 2 (Transport Layer, TCP Flow Control)",
+          "faculty": "Ms. Shammi L",
+          "pyqAvailable": true
+        },
+        {
+          "code": "BIDAB503",
+          "name": "Intelligent Data Analytics",
+          "examDate": "2026-12-06",
+          "startTime": "09:30",
+          "endTime": "10:45",
+          "room": "LH-501",
+          "portions": "Module 1 (Data Preprocessing & Cleaning) & Module 2 (Clustering, K-Means & PCA)",
+          "faculty": "Dr. Devi Kannan",
+          "pyqAvailable": true
+        },
+        {
+          "code": "BSTQAB515A",
+          "name": "Software Testing and Quality Assurance",
+          "examDate": "2026-12-07",
+          "startTime": "09:30",
+          "endTime": "10:45",
+          "room": "LH-501",
+          "portions": "Module 1 (Boundary Value & Equivalence Class Testing) & Module 2 (White Box & Path Coverage)",
+          "faculty": "Prof. Pallavi U",
+          "pyqAvailable": true
+        }
+      ],
+      "labIa": [
+        {
+          "batch": "B1",
+          "code": "BRALB507",
+          "name": "React and Node JS Lab IA",
+          "examDate": "2026-12-02",
+          "startTime": "08:30",
+          "endTime": "11:30",
+          "room": "Lab 326",
+          "portions": "Programs 1 to 6 Execution + Viva Voce (Components, State, Hooks & Express APIs)",
+          "faculty": "Prof. Prathyusha R",
+          "lastUpdatedBy": "Class CR"
+        },
+        {
+          "batch": "B2",
+          "code": "BIDAB503L",
+          "name": "Intelligent Data Analytics Lab IA",
+          "examDate": "2026-12-03",
+          "startTime": "10:45",
+          "endTime": "13:45",
+          "room": "Lab 509",
+          "portions": "Programs 1 to 5: K-Means, Decision Trees, and Data Normalization",
+          "faculty": "Dr. Devi Kannan",
+          "lastUpdatedBy": "Class CR"
+        },
+        {
+          "batch": "B3",
+          "code": "BAICB501L",
+          "name": "AI Concepts Lab IA",
+          "examDate": "2026-12-04",
+          "startTime": "13:30",
+          "endTime": "16:30",
+          "room": "Lab 508",
+          "portions": "Programs 1 to 5: BFS/DFS, A* Algorithm, and Minimax Game Tree",
+          "faculty": "Prof. Preetha M",
+          "lastUpdatedBy": "Class CR"
+        }
+      ],
+      "seeFinals": {
+        "title": "VTU Semester End Examinations (SEE)",
+        "commencingDate": "2027-01-12",
+        "eligibilityNotice": "Strict VTU requirement: Minimum 75% attendance in each course and 20/50 CIE passing marks.",
+        "hallTicketsRelease": "Expected 2027-01-05"
+      }
     }
   ],
   "group_files": [],

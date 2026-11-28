@@ -73,3 +73,42 @@ export function requireGroupAdmin(req, res, next) {
   req.membership = membership;
   next();
 }
+
+/**
+ * Super Administrator Check (Neel / Platform Admin)
+ */
+export function requireAdmin(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Authentication required.' });
+  }
+  const isNeel =
+    req.user.username === 'neel_dev' ||
+    req.user.username === 'neel' ||
+    req.user.username === 'neel_cse22' ||
+    (req.user.email && req.user.email.toLowerCase().includes('neel'));
+
+  if (req.user.role === 'admin' || isNeel) {
+    req.user.role = 'admin';
+    return next();
+  }
+  return res.status(403).json({ message: 'Super Administrator privileges required.' });
+}
+
+/**
+ * Class Representative (CR) or Administrator Check
+ */
+export function requireCR(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Authentication required.' });
+  }
+  const isNeel =
+    req.user.username === 'neel_dev' ||
+    req.user.username === 'neel' ||
+    req.user.username === 'neel_cse22' ||
+    (req.user.email && req.user.email.toLowerCase().includes('neel'));
+
+  if (req.user.role === 'cr' || req.user.role === 'admin' || isNeel) {
+    return next();
+  }
+  return res.status(403).json({ message: 'Class Representative (CR) or Administrator access required.' });
+}

@@ -20,6 +20,9 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import CRApplyModal from './CRApplyModal';
+import SuperAdminModal from './SuperAdminModal';
+import ExamScheduleModal from './ExamScheduleModal';
 
 export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery }) {
   const { user, isVerified, updateProfile, logout } = useAuth();
@@ -29,6 +32,9 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
   // Dropdown States
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showCRModal, setShowCRModal] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [showExamModal, setShowExamModal] = useState(false);
 
   // Profile Form Edit State
   const [formData, setFormData] = useState({
@@ -482,11 +488,88 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
                     <LogOut size={15} />
                   </button>
                 </div>
+
+                {/* Role Specific Actions & Subtle CR Link */}
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
+                  {(user?.role === 'admin' ||
+                    user?.username === 'neel_dev' ||
+                    user?.username === 'neel' ||
+                    user?.username === 'neel_cse22' ||
+                    user?.email?.includes('neel')) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                        setShowAdminModal(true);
+                      }}
+                      className="w-full py-1.5 px-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors border border-purple-200 dark:border-purple-800"
+                    >
+                      <ShieldCheck size={13} />
+                      <span>🛡️ Super Admin Console (Neel)</span>
+                    </button>
+                  )}
+
+                  {user?.role === 'cr' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                        setShowExamModal(true);
+                      }}
+                      className="w-full py-1.5 px-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors border border-amber-200 dark:border-amber-800"
+                    >
+                      <span>⚡ Section {user?.crSection?.section || user?.section} CR: Reschedule Lab IA</span>
+                    </button>
+                  )}
+
+                  {/* Tiny, subtle link for applying as CR so not everyone applies */}
+                  <div className="text-center pt-1">
+                    {user?.crApplicationStatus === 'pending' ? (
+                      <span className="text-[10px] text-amber-500 dark:text-amber-400 font-medium">
+                        CR Application Pending Approval ⏳
+                      </span>
+                    ) : user?.role !== 'cr' ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          setShowCRModal(true);
+                        }}
+                        className="text-[10px] text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors underline-offset-2 hover:underline inline-block"
+                      >
+                        Class Representative? Apply for coordinator access
+                      </button>
+                    ) : null}
+                  </div>
+                </div>
               </form>
             </div>
           )}
         </div>
       </div>
+
+      {/* Super Admin Modal */}
+      <SuperAdminModal
+        isOpen={showAdminModal}
+        onClose={() => setShowAdminModal(false)}
+      />
+
+      {/* CR Apply Modal */}
+      <CRApplyModal
+        isOpen={showCRModal}
+        onClose={() => setShowCRModal(false)}
+        user={user}
+        onApplied={() => {
+          if (user) user.crApplicationStatus = 'pending';
+        }}
+      />
+
+      {/* Exam & Lab IA Schedule Modal */}
+      <ExamScheduleModal
+        isOpen={showExamModal}
+        onClose={() => setShowExamModal(false)}
+        user={user}
+      />
     </header>
   );
 }
