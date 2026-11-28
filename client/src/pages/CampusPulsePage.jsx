@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Flame,
   Sparkles,
@@ -389,7 +390,157 @@ export default function CampusPulsePage() {
         {/* ============================================================ */}
         {/* CENTER / MAIN COLUMN: THE STUDENT NEWSFEED (COLS 1-8) */}
         {/* ============================================================ */}
-        <main className="lg:col-span-8 xl:col-span-8 space-y-5">
+        <main className="lg:col-span-8 xl:col-span-8 space-y-4">
+          {/* 1. TOP STORIES / FLEETS RAIL */}
+          <div className="p-3.5 md:p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Zap size={14} className="text-amber-500 animate-pulse" />
+                <span>Campus Fleets & Stories</span>
+                <span className="text-[9px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950/50 px-1.5 py-0.2 rounded-full">
+                  24h
+                </span>
+              </span>
+              <button
+                onClick={() => setCreatePulseOpen(true)}
+                className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
+                + Add Story
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar">
+              {/* Add Story Button */}
+              <button
+                onClick={() => setCreatePulseOpen(true)}
+                className="flex flex-col items-center gap-1 shrink-0 group focus:outline-none"
+                title="Share your 24h story"
+              >
+                <div className="relative w-12 h-12 rounded-full border-2 border-dashed border-indigo-400 dark:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 flex items-center justify-center group-hover:border-indigo-500 transition-colors">
+                  <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform font-bold text-sm">
+                    <Plus size={16} />
+                  </div>
+                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-rose-500 text-white border-2 border-white dark:border-slate-900 flex items-center justify-center text-[9px] font-black">
+                    +
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 max-w-[56px] truncate text-center">
+                  Your Story
+                </span>
+              </button>
+
+              {/* Story Circles with Glowing Rings */}
+              {pulses.map((pulse, idx) => (
+                <button
+                  key={pulse._id}
+                  onClick={() => openStoryAt(idx)}
+                  className="flex flex-col items-center gap-1 shrink-0 group focus:outline-none"
+                  title={`View ${pulse.creatorAlias}'s story`}
+                >
+                  <div className="p-[2px] rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 group-hover:scale-105 transition-all shadow-sm">
+                    <div className="p-[1.5px] bg-white dark:bg-slate-900 rounded-full">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-700 to-indigo-700 flex items-center justify-center text-white text-[11px] font-black">
+                        {pulse.creatorAlias?.slice(0, 2).toUpperCase() || 'CP'}
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-300 max-w-[56px] truncate text-center">
+                    {pulse.creatorAlias?.split(' ')[0] || 'Story'}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 2. ANONYMOUS CHAT ENTRY PILL (COMPACT IN-FEED WIDGET) */}
+          <Link
+            to="/confessions"
+            className="p-3 md:p-3.5 rounded-2xl bg-gradient-to-r from-purple-950/80 via-indigo-950/70 to-slate-900 border border-purple-500/40 shadow-md flex items-center justify-between group hover:border-purple-400 transition-all cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-xl shadow-inner group-hover:scale-105 transition-transform shrink-0">
+                🎭
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <h3 className="text-xs font-black text-white group-hover:text-purple-200">
+                    Anonymous Campus Whisper & Chat
+                  </h3>
+                  <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping"></span> Live Room
+                  </span>
+                </div>
+                <p className="text-[10px] text-slate-300 mt-0.5">
+                  Zero logs • Untracked student room • Tap to enter
+                </p>
+              </div>
+            </div>
+            <div className="w-7 h-7 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors shrink-0">
+              &rarr;
+            </div>
+          </Link>
+
+          {/* 3. CAMPUS EVENTS CAROUSEL (SWIPEABLE / HORIZONTAL) */}
+          {events.length > 0 && (
+            <div className="p-3.5 md:p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-2.5">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <Calendar size={14} className="text-rose-500" />
+                  <span>Upcoming Campus Events</span>
+                </span>
+                <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">
+                  {events.length} Events
+                </span>
+              </div>
+
+              <div className="flex items-stretch gap-3 overflow-x-auto pb-1 no-scrollbar">
+                {events.map((evt) => (
+                  <div
+                    key={evt._id}
+                    className="w-64 md:w-72 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shrink-0 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-2 mb-1.5">
+                        <span className="px-2 py-0.5 rounded-lg text-[9px] font-extrabold uppercase bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                          {evt.category || 'Event'}
+                        </span>
+                        <div className="text-right">
+                          <span className="text-[11px] font-black text-amber-500 dark:text-amber-400">
+                            {evt.date || 'TBA'}
+                          </span>
+                          {evt.time && <p className="text-[9px] text-slate-400">{evt.time}</p>}
+                        </div>
+                      </div>
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                        {evt.title}
+                      </h4>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1 line-clamp-1">
+                        <MapPin size={11} className="text-slate-400 shrink-0" />
+                        <span>{evt.location || 'Campus'}</span>
+                      </p>
+                    </div>
+
+                    <div className="mt-3 pt-2 border-t border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between">
+                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                        👥 {evt.goingCount || 0} Going
+                      </span>
+                      <button
+                        onClick={() => handleRsvp(evt._id, evt.userRsvp === 'going' ? 'cancel' : 'going')}
+                        className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${
+                          evt.userRsvp === 'going'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+                        }`}
+                      >
+                        {evt.userRsvp === 'going' ? 'Going ✓' : 'RSVP'}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* A. QUICK BUZZ COMPOSER CARD (ATRIA MASKED TRIGGER) */}
           <div className="p-4 md:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
             <div className="flex items-center gap-3">
@@ -727,137 +878,81 @@ export default function CampusPulsePage() {
         {/* ============================================================ */}
         <aside className="lg:col-span-4 xl:col-span-4 space-y-6 lg:sticky lg:top-4">
           {/* ---------------------------------------------------------- */}
-          {/* 1. TOP-RIGHT: CAMPUS PULSE (24H STORIES LIKE INSTAGRAM/FB) */}
+          {/* 1. TOP-RIGHT: CAMPUS COCKPIT (QUICK ACADEMIC SHORTCUTS)   */}
           {/* ---------------------------------------------------------- */}
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-4">
-            {/* Header */}
+          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-3.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center">
-                  <Zap size={16} />
+                <div className="w-8 h-8 rounded-xl bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-black">
+                  🎓
                 </div>
                 <div>
-                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <span>Campus Pulse</span>
-                    <span className="text-[9px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950/50 px-1.5 py-0.2 rounded-full">
-                      24h Stories
-                    </span>
+                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                    Academic Cockpit
                   </h2>
-                  <p className="text-[10px] text-slate-400 font-medium">Auto-expires in 24 hours</p>
+                  <p className="text-[10px] text-slate-400 font-medium">Exams, Attendance & GPA</p>
                 </div>
               </div>
-
-              <button
-                onClick={() => setCreatePulseOpen(true)}
-                className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-[11px] font-bold transition-all shadow-sm flex items-center gap-1"
-                title="Post to Campus Pulse"
-              >
-                <Plus size={13} />
-                <span>+ Pulse</span>
-              </button>
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300">
+                Atria CSE
+              </span>
             </div>
 
-            {/* Instagram-Style Story Circles Rail inside Campus Pulse Widget */}
-            <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar">
-              {/* Add Story Button */}
-              <button
-                onClick={() => setCreatePulseOpen(true)}
-                className="flex flex-col items-center gap-1 shrink-0 group focus:outline-none"
-                title="Share your pulse story"
+            <div className="space-y-2 pt-1">
+              <Link
+                to="/my-tab"
+                className="p-2.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/30 border border-indigo-200/80 dark:border-indigo-800/60 flex items-center justify-between hover:bg-indigo-100/70 dark:hover:bg-indigo-900/40 transition-all group"
               >
-                <div className="relative w-12 h-12 rounded-full border-2 border-dashed border-indigo-400 dark:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 flex items-center justify-center group-hover:border-indigo-500 transition-colors">
-                  <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <Plus size={16} />
-                  </div>
-                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-rose-500 text-white border-2 border-white dark:border-slate-900 flex items-center justify-center text-[9px] font-black">
-                    +
+                <div className="flex items-center gap-2.5">
+                  <span className="text-base">📅</span>
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                      My Tab (Academics & Schedule)
+                    </span>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                      IA-2 Theory • CR Lab Slots • Timetable
+                    </p>
                   </div>
                 </div>
-                <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 max-w-[50px] truncate text-center">
-                  You
-                </span>
-              </button>
+                <span className="text-xs text-indigo-600 dark:text-indigo-400 font-bold">&rarr;</span>
+              </Link>
 
-              {/* Story Circles with Glowing Rings */}
-              {pulses.map((pulse, idx) => (
-                <button
-                  key={pulse._id}
-                  onClick={() => openStoryAt(idx)}
-                  className="flex flex-col items-center gap-1 shrink-0 group focus:outline-none"
-                  title={`View ${pulse.creatorAlias}'s story`}
-                >
-                  <div className="p-[2px] rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 group-hover:scale-105 transition-all">
-                    <div className="p-[1.5px] bg-white dark:bg-slate-900 rounded-full">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-purple-700 to-indigo-700 flex items-center justify-center text-white text-[11px] font-black">
-                        {pulse.creatorAlias?.slice(0, 2).toUpperCase() || 'CP'}
-                      </div>
-                    </div>
+              <Link
+                to="/gpa-predictor"
+                className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition-all group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-base">🎯</span>
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                      Two-Color GPA Predictor
+                    </span>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                      (IA1+IA2)/4 + 20 vtucode formula
+                    </p>
                   </div>
-                  <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-300 max-w-[52px] truncate text-center">
-                    {pulse.creatorAlias?.split(' ')[0] || 'Story'}
-                  </span>
-                </button>
-              ))}
+                </div>
+                <span className="text-xs text-slate-400 font-bold">&rarr;</span>
+              </Link>
+
+              <Link
+                to="/attendance"
+                className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition-all group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-base">📊</span>
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                      Attendance Radar & Shortage
+                    </span>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                      Track 75% VTU mandatory cutoff
+                    </p>
+                  </div>
+                </div>
+                <span className="text-xs text-slate-400 font-bold">&rarr;</span>
+              </Link>
             </div>
-
-            {/* Quick Watch & Active Pulse Previews */}
-            {pulses.length === 0 ? (
-              <div className="text-center py-6 px-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700/60 text-xs text-slate-400">
-                <Coffee size={22} className="mx-auto mb-1.5 text-slate-400" />
-                <p className="font-semibold text-slate-600 dark:text-slate-300">No active stories</p>
-                <p className="text-[10px] mt-0.5">Post a 24h pulse to appear here!</p>
-              </div>
-            ) : (
-              <div className="space-y-2.5 max-h-[340px] overflow-y-auto pr-1 no-scrollbar">
-                {pulses.map((pulse, idx) => (
-                  <div
-                    key={pulse._id}
-                    onClick={() => openStoryAt(idx)}
-                    className="group relative overflow-hidden rounded-2xl p-3 bg-gradient-to-br from-slate-900 to-[#1e1732] border border-purple-900/40 hover:border-rose-400/80 text-white cursor-pointer transition-all hover:-translate-y-0.5 shadow-sm"
-                  >
-                    <div className="relative z-10 space-y-1.5">
-                      {/* Tags and Expiration */}
-                      <div className="flex items-center justify-between gap-1 text-[10px]">
-                        <span className="px-2 py-0.5 rounded-full font-bold bg-amber-400/15 text-amber-300 border border-amber-400/20 truncate max-w-[120px]">
-                          {pulse.tag}
-                        </span>
-                        <span className="text-[10px] text-purple-300/70 font-mono flex items-center gap-0.5">
-                          <Clock size={10} /> 24h
-                        </span>
-                      </div>
-
-                      {/* Content Excerpt */}
-                      <p className="text-[11px] text-purple-100/80 line-clamp-2 leading-relaxed font-normal">
-                        "{pulse.content}"
-                      </p>
-
-                      {/* Location & Quick Reactions Bar */}
-                      <div className="pt-1.5 border-t border-white/10 flex items-center justify-between text-[10px]">
-                        <span className="truncate max-w-[100px] text-purple-200/80 font-medium">
-                          {pulse.sticker}
-                        </span>
-
-                        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                          {['🔥', '⚡', '👀'].map((emoji) => (
-                            <button
-                              key={emoji}
-                              onClick={() => handleReactPulse(pulse._id, emoji)}
-                              className="px-1.5 py-0.5 rounded-md bg-white/10 hover:bg-rose-500/30 transition-colors text-[10px] font-semibold text-purple-200 flex items-center gap-0.5"
-                              title={`React with ${emoji}`}
-                            >
-                              <span>{emoji}</span>
-                              <span>{pulse.reactions?.[emoji] || 0}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="absolute -bottom-6 -right-6 w-16 h-16 rounded-full bg-rose-500/10 group-hover:bg-rose-500/25 blur-xl transition-colors pointer-events-none" />
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* ---------------------------------------------------------- */}

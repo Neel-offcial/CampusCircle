@@ -51,7 +51,10 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<DashboardPage />} />
+        <Route index element={<CampusPulsePage />} />
+        <Route path="my-tab" element={<DashboardPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="feed" element={<Navigate to="/" replace />} />
         <Route path="groups" element={<GroupsPage />} />
         <Route path="groups/:groupId" element={<GroupDetailPage />} />
         <Route path="explore" element={<ExploreGroupsPage />} />

@@ -26,9 +26,10 @@ export function SidebarContent({ onOpenCreateGroup, onItemClick }) {
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
-  // Top Item: Dashboard
+  // Top Items: Home Feed & My Tab
   const mainLinks = [
-    { to: '/', label: 'Dashboard', icon: LayoutGrid, exact: true }
+    { to: '/', label: 'Home Feed', icon: Flame, exact: true },
+    { to: '/my-tab', label: 'My Tab (Academics)', icon: LayoutGrid }
   ];
 
   // Highlighted Campus Life (Pushed to the top)

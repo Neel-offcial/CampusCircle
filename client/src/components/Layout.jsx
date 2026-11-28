@@ -90,8 +90,19 @@ export default function Layout() {
             }`
           }
         >
-          <LayoutGrid size={18} />
+          <Flame size={18} />
           <span>Home</span>
+        </NavLink>
+        <NavLink
+          to="/my-tab"
+          className={({ isActive }) =>
+            `flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-[10px] font-bold transition-colors ${
+              isActive ? 'text-indigo-600 dark:text-indigo-400 font-black' : 'text-slate-500 dark:text-slate-400'
+            }`
+          }
+        >
+          <LayoutGrid size={18} />
+          <span>My Tab</span>
         </NavLink>
         <NavLink
           to="/gpa-predictor"
@@ -114,17 +125,6 @@ export default function Layout() {
         >
           <Clock size={18} />
           <span>Attendance</span>
-        </NavLink>
-        <NavLink
-          to="/feed"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-[10px] font-bold transition-colors ${
-              isActive ? 'text-indigo-600 dark:text-indigo-400 font-black' : 'text-slate-500 dark:text-slate-400'
-            }`
-          }
-        >
-          <Flame size={18} />
-          <span>Pulse</span>
         </NavLink>
         <button
           type="button"
