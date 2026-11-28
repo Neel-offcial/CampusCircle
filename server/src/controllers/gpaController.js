@@ -6,13 +6,14 @@ export const DEFAULT_COURSES = [
     code: 'BCNSB502',
     name: 'Computer Networks and Security',
     credits: 4,
+    maxIa: 60,
     ia1: 40,
     ia1IsSynced: true,
     attendancePct: 82,
     conducted: 32,
     present: 26,
     finalIa: 10,
-    ia2: 42,
+    ia2: 44,
     ia2IsSynced: false,
     assignment: 18,
     assignmentIsSynced: false,
@@ -22,13 +23,14 @@ export const DEFAULT_COURSES = [
     code: 'BIDAB503',
     name: 'Intelligent Data Analytics',
     credits: 4,
+    maxIa: 60,
     ia1: 17,
     ia1IsSynced: true,
     attendancePct: 84,
     conducted: 18,
     present: 15,
     finalIa: 5,
-    ia2: 44,
+    ia2: 45,
     ia2IsSynced: false,
     assignment: 19,
     assignmentIsSynced: false,
@@ -38,6 +40,7 @@ export const DEFAULT_COURSES = [
     code: 'BSTQB515A',
     name: 'Software Testing and Quality Assurance',
     credits: 3,
+    maxIa: 60,
     ia1: 43,
     ia1IsSynced: true,
     attendancePct: 82,
@@ -54,6 +57,7 @@ export const DEFAULT_COURSES = [
     code: 'BAINB501',
     name: 'Artificial Intelligence Concepts and Practice',
     credits: 4,
+    maxIa: 60,
     ia1: 0,
     ia1IsSynced: true,
     attendancePct: 72,
@@ -70,6 +74,7 @@ export const DEFAULT_COURSES = [
     code: 'BRMIK504',
     name: 'Research Methodology and IPR',
     credits: 2,
+    maxIa: 60,
     ia1: 0,
     ia1IsSynced: true,
     attendancePct: 100,
@@ -86,13 +91,14 @@ export const DEFAULT_COURSES = [
     code: 'BRALB507',
     name: 'React Lab',
     credits: 2,
-    ia1: 48,
+    maxIa: 50,
+    ia1: 25,
     ia1IsSynced: false,
     attendancePct: 64,
     conducted: 11,
     present: 7,
     finalIa: 0,
-    ia2: 50,
+    ia2: 25,
     ia2IsSynced: false,
     assignment: 20,
     assignmentIsSynced: false,
@@ -102,13 +108,14 @@ export const DEFAULT_COURSES = [
     code: 'BSIPK588',
     name: 'Societal Impact Project III',
     credits: 2,
-    ia1: 46,
+    maxIa: 50,
+    ia1: 25,
     ia1IsSynced: false,
     attendancePct: 100,
     conducted: 0,
     present: 0,
     finalIa: 0,
-    ia2: 48,
+    ia2: 25,
     ia2IsSynced: false,
     assignment: 20,
     assignmentIsSynced: false,
@@ -199,8 +206,9 @@ export async function syncPortalMarks(req, res) {
         if (match) {
           return {
             ...c,
+            maxIa: match.maxIa || c.maxIa || 60,
             ia1: match.ia1 !== null && match.ia1 !== undefined ? match.ia1 : c.ia1,
-            ia1IsSynced: true,
+            ia1IsSynced: match.ia1 !== null && match.ia1 !== undefined,
             attendancePct: match.percentage || c.attendancePct,
             conducted: match.conducted || c.conducted,
             present: match.present || c.present,
@@ -250,16 +258,27 @@ function calculatePredictions(courses, pastSemesters, targetGpa = 8.5) {
     const credits = Number(course.credits) || 3;
     totalCurrentCredits += credits;
 
-    // EXACT ATRIA 2-IA FORMULA:
-    // Scaled test marks (out of 30) = [ (IA1 + IA2) / 2 / 50 * 30 ]
+    const maxIa = Number(course.maxIa) || 60;
     const ia1 = Number(course.ia1 !== undefined ? course.ia1 : 0);
-    const ia2 = Number(course.ia2 !== undefined ? course.ia2 : 40);
-    const iaAvg = (ia1 + ia2) / 2;
-    const scaledTestMarks = (iaAvg / 50) * 30;
-    const assignmentMarks = Math.min(Number(course.assignment !== undefined ? course.assignment : 18), 20);
+    const ia2 = Number(course.ia2 !== undefined ? course.ia2 : (maxIa === 40 ? 30 : 44));
 
-    // Total Internal (CIE) out of 50 marks
-    const totalCie = Number((scaledTestMarks + assignmentMarks).toFixed(1));
+    // EXACT FORMULA:
+    // IA 1 and IA 2 are conducted for 60 marks each.
+    // Sum of both is divided by 4: (IA1 + IA2) / 4 (scales max 120 marks to 30)
+    // If conducted for 40 marks: ((IA1 + IA2) / 80) * 30
+    // General: ((IA1 + IA2) / (2 * maxIa)) * 30
+    let scaledTestMarks;
+    if (maxIa === 60) {
+      scaledTestMarks = (ia1 + ia2) / 4;
+    } else {
+      scaledTestMarks = ((ia1 + ia2) / (2 * maxIa)) * 30;
+    }
+    scaledTestMarks = Number(scaledTestMarks.toFixed(2));
+
+    const assignmentMarks = Math.min(Math.max(Number(course.assignment !== undefined ? course.assignment : 18), 0), 20);
+
+    // Total Internal (CIE) out of 50 marks (COMPUTED, NEVER USER-EDITABLE)
+    const totalCie = Number(Math.min(scaledTestMarks + assignmentMarks, 50).toFixed(1));
 
     // Target Grades calculation (Total course score out of 100 = CIE 50 + SEE 50):
     // Passing min SEE is 18/50 (36%)
@@ -270,18 +289,34 @@ function calculatePredictions(courses, pastSemesters, targetGpa = 8.5) {
       return { marks: Math.ceil(needed), possible: true, message: `${Math.ceil(needed)}/50 needed in finals` };
     };
 
-    // User's Projected SEE (out of 50): default to course.projectedSee if provided
-    const userProjectedSee = course.projectedSee !== undefined ? Number(course.projectedSee) : Math.min(Math.max(Math.round(totalCie * 0.9), 28), 48);
-    const finalProjectedTotal = Math.min(Number((totalCie + userProjectedSee).toFixed(1)), 100);
+    // User's Estimated SEE (out of 50): default to course.projectedSee if provided
+    const userProjectedSee = course.projectedSee !== undefined ? Math.min(Math.max(Number(course.projectedSee), 0), 50) : 40;
+    const finalProjectedTotal = Number(Math.min(totalCie + userProjectedSee, 100).toFixed(1));
 
     let projectedGradePoint = 10;
     let gradeLabel = 'O';
-    if (finalProjectedTotal < 40) { projectedGradePoint = 0; gradeLabel = 'F'; }
-    else if (finalProjectedTotal < 50) { projectedGradePoint = 5; gradeLabel = 'C'; }
-    else if (finalProjectedTotal < 60) { projectedGradePoint = 6; gradeLabel = 'B'; }
-    else if (finalProjectedTotal < 70) { projectedGradePoint = 7; gradeLabel = 'B+'; }
-    else if (finalProjectedTotal < 80) { projectedGradePoint = 8; gradeLabel = 'A'; }
-    else if (finalProjectedTotal < 90) { projectedGradePoint = 9; gradeLabel = 'A+'; }
+    if (userProjectedSee < 18 || finalProjectedTotal < 40) {
+      projectedGradePoint = 0;
+      gradeLabel = 'F';
+    } else if (finalProjectedTotal < 50) {
+      projectedGradePoint = 4;
+      gradeLabel = 'P';
+    } else if (finalProjectedTotal < 55) {
+      projectedGradePoint = 5;
+      gradeLabel = 'C';
+    } else if (finalProjectedTotal < 60) {
+      projectedGradePoint = 6;
+      gradeLabel = 'B';
+    } else if (finalProjectedTotal < 70) {
+      projectedGradePoint = 7;
+      gradeLabel = 'B+';
+    } else if (finalProjectedTotal < 80) {
+      projectedGradePoint = 8;
+      gradeLabel = 'A';
+    } else if (finalProjectedTotal < 90) {
+      projectedGradePoint = 9;
+      gradeLabel = 'A+';
+    }
 
     weightedPointsSum += projectedGradePoint * credits;
 
@@ -289,13 +324,15 @@ function calculatePredictions(courses, pastSemesters, targetGpa = 8.5) {
       code: course.code,
       name: course.name,
       credits,
+      maxIa,
       ia1,
       ia1IsSynced: course.ia1IsSynced ?? true,
       ia2,
       ia2IsSynced: course.ia2IsSynced ?? false,
       attendancePct: course.attendancePct || 80,
-      iaAvg: Number(iaAvg.toFixed(1)),
+      scaledTestMarks,
       assignmentMarks,
+      assignmentIsSynced: course.assignmentIsSynced ?? false,
       totalCie,
       userProjectedSee,
       finalProjectedTotal,

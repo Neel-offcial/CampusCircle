@@ -15,7 +15,10 @@ import {
   ShieldCheck,
   Check,
   HelpCircle,
-  Layers
+  Layers,
+  Lock,
+  Zap,
+  Target
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -34,11 +37,13 @@ export default function GpaPredictorPage() {
   const [syncing, setSyncing] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [isPortalSynced, setIsPortalSynced] = useState(true);
+  const [globalSeeInput, setGlobalSeeInput] = useState(42);
 
   const loadGpaProfile = async () => {
     try {
       const res = await api.get('/gpa');
-      setCourses(res.data.courses || []);
+      const loadedCourses = res.data.courses || [];
+      setCourses(loadedCourses);
       if (res.data.pastSemesters && res.data.pastSemesters.length > 0) {
         setPastSemesters(res.data.pastSemesters);
       }
@@ -56,7 +61,7 @@ export default function GpaPredictorPage() {
     loadGpaProfile();
   }, []);
 
-  // Real-time client side recalculation whenever course or what-if inputs change
+  // Real-time client side recalculation with exact VTU / Atria 2-IA evaluation rules
   function recalculateLocally(currentCourses, currentPastSemesters) {
     let totalCurrentCredits = 0;
     let weightedPointsSum = 0;
@@ -65,45 +70,82 @@ export default function GpaPredictorPage() {
       const credits = Number(c.credits) || 3;
       totalCurrentCredits += credits;
 
-      const ia1 = Number(c.ia1 || 0);
-      const ia2 = Number(c.ia2 || 0);
-      const iaAvg = (ia1 + ia2) / 2;
-      const scaledTestMarks = (iaAvg / 50) * 30;
-      const assignmentMarks = Math.min(Number(c.assignment !== undefined ? c.assignment : 18), 20);
-      const totalCie = Number((scaledTestMarks + assignmentMarks).toFixed(1));
+      const maxIa = Number(c.maxIa) || 60;
+      const ia1 = Number(c.ia1 !== undefined ? c.ia1 : 0);
+      const ia2 = Number(c.ia2 !== undefined ? c.ia2 : (maxIa === 40 ? 30 : 44));
 
-      const userProjectedSee = Number(c.projectedSee !== undefined ? c.projectedSee : 40);
-      const finalProjectedTotal = Math.min(Number((totalCie + userProjectedSee).toFixed(1)), 100);
+      // EXACT EVALUATION FORMULA:
+      // IA 1 and IA 2 are conducted for 60 marks (or 40 marks).
+      // Sum of both is divided by 4: (IA1 + IA2) / 4 (scales max 120 marks to 30).
+      // If conducted for 40 marks: ((IA1 + IA2) / 80) * 30.
+      let scaledTestMarks;
+      if (maxIa === 60) {
+        scaledTestMarks = (ia1 + ia2) / 4;
+      } else {
+        scaledTestMarks = ((ia1 + ia2) / (2 * maxIa)) * 30;
+      }
+      scaledTestMarks = Number(scaledTestMarks.toFixed(2));
 
+      // Assignment marks out of 20
+      const assignmentMarks = Math.min(Math.max(Number(c.assignment !== undefined ? c.assignment : 18), 0), 20);
+
+      // Total Internal (CIE) out of 50 marks (STRICTLY COMPUTED, NON-EDITABLE BY USER)
+      const totalCie = Number(Math.min(scaledTestMarks + assignmentMarks, 50).toFixed(1));
+
+      // Estimated SEE marks out of 50
+      const userProjectedSee = Math.min(Math.max(Number(c.projectedSee !== undefined ? c.projectedSee : 40), 0), 50);
+
+      // Total Course Score out of 100 = CIE (50) + SEE (50)
+      const finalProjectedTotal = Number(Math.min(totalCie + userProjectedSee, 100).toFixed(1));
+
+      // Passing criteria: SEE >= 18/50 and finalProjectedTotal >= 40
       let projectedGradePoint = 10;
       let gradeLabel = 'O';
-      if (finalProjectedTotal < 40) { projectedGradePoint = 0; gradeLabel = 'F'; }
-      else if (finalProjectedTotal < 50) { projectedGradePoint = 5; gradeLabel = 'C'; }
-      else if (finalProjectedTotal < 60) { projectedGradePoint = 6; gradeLabel = 'B'; }
-      else if (finalProjectedTotal < 70) { projectedGradePoint = 7; gradeLabel = 'B+'; }
-      else if (finalProjectedTotal < 80) { projectedGradePoint = 8; gradeLabel = 'A'; }
-      else if (finalProjectedTotal < 90) { projectedGradePoint = 9; gradeLabel = 'A+'; }
+      if (userProjectedSee < 18 || finalProjectedTotal < 40) {
+        projectedGradePoint = 0;
+        gradeLabel = 'F';
+      } else if (finalProjectedTotal < 50) {
+        projectedGradePoint = 4;
+        gradeLabel = 'P';
+      } else if (finalProjectedTotal < 55) {
+        projectedGradePoint = 5;
+        gradeLabel = 'C';
+      } else if (finalProjectedTotal < 60) {
+        projectedGradePoint = 6;
+        gradeLabel = 'B';
+      } else if (finalProjectedTotal < 70) {
+        projectedGradePoint = 7;
+        gradeLabel = 'B+';
+      } else if (finalProjectedTotal < 80) {
+        projectedGradePoint = 8;
+        gradeLabel = 'A';
+      } else if (finalProjectedTotal < 90) {
+        projectedGradePoint = 9;
+        gradeLabel = 'A+';
+      }
 
       weightedPointsSum += projectedGradePoint * credits;
 
       const calculateNeededSee = (targetScore) => {
         const needed = targetScore - totalCie;
-        if (needed > 50) return { marks: null, possible: false, message: 'Unachievable' };
+        if (needed > 50) return { marks: null, possible: false, message: 'Unachievable with current CIE' };
         if (needed <= 18) return { marks: 18, possible: true, message: 'Pass cutoff (18/50)' };
-        return { marks: Math.ceil(needed), possible: true, message: `Need ${Math.ceil(needed)}/50 in SEE` };
+        return { marks: Math.ceil(needed), possible: true, message: `${Math.ceil(needed)}/50 needed in finals` };
       };
 
       return {
         code: c.code,
         name: c.name,
         credits,
+        maxIa,
         ia1,
         ia1IsSynced: c.ia1IsSynced ?? true,
         ia2,
         ia2IsSynced: c.ia2IsSynced ?? false,
         attendancePct: c.attendancePct || 80,
-        iaAvg: Number(iaAvg.toFixed(1)),
+        scaledTestMarks,
         assignmentMarks,
+        assignmentIsSynced: c.assignmentIsSynced ?? false,
         totalCie,
         userProjectedSee,
         finalProjectedTotal,
@@ -152,6 +194,24 @@ export default function GpaPredictorPage() {
   const handleCourseChange = (idx, field, value) => {
     const updated = [...courses];
     updated[idx] = { ...updated[idx], [field]: Number(value) || 0 };
+    setCourses(updated);
+    recalculateLocally(updated, pastSemesters);
+  };
+
+  const handleToggleMaxIa = (idx) => {
+    const updated = [...courses];
+    const currentMax = Number(updated[idx].maxIa) || 60;
+    updated[idx].maxIa = currentMax === 60 ? 40 : 60;
+    setCourses(updated);
+    recalculateLocally(updated, pastSemesters);
+  };
+
+  const handleQuickApplyGlobalSee = (seeScore) => {
+    setGlobalSeeInput(seeScore);
+    const updated = courses.map((c) => ({
+      ...c,
+      projectedSee: seeScore
+    }));
     setCourses(updated);
     recalculateLocally(updated, pastSemesters);
   };
@@ -215,7 +275,7 @@ export default function GpaPredictorPage() {
             GPA & 2-IA Performance Predictor
           </h1>
           <p className="text-xs text-slate-400 font-medium mt-0.5">
-            Compare official Atria portal marks against your what-if predictions for VTU 5th Sem.
+            Official Atria Portal Marks (Locked) + Predicted What-If Inputs (IA-2, Assignment, Estimated SEE)
           </p>
         </div>
 
@@ -242,38 +302,59 @@ export default function GpaPredictorPage() {
         </div>
       </div>
 
+      {/* Success Notification Banner */}
       {successMsg && (
-        <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2 animate-in fade-in">
-          <CheckCircle2 size={16} />
+        <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-semibold flex items-center gap-2 animate-fade-in">
+          <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
-      {/* TWO-COLOR VISUAL LEGEND BANNER */}
-      <div className="p-4 rounded-3xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 flex items-center justify-center font-bold">
-            🎨
-          </div>
-          <div>
-            <h4 className="font-black text-slate-900 dark:text-white">Dual-Color Verification System</h4>
-            <p className="text-[11px] text-slate-400">
-              Easily differentiate official college portal entries from your what-if future projections.
+      {/* DUAL-COLOR VERIFICATION SYSTEM LEGEND & FORMULA CALLOUT */}
+      <div className="p-4 rounded-3xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 space-y-3">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                Dual-Color Verification System
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-md font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                Official VTU Scheme
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              Differentiate locked portal marks from what-if estimations. Final CIE / 50 is auto-computed and locked.
             </p>
+          </div>
+
+          <div className="flex items-center gap-3 flex-wrap">
+            {/* Legend 1: Downloaded Portal Data */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-100 dark:bg-blue-950/80 border border-blue-300 dark:border-blue-700 text-blue-900 dark:text-blue-200 font-bold text-[11px] shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+              <span>🔵 Downloaded Portal Data (Locked)</span>
+            </div>
+
+            {/* Legend 2: Predicted What-If Value */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-100/80 dark:bg-amber-950/70 border-2 border-dashed border-amber-400 dark:border-amber-500 text-amber-950 dark:text-amber-200 font-black text-[11px]">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <span>🟠 Predicted What-If Inputs</span>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* Legend 1: Downloaded Official Portal Data */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-100/80 dark:bg-blue-950/70 border border-blue-300 dark:border-blue-700/80 text-blue-900 dark:text-blue-200 font-bold text-[11px]">
-            <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-            <span>🔵 Downloaded Portal Data (Locked)</span>
+        {/* Evaluation Formula Card */}
+        <div className="p-3 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-[11px] text-slate-600 dark:text-slate-300 flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-bold text-[10px]">
+              CIE FORMULA
+            </span>
+            <span>
+              Scaled IA (out of 30) = <strong>(IA1 + IA2) / 4</strong> <span className="text-slate-400">[for Max IA 60]</span> + <strong>Assignment (20)</strong> = <strong>CIE / 50</strong>
+            </span>
           </div>
-
-          {/* Legend 2: Predicted What-If Value */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-100/80 dark:bg-amber-950/70 border-2 border-dashed border-amber-400 dark:border-amber-500 text-amber-950 dark:text-amber-200 font-black text-[11px]">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-            <span>🟠 Your Predicted What-If Inputs</span>
+          <div className="flex items-center gap-2 shrink-0 text-slate-500">
+            <Lock size={12} className="text-amber-500" />
+            <span>Total CIE (50) is non-editable. Enter Estimated SEE (50) to project GPA.</span>
           </div>
         </div>
       </div>
@@ -287,11 +368,11 @@ export default function GpaPredictorPage() {
             <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-indigo-600 text-white">Live</span>
           </div>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-3xl font-black tracking-tight">{analysis?.predictedSgpa || 8.68}</span>
+            <span className="text-3xl font-black tracking-tight">{analysis?.predictedSgpa || 8.86}</span>
             <span className="text-xs font-bold text-emerald-700">/ 10.0</span>
           </div>
           <p className="text-[11px] text-indigo-800/80 mt-1">
-            Real-time VTU formula combining portal IA-1 + your IA-2 prediction
+            Real-time VTU formula combining portal IA-1 + what-if IA-2 + estimated SEE
           </p>
         </div>
 
@@ -299,7 +380,7 @@ export default function GpaPredictorPage() {
         <div className="p-5 rounded-3xl bg-gradient-to-br from-[#fef9c3] to-[#fef08a] border border-amber-200 text-amber-950 shadow-sm">
           <span className="text-[10px] font-black uppercase tracking-wider text-amber-700">Cumulative CGPA</span>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-3xl font-black tracking-tight">{analysis?.predictedCgpa || 8.52}</span>
+            <span className="text-3xl font-black tracking-tight">{analysis?.predictedCgpa || 8.53}</span>
             <span className="text-xs font-bold text-emerald-700">
               {analysis?.cgpaChange >= 0 ? `▲ +${analysis?.cgpaChange}` : `▼ ${analysis?.cgpaChange}`}
             </span>
@@ -311,7 +392,7 @@ export default function GpaPredictorPage() {
         <div className="p-5 rounded-3xl bg-gradient-to-br from-[#ffe4e6] to-[#fecdd3] border border-rose-200 text-rose-950 shadow-sm">
           <span className="text-[10px] font-black uppercase tracking-wider text-rose-700">Previous CGPA (Sem 1 to 4)</span>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-3xl font-black tracking-tight">{analysis?.previousCgpa || 8.44}</span>
+            <span className="text-3xl font-black tracking-tight">{analysis?.previousCgpa || 8.45}</span>
             <span className="text-xs font-bold text-slate-600">84 Credits</span>
           </div>
           <p className="text-[11px] text-rose-800/80 mt-1">Accredited record from prior completed semesters</p>
@@ -333,6 +414,44 @@ export default function GpaPredictorPage() {
         </div>
       </div>
 
+      {/* INTERACTIVE ESTIMATED SEE PRESET TOOLBAR */}
+      <div className="p-4 rounded-3xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300/60 dark:border-amber-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Target size={18} className="text-amber-600 dark:text-amber-400 shrink-0" />
+          <div>
+            <span className="text-xs font-black text-amber-950 dark:text-amber-200 block">
+              Quick-Estimate Semester Finals (SEE out of 50)
+            </span>
+            <span className="text-[10px] text-amber-800/80 dark:text-amber-400">
+              Apply estimated exam score across all subjects at once, or fine-tune individually below.
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-[11px] font-bold text-slate-500">Presets:</span>
+          {[
+            { label: '35 / 50 (B+)', val: 35 },
+            { label: '40 / 50 (A)', val: 40 },
+            { label: '44 / 50 (A+)', val: 44 },
+            { label: '48 / 50 (O)', val: 48 }
+          ].map((preset) => (
+            <button
+              key={preset.val}
+              type="button"
+              onClick={() => handleQuickApplyGlobalSee(preset.val)}
+              className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all ${
+                globalSeeInput === preset.val
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-amber-100/50'
+              }`}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* SECTION: CURRENT SEMESTER 5 COURSE-WISE MARKS TABLE */}
       <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-x-auto">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
@@ -342,7 +461,7 @@ export default function GpaPredictorPage() {
               Semester V Course Breakdown (Official Portal vs. What-If)
             </h2>
             <p className="text-xs text-slate-400">
-              Blue columns are official marks downloaded from Atria ERP. Amber dashed boxes are your predicted what-if inputs.
+              IA1 is locked from portal. You only enter remaining IA2 & Assignment + Estimated SEE. Final CIE / 50 is strictly auto-calculated.
             </p>
           </div>
           <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1 rounded-xl self-start sm:self-auto">
@@ -354,21 +473,25 @@ export default function GpaPredictorPage() {
           <thead>
             <tr className="border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-400">
               <th className="py-3 px-2">Course Name</th>
+              <th className="py-3 px-2 text-center">Max IA</th>
               <th className="py-3 px-2 text-center">Credits</th>
               <th className="py-3 px-2 text-center bg-blue-50/50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 rounded-t-xl">
                 🔵 IA-1 (Portal)
               </th>
               <th className="py-3 px-2 text-center bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 rounded-t-xl">
-                🟠 Predicted IA-2
+                🟠 Remaining IA-2
               </th>
-              <th className="py-3 px-2 text-center">IA Avg / 30</th>
+              <th className="py-3 px-2 text-center">Scaled IA / 30</th>
               <th className="py-3 px-2 text-center bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300">
                 🟠 Assign (20)
               </th>
-              <th className="py-3 px-2 text-center">Total CIE / 50</th>
-              <th className="py-3 px-2 text-center bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 rounded-t-xl">
-                🟠 Proj SEE / 50
+              <th className="py-3 px-2 text-center bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200">
+                🔒 Total CIE / 50
               </th>
+              <th className="py-3 px-2 text-center bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 rounded-t-xl">
+                🟠 Estimated SEE / 50
+              </th>
+              <th className="py-3 px-2 text-center">Total / 100</th>
               <th className="py-3 px-2 text-center">Grade</th>
               <th className="py-3 px-2 text-left">Target SEE Requirement</th>
             </tr>
@@ -376,11 +499,16 @@ export default function GpaPredictorPage() {
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {courses.map((course, idx) => {
               const pred = analysis?.subjects?.[idx];
+              const maxIa = Number(course.maxIa) || 60;
               const ia1Val = course.ia1 !== undefined ? course.ia1 : 0;
-              const ia2Val = course.ia2 !== undefined ? course.ia2 : 40;
-              const iaAvgScaled = (((Number(ia1Val || 0) + Number(ia2Val || 0)) / 2) / 50 * 30).toFixed(1);
+              const ia2Val = course.ia2 !== undefined ? course.ia2 : (maxIa === 40 ? 30 : 44);
               const assignVal = course.assignment !== undefined ? course.assignment : 18;
               const projSeeVal = course.projectedSee !== undefined ? course.projectedSee : 40;
+
+              // Formula: (ia1 + ia2) / 4 for 60 marks, or ((ia1 + ia2) / (2 * maxIa)) * 30
+              const scaledIa = maxIa === 60
+                ? ((Number(ia1Val) + Number(ia2Val)) / 4).toFixed(1)
+                : (((Number(ia1Val) + Number(ia2Val)) / (2 * maxIa)) * 30).toFixed(1);
 
               return (
                 <tr key={course.code} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
@@ -395,6 +523,18 @@ export default function GpaPredictorPage() {
                     </div>
                   </td>
 
+                  {/* Max IA Toggle / Indicator */}
+                  <td className="py-3 px-2 text-center">
+                    <button
+                      type="button"
+                      title="Click to toggle between 60 and 40 Max IA"
+                      onClick={() => handleToggleMaxIa(idx)}
+                      className="px-2 py-0.5 rounded-lg font-mono font-bold text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-colors"
+                    >
+                      {maxIa}
+                    </button>
+                  </td>
+
                   {/* Credits */}
                   <td className="py-3 px-2 text-center font-bold text-slate-700 dark:text-slate-300">
                     {course.credits}
@@ -402,86 +542,147 @@ export default function GpaPredictorPage() {
 
                   {/* COLOR 1: DOWNLOADED OFFICIAL PORTAL DATA (BLUE) */}
                   <td className="py-3 px-2 text-center bg-blue-50/30 dark:bg-blue-950/20">
-                    <div className="inline-flex flex-col items-center">
-                      <div className="px-2.5 py-1 rounded-xl bg-blue-100 dark:bg-blue-950/80 border border-blue-300 dark:border-blue-700 text-blue-900 dark:text-blue-200 font-mono font-black text-xs shadow-xs">
-                        {ia1Val} <span className="text-[9px] font-normal opacity-70">/ 50</span>
+                    {course.ia1IsSynced ? (
+                      <div className="inline-flex flex-col items-center">
+                        <div className="px-2.5 py-1 rounded-xl bg-blue-100 dark:bg-blue-950/80 border border-blue-300 dark:border-blue-700 text-blue-900 dark:text-blue-200 font-mono font-black text-xs shadow-xs">
+                          {ia1Val} <span className="text-[9px] font-normal opacity-70">/ {maxIa}</span>
+                        </div>
+                        <span className="text-[9px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 flex items-center gap-0.5">
+                          <Check size={9} /> Portal
+                        </span>
                       </div>
-                      <span className="text-[9px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 flex items-center gap-0.5">
-                        <Check size={9} /> Portal
+                    ) : (
+                      <input
+                        type="number"
+                        min="0"
+                        max={maxIa}
+                        value={ia1Val}
+                        onChange={(e) => handleCourseChange(idx, 'ia1', e.target.value)}
+                        className="w-14 px-1.5 py-1 text-center rounded-xl bg-slate-50 border border-slate-300 font-bold text-xs"
+                      />
+                    )}
+                  </td>
+
+                  {/* COLOR 2: PREDICTED WHAT-IF VALUE: REMAINING IA-2 (AMBER DASHED) */}
+                  <td className="py-3 px-2 text-center bg-amber-50/30 dark:bg-amber-950/20">
+                    {course.ia2IsSynced ? (
+                      <div className="inline-flex flex-col items-center">
+                        <div className="px-2.5 py-1 rounded-xl bg-blue-100 dark:bg-blue-950/80 border border-blue-300 dark:border-blue-700 text-blue-900 dark:text-blue-200 font-mono font-black text-xs">
+                          {ia2Val} <span className="text-[9px] font-normal opacity-70">/ {maxIa}</span>
+                        </div>
+                        <span className="text-[9px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 flex items-center gap-0.5">
+                          <Check size={9} /> Portal
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="inline-flex flex-col items-center">
+                        <input
+                          type="number"
+                          min="0"
+                          max={maxIa}
+                          value={ia2Val}
+                          onChange={(e) => handleCourseChange(idx, 'ia2', e.target.value)}
+                          className="w-14 px-1.5 py-1 text-center rounded-xl bg-amber-50 dark:bg-amber-950/60 border-2 border-dashed border-amber-400 dark:border-amber-500 font-black text-amber-950 dark:text-amber-100 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-xs"
+                        />
+                        <span className="text-[9px] font-black text-amber-700 dark:text-amber-300 mt-0.5">
+                          ✨ What-If
+                        </span>
+                      </div>
+                    )}
+                  </td>
+
+                  {/* Scaled IA Average (out of 30) */}
+                  <td className="py-3 px-2 text-center">
+                    <div className="inline-flex flex-col items-center">
+                      <span className="font-mono font-bold text-slate-700 dark:text-slate-300 text-xs">
+                        {scaledIa} <span className="text-[9px] text-slate-400 font-normal">/ 30</span>
+                      </span>
+                      <span className="text-[8px] text-slate-400 font-mono">
+                        {maxIa === 60 ? 'sum/4' : 'sum/80*30'}
                       </span>
                     </div>
                   </td>
 
-                  {/* COLOR 2: PREDICTED WHAT-IF VALUE: IA-2 (AMBER DASHED) */}
+                  {/* COLOR 2: PREDICTED WHAT-IF ASSIGNMENT (AMBER DASHED) */}
+                  <td className="py-3 px-2 text-center bg-amber-50/30 dark:bg-amber-950/20">
+                    {course.assignmentIsSynced ? (
+                      <span className="font-mono font-bold text-blue-700 dark:text-blue-300 text-xs">
+                        {assignVal} / 20
+                      </span>
+                    ) : (
+                      <div className="inline-flex flex-col items-center">
+                        <input
+                          type="number"
+                          min="0"
+                          max="20"
+                          value={assignVal}
+                          onChange={(e) => handleCourseChange(idx, 'assignment', e.target.value)}
+                          className="w-12 px-1.5 py-1 text-center rounded-xl bg-amber-50 dark:bg-amber-950/60 border-2 border-dashed border-amber-400 dark:border-amber-500 font-bold text-amber-950 dark:text-amber-100 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        />
+                        <span className="text-[8px] font-bold text-amber-700 dark:text-amber-300 mt-0.5">/ 20</span>
+                      </div>
+                    )}
+                  </td>
+
+                  {/* STRICTLY COMPUTED & LOCKED TOTAL CIE / 50 (NON-EDITABLE) */}
+                  <td className="py-3 px-2 text-center bg-slate-50/80 dark:bg-slate-800/60">
+                    <div className="inline-flex flex-col items-center">
+                      <span className="px-2.5 py-1 rounded-xl bg-indigo-100/80 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 font-black text-xs flex items-center gap-1 shadow-xs">
+                        <Lock size={10} className="text-indigo-500 shrink-0" />
+                        {pred ? pred.totalCie : 42} <span className="text-[9px] font-normal opacity-70">/ 50</span>
+                      </span>
+                      <span className="text-[8px] font-bold text-slate-400 mt-0.5">
+                        Locked (Auto)
+                      </span>
+                    </div>
+                  </td>
+
+                  {/* COLOR 2: OPTION TO ENTER ESTIMATED SEE MARKS (OUT OF 50) */}
                   <td className="py-3 px-2 text-center bg-amber-50/30 dark:bg-amber-950/20">
                     <div className="inline-flex flex-col items-center">
                       <input
                         type="number"
                         min="0"
                         max="50"
-                        value={ia2Val}
-                        onChange={(e) => handleCourseChange(idx, 'ia2', e.target.value)}
-                        className="w-14 px-1.5 py-1 text-center rounded-xl bg-amber-50 dark:bg-amber-950/60 border-2 border-dashed border-amber-400 dark:border-amber-500 font-black text-amber-950 dark:text-amber-100 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-xs"
-                      />
-                      <span className="text-[9px] font-black text-amber-700 dark:text-amber-300 mt-0.5">
-                        ✨ What-If
-                      </span>
-                    </div>
-                  </td>
-
-                  {/* Scaled IA Average */}
-                  <td className="py-3 px-2 text-center font-mono font-bold text-slate-600 dark:text-slate-300">
-                    {iaAvgScaled}
-                  </td>
-
-                  {/* COLOR 2: PREDICTED WHAT-IF ASSIGNMENT */}
-                  <td className="py-3 px-2 text-center bg-amber-50/30 dark:bg-amber-950/20">
-                    <input
-                      type="number"
-                      min="0"
-                      max="20"
-                      value={assignVal}
-                      onChange={(e) => handleCourseChange(idx, 'assignment', e.target.value)}
-                      className="w-12 px-1.5 py-1 text-center rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-600 font-bold text-amber-950 dark:text-amber-100 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                  </td>
-
-                  {/* Calculated Total CIE */}
-                  <td className="py-3 px-2 text-center">
-                    <span className="px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-black text-xs">
-                      {pred ? pred.totalCie : 42}/50
-                    </span>
-                  </td>
-
-                  {/* COLOR 2: PREDICTED WHAT-IF SEE FINALS */}
-                  <td className="py-3 px-2 text-center bg-amber-50/30 dark:bg-amber-950/20">
-                    <div className="inline-flex flex-col items-center">
-                      <input
-                        type="number"
-                        min="18"
-                        max="50"
                         value={projSeeVal}
                         onChange={(e) => handleCourseChange(idx, 'projectedSee', e.target.value)}
                         className="w-14 px-1.5 py-1 text-center rounded-xl bg-amber-50 dark:bg-amber-950/60 border-2 border-dashed border-amber-400 dark:border-amber-500 font-black text-amber-950 dark:text-amber-100 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-xs"
                       />
-                      <span className="text-[9px] font-bold text-slate-400 mt-0.5">out of 50</span>
+                      <span className="text-[9px] font-bold text-slate-400 mt-0.5">
+                        {projSeeVal < 18 ? (
+                          <span className="text-rose-500 font-black">{'<18 (Fail)'}</span>
+                        ) : (
+                          'out of 50'
+                        )}
+                      </span>
                     </div>
+                  </td>
+
+                  {/* Final Total Course Marks out of 100 */}
+                  <td className="py-3 px-2 text-center">
+                    <span className="font-mono font-black text-slate-900 dark:text-white text-xs">
+                      {pred ? pred.finalProjectedTotal : 82} <span className="text-[9px] text-slate-400 font-normal">/ 100</span>
+                    </span>
                   </td>
 
                   {/* Projected Grade */}
                   <td className="py-3 px-2 text-center">
                     <span
-                      className={`inline-block w-8 py-0.5 rounded-lg text-xs font-black ${
+                      className={`inline-block px-2 py-0.5 rounded-lg text-xs font-black ${
                         pred?.gradeLabel === 'O'
                           ? 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300'
                           : pred?.gradeLabel === 'A+'
                           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                           : pred?.gradeLabel === 'A'
                           ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                          : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                          : pred?.gradeLabel === 'B+'
+                          ? 'bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300'
+                          : pred?.gradeLabel === 'B'
+                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                          : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
                       }`}
                     >
-                      {pred ? pred.gradeLabel : 'A+'}
+                      {pred ? pred.gradeLabel : 'A+'} ({pred ? pred.projectedGradePoint : 9})
                     </span>
                   </td>
 
@@ -522,7 +723,7 @@ export default function GpaPredictorPage() {
             </p>
           </div>
           <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1 rounded-xl">
-            Previous CGPA: {analysis?.previousCgpa || 8.44}
+            Previous CGPA: {analysis?.previousCgpa || 8.45}
           </span>
         </div>
 
