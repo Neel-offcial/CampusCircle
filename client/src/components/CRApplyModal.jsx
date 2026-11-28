@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ShieldCheck, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 import api from '../services/api';
 
@@ -41,7 +42,7 @@ export default function CRApplyModal({ isOpen, onClose, user, onApplied }) {
     }
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 relative">
         <button
@@ -174,6 +175,7 @@ export default function CRApplyModal({ isOpen, onClose, user, onApplied }) {
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

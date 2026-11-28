@@ -21,7 +21,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
-export default function Sidebar({ onOpenCreateGroup }) {
+export function SidebarContent({ onOpenCreateGroup, onItemClick }) {
   const { user, logout, isVerified } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ export default function Sidebar({ onOpenCreateGroup }) {
         key={item.to}
         to={item.to}
         end={item.exact}
+        onClick={onItemClick}
         className={({ isActive }) =>
           `flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 ${
             isActive
@@ -86,10 +87,14 @@ export default function Sidebar({ onOpenCreateGroup }) {
   };
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-white dark:bg-[#0e131f] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between p-5 min-h-screen transition-colors duration-200">
-      <div className="overflow-y-auto pr-1 -mr-1">
+    <div className="flex flex-col justify-between h-full p-5 overflow-y-auto">
+      <div>
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-3 px-2 py-1 mb-6 group cursor-pointer hover:opacity-95 transition-opacity">
+        <Link
+          to="/"
+          onClick={onItemClick}
+          className="flex items-center gap-3 px-2 py-1 mb-6 group cursor-pointer hover:opacity-95 transition-opacity"
+        >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 font-bold text-xl group-hover:scale-105 transition-transform">
             C
           </div>
@@ -150,7 +155,10 @@ export default function Sidebar({ onOpenCreateGroup }) {
           <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">Start a Study Group</p>
           <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 mb-2.5">Share notes & discuss labs</p>
           <button
-            onClick={onOpenCreateGroup}
+            onClick={() => {
+              if (onItemClick) onItemClick();
+              onOpenCreateGroup();
+            }}
             className="w-full py-1.5 px-3 rounded-xl bg-slate-900 dark:bg-indigo-600 hover:bg-indigo-600 dark:hover:bg-indigo-700 text-white text-xs font-semibold transition-all duration-150 flex items-center justify-center gap-1.5 shadow-sm"
           >
             <PlusCircle size={13} />
@@ -160,7 +168,7 @@ export default function Sidebar({ onOpenCreateGroup }) {
       </div>
 
       {/* Footer / User Profile & Controls */}
-      <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+      <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3 mt-4">
         {/* Theme Toggle Button */}
         <div className="flex items-center justify-between px-2">
           <span className="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
@@ -200,6 +208,7 @@ export default function Sidebar({ onOpenCreateGroup }) {
           </div>
           <button
             onClick={() => {
+              if (onItemClick) onItemClick();
               logout();
               navigate('/login');
             }}
@@ -210,6 +219,14 @@ export default function Sidebar({ onOpenCreateGroup }) {
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function Sidebar({ onOpenCreateGroup }) {
+  return (
+    <aside className="hidden lg:flex w-64 flex-shrink-0 bg-white dark:bg-[#0e131f] border-r border-slate-200 dark:border-slate-800 flex-col justify-between min-h-screen transition-colors duration-200">
+      <SidebarContent onOpenCreateGroup={onOpenCreateGroup} />
     </aside>
   );
 }

@@ -17,7 +17,8 @@ import {
   Sparkles,
   Settings,
   ChevronDown,
-  Upload
+  Upload,
+  Menu
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -25,7 +26,7 @@ import CRApplyModal from './CRApplyModal';
 import SuperAdminModal from './SuperAdminModal';
 import ExamScheduleModal from './ExamScheduleModal';
 
-export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery }) {
+export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery, onToggleMobileMenu }) {
   const { user, isVerified, updateProfile, logout } = useAuth();
   const { theme, toggleTheme, setTheme, isDark } = useTheme();
   const navigate = useNavigate();
@@ -139,9 +140,30 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
   };
 
   return (
-    <header className="h-16 px-6 lg:px-8 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#0e131f]/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between transition-colors duration-200">
-      {/* Search Bar */}
-      <div className="relative w-72 lg:w-80">
+    <header className="h-16 px-3 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#0e131f]/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between transition-colors duration-200">
+      {/* Brand & Mobile Hamburger */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          onClick={onToggleMobileMenu}
+          className="lg:hidden p-2 -ml-1 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          title="Open Navigation Menu"
+        >
+          <Menu size={20} />
+        </button>
+
+        <a href="/" className="lg:hidden flex items-center gap-2 group">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            C
+          </div>
+          <span className="hidden sm:inline font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">
+            CampusCircle
+          </span>
+        </a>
+      </div>
+
+      {/* Search Bar (Desktop / Tablet) */}
+      <div className="hidden md:block relative w-64 lg:w-80">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
         <input
           type="text"
@@ -156,7 +178,7 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         {/* Verification Status Pill */}
         {!isVerified ? (
           <button
