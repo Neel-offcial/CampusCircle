@@ -155,7 +155,7 @@ export default function ConfessionsPage() {
     try {
       const res = await api.post(`/confessions/${confessionId}/vote`, { direction });
       setConfessions(prev =>
-        prev.map(c => (c._id === confessionId ? { ...c, score: res.data.score, upvotes: res.data.upvotes, downvotes: res.data.downvotes } : c))
+        prev.map(c => (c._id === confessionId ? { ...c, score: res.data.score, upvotes: res.data.upvotes, downvotes: res.data.downvotes, userVote: res.data.userVote } : c))
       );
     } catch (err) {
       console.error(err);
@@ -433,8 +433,12 @@ export default function ConfessionsPage() {
                 <div className="flex flex-col items-center justify-start py-1 shrink-0">
                   <button
                     onClick={() => handleVote(c._id, 1)}
-                    className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
-                    title="Upvote"
+                    className={`p-1 rounded-lg transition-colors ${
+                      c.userVote === 1
+                        ? 'text-indigo-600 bg-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 font-bold'
+                        : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40'
+                    }`}
+                    title="Upvote (Click again to undo)"
                   >
                     <ChevronUp size={18} />
                   </button>
@@ -449,8 +453,12 @@ export default function ConfessionsPage() {
                   </span>
                   <button
                     onClick={() => handleVote(c._id, -1)}
-                    className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                    title="Downvote"
+                    className={`p-1 rounded-lg transition-colors ${
+                      c.userVote === -1
+                        ? 'text-rose-600 bg-rose-100 dark:bg-rose-950 dark:text-rose-300 font-bold'
+                        : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40'
+                    }`}
+                    title="Downvote (Click again to undo)"
                   >
                     <ChevronDown size={18} />
                   </button>

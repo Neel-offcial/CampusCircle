@@ -211,7 +211,13 @@ export default function CampusPulsePage() {
       setPosts((prev) =>
         prev.map((p) =>
           p._id === postId
-            ? { ...p, score: res.data.score, upvotes: res.data.upvotes, downvotes: res.data.downvotes }
+            ? {
+                ...p,
+                score: res.data.score,
+                upvotes: res.data.upvotes,
+                downvotes: res.data.downvotes,
+                userVote: res.data.userVote
+              }
             : p
         )
       );
@@ -510,8 +516,12 @@ export default function CampusPulsePage() {
                     <div className="flex flex-col items-center justify-start py-1 shrink-0">
                       <button
                         onClick={() => handleVotePost(post._id, 1)}
-                        className="p-1.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
-                        title="Upvote"
+                        className={`p-1.5 rounded-xl transition-colors ${
+                          post.userVote === 1
+                            ? 'text-indigo-600 bg-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 font-bold'
+                            : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40'
+                        }`}
+                        title="Upvote (Click again to undo)"
                       >
                         <ChevronUp size={20} />
                       </button>
@@ -528,8 +538,12 @@ export default function CampusPulsePage() {
                       </span>
                       <button
                         onClick={() => handleVotePost(post._id, -1)}
-                        className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                        title="Downvote"
+                        className={`p-1.5 rounded-xl transition-colors ${
+                          post.userVote === -1
+                            ? 'text-rose-600 bg-rose-100 dark:bg-rose-950 dark:text-rose-300 font-bold'
+                            : 'text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40'
+                        }`}
+                        title="Downvote (Click again to undo)"
                       >
                         <ChevronDown size={20} />
                       </button>

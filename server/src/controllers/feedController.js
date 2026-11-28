@@ -148,6 +148,7 @@ export async function rsvpEvent(req, res) {
 export async function getFeedPosts(req, res) {
   try {
     const category = req.query.category || 'all';
+    const userId = req.user?._id || req.user?.id || req.user?.username || 'anonymous_user';
     let posts = db.find('feedPosts');
 
     if (category && category !== 'all') {
@@ -161,7 +162,13 @@ export async function getFeedPosts(req, res) {
       posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
-    res.json({ posts });
+    const enriched = posts.map(p => ({
+      ...p,
+      userVote: p.voters?.[userId] || 0,
+      userVotedOption: p.poll?.voters?.[userId] || null
+    }));
+
+    res.json({ posts: enriched });
   } catch (err) {
     console.error('[Feed] Get posts error:', err);
     res.status(500).json({ message: 'Failed to load newsfeed posts.' });
@@ -238,20 +245,43 @@ export async function voteFeedPost(req, res) {
   try {
     const { postId } = req.params;
     const { direction } = req.body; // 1 or -1
+    const userId = req.user?._id || req.user?.id || req.user?.username || 'anonymous_user';
 
     const post = db.findById('feedPosts', postId);
     if (!post) return res.status(404).json({ message: 'Post not found.' });
 
+    let voters = { ...(post.voters || {}) };
     let upvotes = post.upvotes || 0;
     let downvotes = post.downvotes || 0;
 
-    if (direction === 1) upvotes += 1;
-    if (direction === -1) downvotes += 1;
+    const previousVote = voters[userId]; // undefined, 1, or -1
+
+    if (previousVote === direction) {
+      // Toggle off / remove vote if clicking the same action again
+      if (direction === 1) upvotes = Math.max(0, upvotes - 1);
+      if (direction === -1) downvotes = Math.max(0, downvotes - 1);
+      delete voters[userId];
+    } else {
+      // If changing vote from up to down or vice-versa, cancel previous vote
+      if (previousVote === 1) upvotes = Math.max(0, upvotes - 1);
+      if (previousVote === -1) downvotes = Math.max(0, downvotes - 1);
+
+      // Apply new vote
+      if (direction === 1) upvotes += 1;
+      if (direction === -1) downvotes += 1;
+      voters[userId] = direction;
+    }
 
     const score = upvotes - downvotes;
 
-    const updated = db.updateById('feedPosts', postId, { upvotes, downvotes, score });
-    res.json({ postId, score: updated.score, upvotes: updated.upvotes, downvotes: updated.downvotes });
+    const updated = db.updateById('feedPosts', postId, { upvotes, downvotes, score, voters });
+    res.json({
+      postId,
+      score: updated.score,
+      upvotes: updated.upvotes,
+      downvotes: updated.downvotes,
+      userVote: voters[userId] || 0
+    });
   } catch (err) {
     console.error('[Feed] Vote post error:', err);
     res.status(500).json({ message: 'Failed to vote on post.' });
@@ -262,22 +292,32 @@ export async function voteFeedPoll(req, res) {
   try {
     const { postId } = req.params;
     const { optionId } = req.body;
+    const userId = req.user?._id || req.user?.id || req.user?.username || 'anonymous_user';
 
     const post = db.findById('feedPosts', postId);
     if (!post || !post.poll) return res.status(404).json({ message: 'Poll not found.' });
 
+    let voters = { ...(post.poll.voters || {}) };
+    const previousOptionId = voters[userId];
+
+    if (previousOptionId === optionId) {
+      // Already voted this option
+      return res.json({ postId, poll: post.poll, alreadyVoted: true });
+    }
+
     const options = post.poll.options.map(opt => {
-      if (opt.id === optionId) {
-        return { ...opt, votes: (opt.votes || 0) + 1 };
-      }
-      return opt;
+      let v = opt.votes || 0;
+      if (opt.id === previousOptionId) v = Math.max(0, v - 1);
+      if (opt.id === optionId) v += 1;
+      return { ...opt, votes: v };
     });
 
+    voters[userId] = optionId;
     const totalVotes = options.reduce((sum, o) => sum + (o.votes || 0), 0);
-    const updatedPoll = { ...post.poll, totalVotes, options };
+    const updatedPoll = { ...post.poll, totalVotes, options, voters };
 
     db.updateById('feedPosts', postId, { poll: updatedPoll });
-    res.json({ postId, poll: updatedPoll });
+    res.json({ postId, poll: updatedPoll, userVotedOption: optionId });
   } catch (err) {
     console.error('[Feed] Vote poll error:', err);
     res.status(500).json({ message: 'Failed to vote on poll.' });
