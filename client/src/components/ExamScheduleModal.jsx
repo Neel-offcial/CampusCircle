@@ -11,20 +11,24 @@ import {
   Check,
   AlertTriangle,
   FileText,
-  Download
+  Download,
+  Upload
 } from 'lucide-react';
 import api from '../services/api';
+import SuperAdminModal from './SuperAdminModal';
 
 export default function ExamScheduleModal({ isOpen, onClose, user }) {
   if (!isOpen) return null;
 
-  const [activeTab, setActiveTab] = useState('theory'); // 'theory' | 'lab' | 'see'
+  const [activeTab, setActiveTab] = useState('theory'); // 'theory' | 'lab' | 'see' | 'docs'
   const [scheduleData, setScheduleData] = useState(null);
+  const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingBatch, setEditingBatch] = useState(null);
   const [editFormData, setEditFormData] = useState({});
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState('');
+  const [showAdminUpload, setShowAdminUpload] = useState(false);
 
   const isCR = user?.role === 'cr';
   const isAdmin =
@@ -41,8 +45,12 @@ export default function ExamScheduleModal({ isOpen, onClose, user }) {
   async function loadSchedule() {
     setLoading(true);
     try {
-      const res = await api.get('/exams/schedule');
-      setScheduleData(res.data);
+      const [resSchedule, resDocs] = await Promise.all([
+        api.get('/exams/schedule'),
+        api.get('/admin/academic-documents')
+      ]);
+      setScheduleData(resSchedule.data);
+      setDocuments(resDocs.data.documents || []);
     } catch (err) {
       console.error('[ExamModal] Load error:', err);
     } finally {
@@ -114,39 +122,50 @@ export default function ExamScheduleModal({ isOpen, onClose, user }) {
         </div>
 
         {/* Tab Controls */}
-        <div className="flex rounded-2xl bg-slate-100 dark:bg-slate-800 p-1 mt-4 text-xs font-bold">
+        <div className="flex rounded-2xl bg-slate-100 dark:bg-slate-800 p-1 mt-4 text-xs font-bold gap-1">
           <button
             onClick={() => setActiveTab('theory')}
-            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1 ${
               activeTab === 'theory'
                 ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-sm'
                 : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            <BookOpen size={14} />
-            <span>Theory IA-2 (Dec 4-7)</span>
+            <BookOpen size={13} />
+            <span>Theory IA-2</span>
           </button>
           <button
             onClick={() => setActiveTab('lab')}
-            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1 ${
               activeTab === 'lab'
                 ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-sm'
                 : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            <FlaskConical size={14} />
-            <span>Lab IA (Batch-Wise)</span>
+            <FlaskConical size={13} />
+            <span>Lab IA</span>
           </button>
           <button
             onClick={() => setActiveTab('see')}
-            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1 ${
               activeTab === 'see'
                 ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-sm'
                 : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            <GraduationCap size={14} />
-            <span>VTU SEE Finals (Jan)</span>
+            <GraduationCap size={13} />
+            <span>VTU Finals</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('docs')}
+            className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-1 ${
+              activeTab === 'docs'
+                ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+            }`}
+          >
+            <FileText size={13} />
+            <span>Timetable & Calendar</span>
           </button>
         </div>
 
@@ -374,7 +393,7 @@ export default function ExamScheduleModal({ isOpen, onClose, user }) {
                 </div>
               ))}
             </div>
-          ) : (
+          ) : activeTab === 'see' ? (
             /* TAB 3: VTU SEE FINALS */
             <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
               <div className="flex items-center justify-between">
@@ -396,8 +415,90 @@ export default function ExamScheduleModal({ isOpen, onClose, user }) {
                 <p className="text-rose-400 font-semibold">⚠️ Attention: AI Concepts needs 2 more attendances to qualify.</p>
               </div>
             </div>
+          ) : (
+            /* TAB 4: OFFICIAL TIMETABLE & CALENDAR CIRCULARS */
+            <div className="space-y-3">
+              {isAdmin && (
+                <div className="p-3.5 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 flex items-center justify-between gap-3">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-300 block">
+                      🛡️ Super Admin (Neel)
+                    </span>
+                    <p className="text-xs text-purple-900 dark:text-purple-200 font-semibold mt-0.5">
+                      Upload Master Class Timetable or VTU Academic Calendar PDF
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowAdminUpload(true)}
+                    className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-xs flex items-center gap-1.5 shrink-0 transition-colors"
+                  >
+                    <Upload size={13} />
+                    <span>Upload Document (PDF)</span>
+                  </button>
+                </div>
+              )}
+
+              <div className="space-y-2.5">
+                {documents.length === 0 ? (
+                  <div className="text-center py-8 text-xs text-slate-400">
+                    No official circulars published yet.
+                  </div>
+                ) : (
+                  documents.map((doc) => (
+                    <div
+                      key={doc._id}
+                      className="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md ${
+                              doc.type === 'calendar'
+                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                                : 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300'
+                            }`}
+                          >
+                            {doc.type === 'calendar' ? 'VTU Academic Calendar' : 'Master Class Timetable'}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-medium">
+                            {doc.academicYear || '2026-27'}
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-black text-slate-900 dark:text-white">
+                          {doc.title}
+                        </h4>
+                        <p className="text-[11px] text-slate-500">
+                          Department: <strong>{doc.department}</strong> • Semester: <strong>{doc.semester}</strong>
+                        </p>
+                      </div>
+
+                      <a
+                        href={doc.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-indigo-50 dark:hover:bg-indigo-950 text-indigo-600 dark:text-indigo-300 font-bold text-xs flex items-center gap-1.5 shrink-0 transition-colors self-start sm:self-auto border border-slate-200 dark:border-slate-600 shadow-xs"
+                      >
+                        <Download size={13} />
+                        <span>View / Download PDF</span>
+                      </a>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           )}
         </div>
+
+        {/* Embedded SuperAdminModal for Direct Admin Upload */}
+        <SuperAdminModal
+          isOpen={showAdminUpload}
+          onClose={() => {
+            setShowAdminUpload(false);
+            loadSchedule();
+          }}
+          initialTab="upload"
+        />
       </div>
     </div>
   );

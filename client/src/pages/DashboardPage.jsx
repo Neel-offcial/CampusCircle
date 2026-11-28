@@ -21,11 +21,13 @@ import {
   Utensils,
   ShieldCheck,
   Layers,
-  ChevronLeft
+  ChevronLeft,
+  Upload
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import ExamScheduleModal from '../components/ExamScheduleModal';
+import SuperAdminModal from '../components/SuperAdminModal';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -39,6 +41,14 @@ export default function DashboardPage() {
   const [pulses, setPulses] = useState([]);
   const [listings, setListings] = useState([]);
   const [showExamModal, setShowExamModal] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const isAdmin =
+    user?.role === 'admin' ||
+    user?.username === 'neel_dev' ||
+    user?.username === 'neel' ||
+    user?.username === 'neel_cse22' ||
+    user?.email?.includes('neel');
 
   // What-If Bunk Planner State
   const [selectedSubjectCode, setSelectedSubjectCode] = useState('');
@@ -245,14 +255,30 @@ export default function DashboardPage() {
             </p>
           </div>
         </div>
-        <button
-          type="button"
-          className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-indigo-600 dark:text-indigo-400 font-bold text-xs shadow-xs group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0 flex items-center gap-1.5 self-start md:self-auto"
-        >
-          <Calendar size={14} />
-          <span>View Date-Sheet & Portions</span>
-          <ArrowUpRight size={13} />
-        </button>
+        <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAdminModal(true);
+              }}
+              className="px-3.5 py-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 font-bold text-xs shadow-xs hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all flex items-center gap-1.5"
+            >
+              <Upload size={14} className="text-purple-600 dark:text-purple-400" />
+              <span>Upload Timetable/Calendar (Admin)</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-indigo-600 dark:text-indigo-400 font-bold text-xs shadow-xs group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0 flex items-center gap-1.5"
+          >
+            <Calendar size={14} />
+            <span>View Date-Sheet & Portions</span>
+            <ArrowUpRight size={13} />
+          </button>
+        </div>
       </div>
 
       {/* ============================================================== */}
@@ -795,6 +821,13 @@ export default function DashboardPage() {
         isOpen={showExamModal}
         onClose={() => setShowExamModal(false)}
         user={user}
+      />
+
+      {/* Super Admin Modal for Timetable & Calendar Upload */}
+      <SuperAdminModal
+        isOpen={showAdminModal}
+        onClose={() => setShowAdminModal(false)}
+        initialTab="upload"
       />
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   ShieldCheck,
@@ -14,15 +15,22 @@ import {
 } from 'lucide-react';
 import api from '../services/api';
 
-export default function SuperAdminModal({ isOpen, onClose }) {
+export default function SuperAdminModal({ isOpen, onClose, initialTab = 'upload' }) {
   if (!isOpen) return null;
 
-  const [activeTab, setActiveTab] = useState('applications'); // 'applications' | 'upload'
+  const [activeTab, setActiveTab] = useState(initialTab || 'upload'); // 'upload' | 'applications'
   const [applications, setApplications] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  // Sync tab when initialTab changes or modal opens
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab, isOpen]);
 
   // Upload Form State
   const [uploadData, setUploadData] = useState({

@@ -16,7 +16,8 @@ import {
   Mail,
   Sparkles,
   Settings,
-  ChevronDown
+  ChevronDown,
+  Upload
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -34,7 +35,15 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showCRModal, setShowCRModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [adminModalTab, setAdminModalTab] = useState('upload');
   const [showExamModal, setShowExamModal] = useState(false);
+
+  const isAdmin =
+    user?.role === 'admin' ||
+    user?.username === 'neel_dev' ||
+    user?.username === 'neel' ||
+    user?.username === 'neel_cse22' ||
+    user?.email?.includes('neel');
 
   // Profile Form Edit State
   const [formData, setFormData] = useState({
@@ -163,6 +172,23 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
             <CheckCircle2 size={13} />
             <span>Verified Student</span>
           </div>
+        )}
+
+        {/* Direct Upload Master Timetable & Calendar Pill for Super Admin (Neel) */}
+        {isAdmin && (
+          <button
+            type="button"
+            onClick={() => {
+              setAdminModalTab('upload');
+              setShowAdminModal(true);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 text-xs font-bold hover:bg-purple-100 dark:hover:bg-purple-900/60 transition-colors shadow-xs"
+            title="Upload Master Timetable & Academic Calendar (PDF)"
+          >
+            <Upload size={13} className="text-purple-600 dark:text-purple-400" />
+            <span className="hidden sm:inline">Upload Timetable / Calendar</span>
+            <span className="sm:hidden">Upload</span>
+          </button>
         )}
 
         {/* Notifications Bell Dropdown */}
@@ -491,21 +517,18 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
 
                 {/* Role Specific Actions & Subtle CR Link */}
                 <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
-                  {(user?.role === 'admin' ||
-                    user?.username === 'neel_dev' ||
-                    user?.username === 'neel' ||
-                    user?.username === 'neel_cse22' ||
-                    user?.email?.includes('neel')) && (
+                  {isAdmin && (
                     <button
                       type="button"
                       onClick={() => {
+                        setAdminModalTab('upload');
                         setShowProfileMenu(false);
                         setShowAdminModal(true);
                       }}
                       className="w-full py-1.5 px-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors border border-purple-200 dark:border-purple-800"
                     >
                       <ShieldCheck size={13} />
-                      <span>🛡️ Super Admin Console (Neel)</span>
+                      <span>🛡️ Super Admin: Upload Timetable / Calendar</span>
                     </button>
                   )}
 
@@ -552,6 +575,7 @@ export default function Navbar({ onOpenVerifyModal, searchQuery, setSearchQuery 
       <SuperAdminModal
         isOpen={showAdminModal}
         onClose={() => setShowAdminModal(false)}
+        initialTab={adminModalTab}
       />
 
       {/* CR Apply Modal */}

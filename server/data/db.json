@@ -1143,7 +1143,42 @@
     }
   ],
   "crApplications": [],
-  "academicDocuments": [],
+  "academicDocuments": [
+    {
+      "_id": "doc-vtu-calendar-2026",
+      "createdAt": "2026-11-28T09:12:59.200Z",
+      "updatedAt": "2026-11-28T09:12:59.200Z",
+      "title": "VTU Academic Calendar 2026-27 (Odd Semesters V, VII)",
+      "type": "calendar",
+      "department": "All Departments",
+      "semester": "All Semesters",
+      "academicYear": "2026-27",
+      "filename": "vtu-academic-calendar-2026-27.pdf",
+      "originalName": "VTU_Academic_Calendar_2026_27_Odd_Semesters.pdf",
+      "fileUrl": "/uploads/vtu-academic-calendar-2026-27.pdf",
+      "fileSize": 1048576,
+      "mimeType": "application/pdf",
+      "uploadedBy": "Neel Kumar Gupta (Super Admin)",
+      "uploadedAt": "2026-11-28T09:12:59.200Z"
+    },
+    {
+      "_id": "doc-cse-timetable-2026",
+      "createdAt": "2026-11-28T09:12:59.200Z",
+      "updatedAt": "2026-11-28T09:12:59.200Z",
+      "title": "CSE Department Master Class Timetable & Lab Slots (5th Sem Section C)",
+      "type": "timetable",
+      "department": "Computer Science and Engineering",
+      "semester": "V",
+      "academicYear": "2026-27",
+      "filename": "cse-sem5-class-timetable-2026-27.pdf",
+      "originalName": "CSE_Sem5_SecC_Timetable_Lab_Batches_2026_27.pdf",
+      "fileUrl": "/uploads/cse-sem5-class-timetable-2026-27.pdf",
+      "fileSize": 845210,
+      "mimeType": "application/pdf",
+      "uploadedBy": "Neel Kumar Gupta (Super Admin)",
+      "uploadedAt": "2026-11-28T09:12:59.200Z"
+    }
+  ],
   "examSchedules": [
     {
       "_id": "f090f7fb-e2dc-4564-8a80-fff525c408e8",
